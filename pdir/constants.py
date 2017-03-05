@@ -171,3 +171,21 @@ ATTR_MAP = {
     '__reduce__': PICKLE,
     '__reduce_ex__': PICKLE,
 }
+
+
+class Color(object):
+    def __init__(self, name, content):
+        self.name = name
+        self.content = content
+
+    def wrap_text(self, text):
+        return self.content % text
+
+
+white = Color('white', '\033[1;37m%s\033[0;m')
+green = Color('green', '\033[1;32m%s\033[0;m')
+red = Color('red', '\033[0;31m%s\033[0;m')
+grey = Color('grey', '\033[1;30m%s\033[0;m')
+yellow = Color('yellow', '\033[0;33m%s\033[0;m')
+cyan = Color('cyan', '\033[0;36m%s\033[0;m')
+comma = grey.wrap_text(', ')

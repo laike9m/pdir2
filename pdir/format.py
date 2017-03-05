@@ -4,6 +4,7 @@
 3. how attr is organized(one-line/multi-line, has doc)
 """
 from enum import Enum
+from colorama import init
 try:
     from functools import singledispatch
 except ImportError:
@@ -12,33 +13,19 @@ except ImportError:
 from .constants import *
 
 
+init()  # To support Windows.
+
+
 class AttributeFormatterType(Enum):
     """Use this so we can have groups for attribute categorys."""
     SINGLE_LINE = 1
     MULTILINE_WITH_DOC = 2
 
 
-class Color(object):
-    def __init__(self, name, content):
-        self.name = name
-        self.content = content
-
-    def wrap_text(self, text):
-        return self.content % text
-
-
-white = Color('white', '\033[1;37m%s\033[0;m')
-green = Color('green', '\033[1;32m%s\033[0;m')
-red = Color('red', '\033[1;31m%s\033[1;m')
-grey = Color('grey', '\033[1;30m%s\033[0;m')
-yellow = Color('yellow', '\033[1;33m%s\033[0;m')
-cyan = Color('cyan', '\033[1;36m%s\033[0;m')
-
-
 @singledispatch
 def format_attrs_of_a_category(formatter_type, category, attrs):
     category_line = yellow.wrap_text(category) + ':'
-    return '%s\n    %s' % (category_line, ', '.join(
+    return '%s\n    %s' % (category_line, comma.join(
         cyan.wrap_text(attr.name) for attr in attrs))
 
 

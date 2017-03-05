@@ -9,7 +9,7 @@ setup(name='pdir2',
       url='',
       packages=['pdir', ],
       install_requires=[
-          'requests',
+          'colorama',
           'singledispatch;python_version<"3.4"',
           'enum;python_version<"3.4"',
       ],
