@@ -12,9 +12,12 @@ with one-line doc
 
 import inspect
 from itertools import groupby
+from colorama import init
 
 from .constants import ATTR_MAP, CLASS, FUNCTION, DEFAULT_CATEGORY
 from .format import format_category
+
+init()  # To support Windows.
 
 
 class PrettyDir(object):
@@ -39,7 +42,8 @@ class PrettyDir(object):
         for category, attrs in groupby(self.attrs, lambda x: x.category):
             output.append(format_category(category, attrs))
 
-        return '\n'.join(output)
+        output.sort(key=lambda x: x[0])
+        return '\n'.join(category_output[1] for category_output in output)
 
     def __inspect_category(self):
         for name in self.source:

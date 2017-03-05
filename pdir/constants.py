@@ -50,7 +50,10 @@ ATTR_MAP = {
     '__slots__': SPECIAL_ATTRIBUTE,
     '__weakref__': SPECIAL_ATTRIBUTE,
     '__next__': ITER,
-    '__reversed__': ITER,
+    '__reversed__': [
+        (lambda obj: isinstance(obj, collections.Iterator), ITER),
+        (always_true, CONTAINER),
+    ],
     '__iter__': [
         (lambda obj: isinstance(obj, collections.Iterator), ITER),
         (always_true, CONTAINER),
@@ -128,6 +131,7 @@ ATTR_MAP = {
     '__format__': OBJECT_CUSTOMIZATION,
     '__hash__': OBJECT_CUSTOMIZATION,
     '__bool__': OBJECT_CUSTOMIZATION,
+    '__sizeof__': OBJECT_CUSTOMIZATION,
     '__lt__': RICH_COMPARISON,
     '__le__': RICH_COMPARISON,
     '__eq__': RICH_COMPARISON,
@@ -182,8 +186,8 @@ class Color(object):
         return self.content % text
 
 
-white = Color('white', '\033[1;37m%s\033[0;m')
-green = Color('green', '\033[1;32m%s\033[0;m')
+white = Color('white', '\033[0;37m%s\033[0;m')
+green = Color('green', '\033[0;32m%s\033[0;m')
 red = Color('red', '\033[0;31m%s\033[0;m')
 grey = Color('grey', '\033[1;30m%s\033[0;m')
 yellow = Color('yellow', '\033[0;33m%s\033[0;m')

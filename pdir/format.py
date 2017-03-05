@@ -4,16 +4,8 @@
 3. how attr is organized(one-line/multi-line, has doc)
 """
 from enum import Enum
-from colorama import init
-try:
-    from functools import singledispatch
-except ImportError:
-    from singledispatch import singledispatch
 
 from .constants import *
-
-
-init()  # To support Windows.
 
 
 class AttributeFormatterType(Enum):
@@ -22,15 +14,13 @@ class AttributeFormatterType(Enum):
     MULTILINE_WITH_DOC = 2
 
 
-@singledispatch
-def format_attrs_of_a_category(formatter_type, category, attrs):
+def format_single_line(category, attrs):
     category_line = yellow.wrap_text(category) + ':'
     return '%s\n    %s' % (category_line, comma.join(
         cyan.wrap_text(attr.name) for attr in attrs))
 
 
-@format_attrs_of_a_category.register(AttributeFormatterType.MULTILINE_WITH_DOC)
-def _(formatter_type, category, attrs):
+def format_multiline_with_doc(category, attrs):
     category_line = yellow.wrap_text(category) + ':\n'
     return category_line + '\n'.join('    %s: %s' % (
         cyan.wrap_text(attr.name), grey.wrap_text(attr.doc)) for attr in attrs)
@@ -42,7 +32,7 @@ CATEGORY_FORMAT_TABLE = {
     CLASS: AttributeFormatterType.MULTILINE_WITH_DOC,
     # Attribute
     MODULE_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
-    SPECIAL_ATTRIBUTE: AttributeFormatterType.MULTILINE_WITH_DOC,
+    SPECIAL_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
     # Function
     MAGIC: AttributeFormatterType.MULTILINE_WITH_DOC,
     ARITHMETIC: AttributeFormatterType.SINGLE_LINE,
@@ -62,5 +52,8 @@ CATEGORY_FORMAT_TABLE = {
 
 def format_category(category, attrs):
     """Generate repr for attrs of a category."""
-    return format_attrs_of_a_category(CATEGORY_FORMAT_TABLE[category],
-                                      category, attrs)
+    formatter_type = CATEGORY_FORMAT_TABLE[category]
+    if formatter_type == AttributeFormatterType.MULTILINE_WITH_DOC:
+        return formatter_type.value, format_multiline_with_doc(category, attrs)
+    else:
+        return formatter_type.value, format_single_line(category, attrs)

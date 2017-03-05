@@ -10,7 +10,6 @@ setup(name='pdir2',
       packages=['pdir', ],
       install_requires=[
           'colorama',
-          'singledispatch;python_version<"3.4"',
-          'enum;python_version<"3.4"',
+          'enum34;python_version<"3.4"',
       ],
       )
