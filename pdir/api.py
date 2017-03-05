@@ -3,15 +3,15 @@ TODO:
 1. Cache
 same object(same id), check source, update
 return cached object, meta programming?(p2)
-2. dir() without argument, find correct scope
-3. Different categorys have different formatting, e.g.
-default magic method in the same line, user defined method each in a line
-with one-line doc
 4. config color(p2)
+5. colorful docstring(p1)
 """
 
 import inspect
+from sys import _getframe
 from itertools import groupby
+
+
 from colorama import init
 
 from .constants import ATTR_MAP, CLASS, FUNCTION, DEFAULT_CATEGORY
@@ -23,10 +23,7 @@ init()  # To support Windows.
 class PrettyDir(object):
     def __init__(self, obj=None):
         self.object = obj
-        if obj is None:
-            raise NotImplemented
-        else:
-            self.source = dir(obj)
+        self.source = dir(obj) if obj else _getframe(1).f_locals
         self.attrs = []
         self.__inspect_category()
 
@@ -47,7 +44,10 @@ class PrettyDir(object):
 
     def __inspect_category(self):
         for name in self.source:
-            attribute = getattr(self.object, name)
+            if self.object:
+                attribute = getattr(self.object, name)
+            else:
+                attribute = self.source[name]
             category = ATTR_MAP.get(name, self.get_category(attribute))
             if isinstance(category, list):
                 for selector, real_category in category:

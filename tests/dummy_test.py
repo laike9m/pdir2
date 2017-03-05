@@ -18,3 +18,15 @@ def test_pdir_class():
 def test_pdir_object():
     print('test_pdir_object:')
     print(pdir([]))
+
+
+def test_dir_without_argument():
+    a = 1
+    b = 2
+
+    def whatever():
+        pass
+
+    print('test dir()')
+    print(dir())
+    print(pdir())
