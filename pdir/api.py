@@ -5,11 +5,13 @@ same object(same id), check source, update
 return cached object, meta programming?(p2)
 4. config color(p2)
 5. colorful docstring(p1)
+lint, travis, test case(p0)
+search(p0)
 """
 
 import inspect
-from sys import _getframe
 from itertools import groupby
+from sys import _getframe
 
 
 from colorama import init
@@ -26,13 +28,6 @@ class PrettyDir(object):
         self.source = dir(obj) if obj else _getframe(1).f_locals
         self.attrs = []
         self.__inspect_category()
-
-    @staticmethod
-    def get_oneline_doc(attribute):
-        if hasattr(attribute, '__doc__'):
-            doc = inspect.getdoc(attribute)
-            return doc.split('\n', 1)[0] if doc else ''  # default doc is None
-        return None
 
     def __repr__(self):
         output = []
@@ -59,7 +54,14 @@ class PrettyDir(object):
             doc = self.get_oneline_doc(attribute)
             self.attrs.append(PrettyAttribute(name, category, doc))
 
-        self.attrs.sort(key=lambda x: x.category)
+        self.attrs.sort(key=lambda x: (x.category, x.name))
+
+    @staticmethod
+    def get_oneline_doc(attribute):
+        if hasattr(attribute, '__doc__'):
+            doc = inspect.getdoc(attribute)
+            return doc.split('\n', 1)[0] if doc else ''  # default doc is None
+        return None
 
     @staticmethod
     def get_category(attribute):
@@ -80,3 +82,6 @@ class PrettyAttribute(object):
         self.name = name
         self.category = category
         self.doc = doc
+
+    def __repr__(self):
+        return '%s: %s' % (self.name, self.category)
