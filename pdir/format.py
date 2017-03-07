@@ -15,15 +15,18 @@ class AttributeFormatterType(Enum):
 
 
 def format_single_line(category, attrs):
-    category_line = yellow.wrap_text(category) + ':'
-    return '%s\n    %s' % (category_line, comma.join(
-        cyan.wrap_text(attr.name) for attr in attrs))
+    category_line = yellow.wrap_text(category + ':')
+    return '{0}\n    {1}'.format(
+        category_line,
+        comma.join(cyan.wrap_text(attr.name) for attr in attrs))
 
 
 def format_multiline_with_doc(category, attrs):
-    category_line = yellow.wrap_text(category) + ':\n'
-    return category_line + '\n'.join('    %s: %s' % (
-        cyan.wrap_text(attr.name), grey.wrap_text(attr.doc)) for attr in attrs)
+    category_line = yellow.wrap_text(category + ':') + '\n'
+    return category_line + '\n'.join(
+        '    {0} {1}'.format(cyan.wrap_text(attr.name + ':'),
+                             grey.wrap_text(attr.doc))
+        for attr in attrs)
 
 
 CATEGORY_FORMAT_TABLE = {
