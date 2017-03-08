@@ -5,7 +5,7 @@ same object(same id), check source, update
 return cached object, meta programming?(p2)
 4. config color(p2)
 5. colorful docstring(p1)
-lint, travis, test case(p0)
+lint
 search(p0)
 """
 
@@ -13,21 +13,25 @@ import inspect
 from itertools import groupby
 from sys import _getframe
 
-
 from colorama import init
 
-from .constants import ATTR_MAP, CLASS, FUNCTION, DEFAULT_CATEGORY
+from .constants import ATTR_MAP, CLASS, DEFAULT_CATEGORY, FUNCTION
 from .format import format_category
 
 init()  # To support Windows.
 
 
 class PrettyDir(object):
-    def __init__(self, obj=None):
-        self.object = obj
-        self.source = dir(obj) if obj else _getframe(1).f_locals
+    """Class that provides pretty dir and search API."""
+
+    def __init__(self, obj=None, filter_func=None):
+        self.obj = obj
         self.attrs = []
-        self.__inspect_category()
+        if obj is None:
+            source = _getframe(1).f_locals
+        else:
+            source = {name: getattr(obj, name) for name in dir(obj)}
+        self.__inspect_category(source)
 
     def __repr__(self):
         output = []
@@ -37,16 +41,28 @@ class PrettyDir(object):
         output.sort(key=lambda x: x[0])
         return '\n'.join(category_output[1] for category_output in output)
 
-    def __inspect_category(self):
-        for name in self.source:
-            if self.object:
-                attribute = getattr(self.object, name)
-            else:
-                attribute = self.source[name]
+    def s(self, term):
+        return self.search(term)
+
+    def search(self, term):
+        """Search for names that match some pattern.
+
+        Args:
+            term: String used to match names. A name is returned if it matches
+            the whole search term.
+
+        Return:
+            A PrettyDir object with matched names.
+        """
+        self.attrs = [attr for attr in self.attrs if term in attr.name]
+        return self
+
+    def __inspect_category(self, source):
+        for name, attribute in source.items():
             category = ATTR_MAP.get(name, self.get_category(attribute))
             if isinstance(category, list):
                 for selector, real_category in category:
-                    if selector(self.object):
+                    if selector(self.obj):
                         category = real_category
                         break
                 else:
