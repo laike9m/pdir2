@@ -5,8 +5,9 @@ import pdir
 
 def test_pdir_module():
     import m
+    result = pdir(m)
     if sys.version[0] == '2':
-        assert repr(pdir(m)) == '\n'.join([
+        assert repr(result) == '\n'.join([
             '\x1b[0;33mmodule attribute:\x1b[0;m', (
                 '    \x1b[0;36m__file__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__name__\x1b[0;m\x1b[1;30m, '
@@ -22,7 +23,7 @@ def test_pdir_module():
             '    \x1b[0;36mfunc:\x1b[0;m \x1b[1;30mThis is a function\x1b[0;m'
         ])
     else:
-        assert repr(pdir(m)) == '\n'.join([
+        assert repr(result) == '\n'.join([
             '\x1b[0;33mmodule attribute:\x1b[0;m', (
                 '    \x1b[0;36m__cached__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__file__\x1b[0;m\x1b[1;30m, '
@@ -40,7 +41,7 @@ def test_pdir_module():
             '\x1b[0;33mfunction:\x1b[0;m',
             '    \x1b[0;36mfunc:\x1b[0;m \x1b[1;30mThis is a function\x1b[0;m'
         ])
-    print(pdir(m))
+    print(result)
     del m
 
 
@@ -48,8 +49,9 @@ def test_pdir_class():
     class T(object):
         pass
 
+    result = pdir(T)
     if sys.version[0] == '2':
-        assert repr(pdir(T)) == '\n'.join([
+        assert repr(result) == '\n'.join([
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
@@ -75,7 +77,7 @@ def test_pdir_class():
                 '\x1b[0;m\x1b[0;36m__weakref__\x1b[0;m')
         ])
     else:
-        assert repr(pdir(T)) == '\n'.join([
+        assert repr(result) == '\n'.join([
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__dir__\x1b[0;m\x1b[1;30m, '
@@ -109,7 +111,7 @@ def test_pdir_class():
                 '\x1b[0;m\x1b[0;36m__module__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__weakref__\x1b[0;m')
         ])
-    print(pdir(T))
+    print(result)
 
 
 def test_dir_without_argument():
@@ -120,10 +122,11 @@ def test_dir_without_argument():
         """One line doc."""
         pass
 
-    assert repr(pdir()) == '\n'.join([
+    result = pdir()
+    assert repr(result) == '\n'.join([
         '\x1b[0;33mother:\x1b[0;m',
         '    \x1b[0;36ma\x1b[0;m\x1b[1;30m, \x1b[0;m\x1b[0;36mb\x1b[0;m',
         '\x1b[0;33mfunction:\x1b[0;m',
         '    \x1b[0;36mwhatever:\x1b[0;m \x1b[1;30mOne line doc.\x1b[0;m',
     ])
-    print(pdir())
+    print(result)

@@ -30,6 +30,12 @@ class PrettyDir(object):
         output.sort(key=lambda x: x[0])
         return '\n'.join(category_output[1] for category_output in output)
 
+    def __len__(self):
+        return len(self.attrs)
+
+    def __getitem__(self, index):
+        return self.attrs[index].name
+
     def s(self, term):
         return self.search(term)
 

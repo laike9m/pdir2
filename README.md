@@ -32,4 +32,3 @@ Simply run `pytest`, or use `tox` if you like.
 - [] lint
 - [] config color
 - [] colorful docstring
-"""
