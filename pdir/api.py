@@ -1,14 +1,3 @@
-"""
-TODO:
-1. Cache
-same object(same id), check source, update
-return cached object, meta programming?(p2)
-4. config color(p2)
-5. colorful docstring(p1)
-lint
-search(p0)
-"""
-
 import inspect
 from itertools import groupby
 from sys import _getframe
