@@ -2,7 +2,7 @@
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
-![](images/presentation.gif)
+![](https://github.com/laike9m/pdir2/raw/master/images/presentation.gif)
 
 ## Features
 * Attributes are grouped by types/functionalities, with beautiful colors.
@@ -13,7 +13,7 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
 * You can search for certain names with `.s()` or `.search()`:  
 
-  ![](images/search.gif)
+  ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
 
 ## Install
@@ -29,6 +29,9 @@ name on pypi. Mine is better, of course.
 Simply run `pytest`, or use `tox` if you like.
 
 ## Roadmap
-- [] lint
-- [] config color
-- [] colorful docstring
+- [ ] lint
+- [ ] config color
+- [ ] colorful docstring
+
+[![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
