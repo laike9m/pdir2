@@ -1,4 +1,4 @@
-# pdir2
+# pdir2: Pretty dir() printing with joy🍺
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
