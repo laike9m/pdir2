@@ -1,6 +1,10 @@
-.PHONY: publist debug
+.PHONY: rst publist debug
 
-publish:
+rst:
+	rm README.rst
+	pandoc --from=markdown --to=rst --output=README.rst README.md
+
+publish: rst
 	rm -rf dist/
 	python setup.py sdist bdist_wheel
 	twine upload -s dist/*

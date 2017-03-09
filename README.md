@@ -15,10 +15,7 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
   ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
-
 ## Install
-(NOTE: It's not on pypi yet so now you have to install using setup.py.
- I'll upload it asap.)
 ```
 pip install pdir2
 ```
