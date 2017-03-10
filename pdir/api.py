@@ -13,14 +13,17 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None, filter_func=None):
+    def __init__(self, obj=None, filter_func=None, attrs=None):
         self.obj = obj
-        self.attrs = []
-        if obj is None:
-            source = _getframe(1).f_locals
+        if attrs is None:
+            self.attrs = []
+            if obj is None:
+                source = _getframe(1).f_locals
+            else:
+                source = {name: getattr(obj, name) for name in dir(obj)}
+            self.__inspect_category(source)
         else:
-            source = {name: getattr(obj, name) for name in dir(obj)}
-        self.__inspect_category(source)
+            self.attrs = attrs
 
     def __repr__(self):
         output = []
@@ -36,9 +39,6 @@ class PrettyDir(object):
     def __getitem__(self, index):
         return self.attrs[index].name
 
-    def s(self, term):
-        return self.search(term)
-
     def search(self, term):
         """Search for names that match some pattern.
 
@@ -49,8 +49,9 @@ class PrettyDir(object):
         Return:
             A PrettyDir object with matched names.
         """
-        self.attrs = [attr for attr in self.attrs if term in attr.name]
-        return self
+        return PrettyDir(self.obj, attrs=[attr for attr in self.attrs if term in attr.name])
+    
+    s = __div__ = __truediv__ = search
 
     def __inspect_category(self, source):
         for name, attribute in source.items():
