@@ -13,13 +13,13 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None, filter_func=None):
+    def __init__(self, obj=None):
         self.obj = obj
         self.attrs = []
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            source = {name: getattr(obj, name) for name in dir(obj)}
+            source = {name: self.__getattr(name) for name in dir(obj)}
         self.__inspect_category(source)
 
     def __repr__(self):
@@ -57,6 +57,12 @@ class PrettyDir(object):
 
     s = search
 
+    def __getattr(self, name):
+        """A wrapper around getattr(), handling some exceptions."""
+        if self.obj.__name__ == 'DataFrame' and name in ('columns', 'index'):
+            return []  # So columns falls into DEFAULT_CATEGORY.
+        return getattr(self.obj, name)
+
     def __inspect_category(self, source):
         for name, attribute in source.items():
             category = ATTR_MAP.get(name, self.get_category(attribute))
@@ -84,6 +90,8 @@ class PrettyDir(object):
         if inspect.isclass(attribute):
             return CLASS
         elif inspect.isfunction(attribute):
+            return FUNCTION
+        elif inspect.ismethod(attribute):
             return FUNCTION
         elif inspect.isbuiltin(attribute):
             return FUNCTION
