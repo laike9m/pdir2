@@ -80,6 +80,8 @@ class PrettyDir(object):
             return CLASS
         elif inspect.isfunction(attribute):
             return FUNCTION
+        elif inspect.ismethod(attribute):
+            return FUNCTION
         elif inspect.isbuiltin(attribute):
             return FUNCTION
         elif inspect.ismethoddescriptor(attribute):  # list.append
