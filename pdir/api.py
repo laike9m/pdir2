@@ -67,7 +67,7 @@ class PrettyDir(object):
 
     def __getattr(self, name):
         """A wrapper around getattr(), handling some exceptions."""
-        if self.obj.__name__ == 'DataFrame' and name in ('columns', 'index'):
+        if hasattr(self.obj, __name__) and self.obj.__name__ == 'DataFrame' and name in ('columns', 'index'):
             return []  # So columns falls into DEFAULT_CATEGORY.
         return getattr(self.obj, name)
 
