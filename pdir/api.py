@@ -23,9 +23,9 @@ class PrettyDir(object):
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            if isinstance(obj, basestring):
-                obj = self.import_from_str(obj)
-            source = {name: self.__getattr(name) for name in dir(obj)}
+            if isinstance(self.obj, basestring):
+                self.obj = self.import_from_str(obj)
+            source = {name: self.__getattr(name) for name in dir(self.obj)}
         self.__inspect_category(source)
 
     def __repr__(self):

@@ -37,7 +37,6 @@ def test_pdir_text():
 
 def test_sub_import_and_search():
     result = pdir('hlm.Master.child').s('hlm')
-    assert repr(result) == (
-        '\x1b[0;33mother:\x1b[0;m\n'
-        '    \x1b[0;36mhlm\x1b[0;m')
+    expected = '\x1b[0;33mother:\x1b[0;m\n    \x1b[0;36mhlm\x1b[0;m'
+    assert repr(result) == expected, "Expected {!r}, got {!r}".format(expected, result)
 
