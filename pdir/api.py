@@ -1,6 +1,10 @@
 import inspect
 from itertools import groupby
 from sys import _getframe
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes) #python3
 
 from colorama import init
 
@@ -13,13 +17,15 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None):
+    def __init__(self, obj=None, filter_func=None):
         self.obj = obj
         self.attrs = []
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            source = {name: self.__getattr(name) for name in dir(obj)}
+            if isinstance(self.obj, basestring):
+                self.obj = self.import_from_str(obj)
+            source = {name: self.__getattr(name) for name in dir(self.obj)}
         self.__inspect_category(source)
 
     def __repr__(self):
@@ -59,11 +65,12 @@ class PrettyDir(object):
 
     s = search
 
-    def __getattr(self, name):
+    def __getattr(self, attr):
         """A wrapper around getattr(), handling some exceptions."""
-        if self.obj.__name__ == 'DataFrame' and name in ('columns', 'index'):
+        obj_name = getattr(self.obj, '__name__', '')
+        if obj_name == 'DataFrame' and attr in ('columns', 'index'):
             return []  # So columns falls into DEFAULT_CATEGORY.
-        return getattr(self.obj, name)
+        return getattr(self.obj, attr)
 
     def __inspect_category(self, source):
         for name, attribute in source.items():
@@ -79,6 +86,14 @@ class PrettyDir(object):
             self.attrs.append(PrettyAttribute(name, category, doc))
 
         self.attrs.sort(key=lambda x: (x.category, x.name))
+
+    @staticmethod
+    def import_from_str(obj_name):
+        obj_list = obj_name.split('.')
+        obj = __import__(obj_list.pop(0))
+        for attr in obj_list:
+            obj = getattr(obj, attr)
+        return obj
 
     @staticmethod
     def get_oneline_doc(attribute):
