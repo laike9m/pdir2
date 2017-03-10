@@ -23,13 +23,18 @@ def test_search_with_argument():
         pass
 
     result, result2 = pdir(T).s('attr'), pdir(T).search('attr')
-    assert repr(result) == '\n'.join([
+    result3, result4 = pdir(T).s('Attr'), pdir(T).search('Attr')
+    expected = '\n'.join([
         '\x1b[0;33mattribute access:\x1b[0;m', (
             '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
             '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
             '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m')])
-    assert repr(result2) == '\n'.join([
-        '\x1b[0;33mattribute access:\x1b[0;m', (
-            '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
-            '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
-            '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m')])
+    assert repr(result) == expected
+    assert repr(result2) == expected
+    assert repr(result3) == expected
+    assert repr(result4) == expected
+
+    # Case sensitive
+    result5, result6 = pdir(T).s('Attr', True), pdir(T).search('Attr', True)
+    assert repr(result5) == ''
+    assert repr(result6) == ''

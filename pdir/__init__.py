@@ -7,4 +7,4 @@ from .api import PrettyDir
 __author__ = 'laike9m <laike9m@gmail.com>'
 
 
-sys.modules['pdir'] = PrettyDir
+sys.modules[__name__] = PrettyDir
