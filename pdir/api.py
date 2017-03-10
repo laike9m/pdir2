@@ -36,21 +36,26 @@ class PrettyDir(object):
     def __getitem__(self, index):
         return self.attrs[index].name
 
-    def s(self, term):
-        return self.search(term)
-
-    def search(self, term):
+    def search(self, term, case_sensitive=False):
         """Search for names that match some pattern.
 
         Args:
             term: String used to match names. A name is returned if it matches
-            the whole search term.
+              the whole search term.
+            case_sensitive: Boolean to match case or not, default is False
+              (case insensitive)
 
         Return:
             A PrettyDir object with matched names.
         """
-        self.attrs = [attr for attr in self.attrs if term in attr.name]
+        if case_sensitive:
+            self.attrs = [attr for attr in self.attrs if term in attr.name]
+        else:
+            term = term.lower()
+            self.attrs = [attr for attr in self.attrs if term in attr.name.lower()]
         return self
+
+    s = search
 
     def __getattr(self, name):
         """A wrapper around getattr(), handling some exceptions."""
