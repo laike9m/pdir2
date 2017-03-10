@@ -33,3 +33,22 @@ def test_search_with_argument():
             '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
             '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
             '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m')])
+
+def test_search_with_slash():
+    class T(object):
+        pass
+
+    result = pdir(T) / 'attr'
+    assert repr(result) == '\n'.join([
+        '\x1b[0;33mattribute access:\x1b[0;m', (
+            '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
+            '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
+            '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m')])
+
+def test_search_returns_copy():
+    class T(object):
+        pass
+
+    original = pdir(T)
+    result = original.search('attr')
+    assert result is not original
