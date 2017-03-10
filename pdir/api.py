@@ -52,7 +52,9 @@ class PrettyDir(object):
             self.attrs = [attr for attr in self.attrs if term in attr.name]
         else:
             term = term.lower()
-            self.attrs = [attr for attr in self.attrs if term in attr.name.lower()]
+            self.attrs = [
+                attr for attr in self.attrs if term in attr.name.lower()
+            ]
         return self
 
     s = search
