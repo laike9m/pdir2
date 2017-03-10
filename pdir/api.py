@@ -1,6 +1,10 @@
 import inspect
 from itertools import groupby
 from sys import _getframe
+try:
+    basestring
+except NameError:
+    basestring = (str, bytes) #python3
 
 from colorama import init
 
@@ -19,6 +23,8 @@ class PrettyDir(object):
         if obj is None:
             source = _getframe(1).f_locals
         else:
+            if isinstance(obj, basestring):
+                obj = self.import_from_str(obj)
             source = {name: getattr(obj, name) for name in dir(obj)}
         self.__inspect_category(source)
 
@@ -66,6 +72,14 @@ class PrettyDir(object):
             self.attrs.append(PrettyAttribute(name, category, doc))
 
         self.attrs.sort(key=lambda x: (x.category, x.name))
+
+    @staticmethod
+    def import_from_str(obj_name):
+        obj_list = obj_name.split('.')
+        obj = __import__(obj_list.pop(0))
+        for attr in obj_list:
+            obj = getattr(obj, attr)
+        return obj
 
     @staticmethod
     def get_oneline_doc(attribute):
