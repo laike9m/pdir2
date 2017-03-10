@@ -19,7 +19,7 @@ class PrettyDir(object):
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            source = {name: getattr(obj, name) for name in dir(obj)}
+            source = {name: self.__getattr(name) for name in dir(obj)}
         self.__inspect_category(source)
 
     def __repr__(self):
@@ -51,6 +51,12 @@ class PrettyDir(object):
         """
         self.attrs = [attr for attr in self.attrs if term in attr.name]
         return self
+
+    def __getattr(self, name):
+        """A wrapper around getattr(), handling some exceptions."""
+        if self.obj.__name__ == 'DataFrame' and name in ('columns', 'index'):
+            return []  # So columns falls into DEFAULT_CATEGORY.
+        return getattr(self.obj, name)
 
     def __inspect_category(self, source):
         for name, attribute in source.items():
