@@ -36,9 +36,6 @@ class PrettyDir(object):
     def __getitem__(self, index):
         return self.attrs[index].name
 
-    def s(self, term):
-        return self.search(term)
-
     def search(self, term, case_sensitive=False):
         """Search for names that match some pattern.
 
@@ -57,6 +54,8 @@ class PrettyDir(object):
             term = term.lower()
             self.attrs = [attr for attr in self.attrs if term in attr.name.lower()]
         return self
+
+    s = search
 
     def __inspect_category(self, source):
         for name, attribute in source.items():
