@@ -51,7 +51,3 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
-# Rst
-HISTORY.rst
-README.rst
