@@ -5,8 +5,10 @@ install:
 	sudo python3 setup.py install
 
 rst:
-	rm README.rst
+	if [ -a README.rst ]; then rm README.rst; fi;
 	pandoc --from=markdown --to=rst --output=README.rst README.md
+	if [ -a HISTORY.rst ]; then rm HISTORY.rst; fi;
+	pandoc --from=markdown --to=rst --output=HISTORY.rst HISTORY.md
 
 publish: rst
 	rm -rf dist/
