@@ -2,12 +2,13 @@ import codecs
 from setuptools import setup
 
 readme = codecs.open('README.rst', encoding='utf-8').read()
+history = codecs.open('HISTORY.rst', encoding='utf-8').read()
 
 setup(
     name='pdir2',
-    version='0.0.1.post2',
+    version='0.0.2',
     description='Pretty dir printing with joy',
-    long_description=readme,
+    long_description=u'\n\n'.join([readme, history]),
     author='laike9m',
     author_email='laike9m@gmail.com',
     url='http://github.com/laike9m/pdir2',
@@ -18,7 +19,7 @@ setup(
         'colorama',
         'enum34;python_version<"3.4"',
     ],
-    package_data={'': ['LICENSE', 'README.rst']},
+    package_data={'': ['LICENSE', 'README.rst', 'HISTORY.rst']},
     include_package_data=True,
     license='MIT License',
     classifiers=[

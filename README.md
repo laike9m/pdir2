@@ -1,4 +1,6 @@
 # pdir2: Pretty dir() printing with joy🍺
+[![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
@@ -15,6 +17,8 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
   ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
+  Search is case-insensitive by default. You can use `.search(name, case_sensitive=True)` to do case sensitive searching.
+
 ## Install
 ```
 pip install pdir2
@@ -28,6 +32,3 @@ Simply run `pytest`, or use `tox` if you like.
 ## Roadmap
 - [ ] config color
 - [ ] colorful docstring
-
-[![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
-[![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)

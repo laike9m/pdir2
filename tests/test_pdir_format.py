@@ -45,6 +45,16 @@ def test_pdir_module():
     del m
 
 
+def test_pdir_object():
+    class T(object):
+        def what(self):
+            """doc line"""
+            pass
+
+    result = pdir(T())
+    print(result)  # TODO: add read test.
+
+
 def test_pdir_class():
     class T(object):
         pass

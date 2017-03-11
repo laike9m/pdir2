@@ -1,5 +1,7 @@
-pdir2
-=====
+pdir2: Pretty dir() printing with joy🍺
+======================================
+
+|Build Status| |Supported Python versions|
 
 Have you ever dreamed of a better output of ``dir()``? I do. So I
 created this.
@@ -23,6 +25,9 @@ Features
 .. figure:: https://github.com/laike9m/pdir2/raw/master/images/search.gif
    :alt: 
 
+Search is case-insensitive by default. You can use
+``.search(name, case_sensitive=True)`` to do case sensitive searching.
+
 Install
 -------
 
@@ -43,8 +48,6 @@ Roadmap
 
 -  [ ] config color
 -  [ ] colorful docstring
-
-|Build Status| |Supported Python versions|
 
 .. |Build Status| image:: https://travis-ci.org/laike9m/pdir2.svg
    :target: https://travis-ci.org/laike9m/pdir2
