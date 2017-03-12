@@ -1,1 +1,2 @@
-include README.rst LICENSE HISTORY.rst
+include LICENSE
+graft docs

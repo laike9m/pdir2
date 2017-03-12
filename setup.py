@@ -1,8 +1,8 @@
 import codecs
 from setuptools import setup
 
-readme = codecs.open('README.rst', encoding='utf-8').read()
-history = codecs.open('HISTORY.rst', encoding='utf-8').read()
+readme = codecs.open('docs/README.rst', encoding='utf-8').read()
+history = codecs.open('docs/HISTORY.rst', encoding='utf-8').read()
 
 setup(
     name='pdir2',
@@ -19,7 +19,6 @@ setup(
         'colorama',
         'enum34;python_version<"3.4"',
     ],
-    package_data={'': ['LICENSE', 'README.rst', 'HISTORY.rst']},
     include_package_data=True,
     license='MIT License',
     classifiers=[
