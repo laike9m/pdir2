@@ -57,7 +57,7 @@ class PrettyDir(object):
             new_pretty_dir.attrs = [
                 attr for attr in self.attrs if term in attr.name.lower()
             ]
-        return new new_pretty_dir
+        return new_pretty_dir
 
     s = search
 
