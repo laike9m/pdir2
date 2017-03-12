@@ -46,16 +46,18 @@ class PrettyDir(object):
               (case insensitive)
 
         Return:
-            A PrettyDir object with matched names.
+            A new PrettyDir object with matched names.
         """
+        import copy
+        new_pretty_dir = copy.copy(self)
         if case_sensitive:
-            self.attrs = [attr for attr in self.attrs if term in attr.name]
+            new_pretty_dir.attrs = [attr for attr in self.attrs if term in attr.name]
         else:
             term = term.lower()
-            self.attrs = [
+            new_pretty_dir.attrs = [
                 attr for attr in self.attrs if term in attr.name.lower()
             ]
-        return self
+        return new new_pretty_dir
 
     s = search
 
