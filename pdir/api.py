@@ -1,6 +1,8 @@
+from __future__ import print_function
+
 import inspect
 from itertools import groupby
-from sys import _getframe
+from sys import _getframe, stdin
 
 from colorama import init
 
@@ -19,22 +21,30 @@ class PrettyDir(object):
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            source = {name: self.__getattr(name) for name in dir(obj)}
+            source = {name: self.__getattr_wrapper(name) for name in dir(obj)}
         self.__inspect_category(source)
 
     def __repr__(self):
-        output = []
-        for category, attrs in groupby(self.attrs, lambda x: x.category):
-            output.append(format_category(category, attrs))
-
-        output.sort(key=lambda x: x[0])
-        return '\n'.join(category_output[1] for category_output in output)
+        if self._is_non_standard_repl():
+            print(self.repr_str, end='')
+            return ''  # TODO: string replacement, makes +'\n'=''
+        else:
+            return self.repr_str
 
     def __len__(self):
         return len(self.attrs)
 
     def __getitem__(self, index):
         return self.attrs[index].name
+
+    @property
+    def repr_str(self):
+        output = []
+        for category, attrs in groupby(self.attrs, lambda x: x.category):
+            output.append(format_category(category, attrs))
+
+        output.sort(key=lambda x: x[0])
+        return '\n'.join(category_output[1] for category_output in output)
 
     def search(self, term, case_sensitive=False):
         """Search for names that match some pattern.
@@ -43,7 +53,7 @@ class PrettyDir(object):
             term: String used to match names. A name is returned if it matches
               the whole search term.
             case_sensitive: Boolean to match case or not, default is False
-              (case insensitive)
+              (case insensitive).
 
         Return:
             A PrettyDir object with matched names.
@@ -59,7 +69,19 @@ class PrettyDir(object):
 
     s = search
 
-    def __getattr(self, name):
+    @staticmethod
+    def _is_non_standard_repl():
+        if 'bpython' in str(stdin):
+            return True
+        if _getframe(2).f_globals['__package__'] == 'ptpython':
+            return True
+        try:
+            __IPYTHON__
+            return True
+        except NameError:
+            return False
+
+    def __getattr_wrapper(self, name):
         """A wrapper around getattr(), handling some exceptions."""
         if getattr(self.obj, '__name__', None) == 'DataFrame' and \
                 name in ('columns', 'index'):

@@ -1,8 +1,8 @@
 .PHONY: rst dry_publish publist debug
 
 install:
-	sudo python2 setup.py install
-	sudo python3 setup.py install
+	python2 setup.py install
+	python3 setup.py install
 
 docdir = docs
 rst:
