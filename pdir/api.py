@@ -21,7 +21,8 @@ class PrettyDir(object):
         else:
             source = {name: self.__getattr(name) for name in dir(obj)}
         self.__inspect_category(source)
-        self.attrs = self._search_attrs(self, term=term, case_sensitive=case_sensitive)
+        if term:
+            self.attrs = self._search_attrs(self, term=term, case_sensitive=case_sensitive)
 
     def __repr__(self):
         output = []
