@@ -13,7 +13,7 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None):
+    def __init__(self, obj=None, term=None, case_sensitive=case_sensitive):
         self.obj = obj
         self.attrs = []
         if obj is None:
@@ -21,6 +21,7 @@ class PrettyDir(object):
         else:
             source = {name: self.__getattr(name) for name in dir(obj)}
         self.__inspect_category(source)
+        self.attrs = self._search_attrs(self, term=term, case_sensitive=case_sensitive)
 
     def __repr__(self):
         output = []
@@ -48,18 +49,31 @@ class PrettyDir(object):
         Return:
             A new PrettyDir object with matched names.
         """
-        import copy
-        new_pretty_dir = copy.copy(self)
-        if case_sensitive:
-            new_pretty_dir.attrs = [attr for attr in self.attrs if term in attr.name]
-        else:
-            term = term.lower()
-            new_pretty_dir.attrs = [
-                attr for attr in self.attrs if term in attr.name.lower()
-            ]
-        return new_pretty_dir
+        return PrettyDir(self.obj, term=term, case_sensitive=case_sensitive)
 
     s = search
+    
+    def _search_attrs(self, term, case_sensitive=False):
+        """Search for names that match some pattern.
+
+        Args:
+            term: String used to match names. A name is returned if it matches
+              the whole search term.
+            case_sensitive: Boolean to match case or not, default is False
+              (case insensitive)
+
+        Return:
+            A list of matched PrettyAttribute objects.
+        """
+        if case_sensitive:
+            return [attr for attr in self.attrs if term in attr.name]
+        else:
+            term = term.lower()
+            return [
+                attr for attr in self.attrs if term in attr.name.lower()
+            ]
+
+    s = search        
 
     def __getattr(self, name):
         """A wrapper around getattr(), handling some exceptions."""
