@@ -13,7 +13,7 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None, term=None, case_sensitive=case_sensitive):
+    def __init__(self, obj=None, term=None, case_sensitive=False):
         self.obj = obj
         self.attrs = []
         if obj is None:
