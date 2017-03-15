@@ -27,4 +27,14 @@ About the name. I wanted to call it `pdir`, but there's already one with this
 name on pypi. Mine is better, of course.
 
 ## Testing
-Simply run `pytest`, or use `tox` if you like.
+*   
+    ```
+    pytest
+    ```
+    This doesn't need any dependency except pytest.  
+*
+    ```
+    tox
+    ```
+    Requires IPython, bpython, ptpython to be installed on your system,
+    or you could run `tox -epy27,py36` if you don't have them installed.
