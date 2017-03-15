@@ -28,7 +28,3 @@ name on pypi. Mine is better, of course.
 
 ## Testing
 Simply run `pytest`, or use `tox` if you like.
-
-## Roadmap
-- [ ] config color
-- [ ] colorful docstring

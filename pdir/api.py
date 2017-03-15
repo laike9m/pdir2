@@ -2,11 +2,11 @@ from __future__ import print_function
 
 import inspect
 from itertools import groupby
-from sys import _getframe, stdin
+from sys import _getframe
 
 from colorama import init
 
-from .constants import ATTR_MAP, CLASS, DEFAULT_CATEGORY, FUNCTION
+from .constants import *
 from .format import format_category
 
 init()  # To support Windows.
@@ -25,11 +25,11 @@ class PrettyDir(object):
         self.__inspect_category(source)
 
     def __repr__(self):
-        if self._is_non_standard_repl():
-            print(self.repr_str, end='')
-            return ''  # TODO: string replacement, makes +'\n'=''
-        else:
+        if repl_type in (PYTHON, BPYTHON):
             return self.repr_str
+        else:
+            print(self.repr_str, end='')
+            return ''
 
     def __len__(self):
         return len(self.attrs)
@@ -68,18 +68,6 @@ class PrettyDir(object):
         return self
 
     s = search
-
-    @staticmethod
-    def _is_non_standard_repl():
-        if 'bpython' in str(stdin):
-            return True
-        if _getframe(2).f_globals['__package__'] == 'ptpython':
-            return True
-        try:
-            __IPYTHON__
-            return True
-        except NameError:
-            return False
 
     def __getattr_wrapper(self, name):
         """A wrapper around getattr(), handling some exceptions."""

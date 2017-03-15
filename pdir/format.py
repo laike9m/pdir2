@@ -8,6 +8,33 @@ from enum import Enum
 from .constants import *
 
 
+class Color(object):
+    def __init__(self, name, color_code, intensity='0'):
+        self.name = name
+        self.color_code = color_code
+        self.intensity = intensity
+
+    def wrap_text(self, text):
+        if repl_type == BPYTHON:
+            colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
+            if self.intensity == '0':
+                return colored_text
+            else:
+                return '\033[1m' + colored_text
+        else:
+            return '\033[%s;%sm%s\033[0;m' % (self.intensity, self.color_code,
+                                              text)
+
+
+white = Color('white', '37')
+green = Color('green', '32')
+red = Color('red', '31')
+grey = Color('grey', '30', '1')
+yellow = Color('yellow', '33')
+cyan = Color('cyan', '36')
+comma = grey.wrap_text(', ')
+
+
 class AttributeFormatterType(Enum):
     """Use this so we can have groups for attribute categorys."""
     SINGLE_LINE = 1
