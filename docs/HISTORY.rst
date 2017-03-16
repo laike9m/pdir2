@@ -1,6 +1,11 @@
 Release History
 ===============
 
+0.1.0(2017-03-16)
+-----------------
+
+-  Add support for ipython, ptpython and bpython (#4)
+
 0.0.2(2017-03-11)
 -----------------
 

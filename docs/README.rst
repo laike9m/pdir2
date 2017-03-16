@@ -18,6 +18,12 @@ Features
 -  Support all platforms including Windows(Thanks to
    `colorama <https://github.com/tartley/colorama>`__).
 
+-  Support `ipython <https://github.com/ipython/ipython>`__,
+   `ptpython <https://github.com/jonathanslenders/ptpython>`__ and
+   `bpython <https://www.bpython-interpreter.org/>`__! See
+   `wiki <https://github.com/laike9m/pdir2/wiki#repl-support>`__ for
+   more information.
+
 -  The return value of ``pdir()`` can still be used as a list of names.
 
 -  You can search for certain names with ``.s()`` or ``.search()``:
@@ -42,12 +48,6 @@ Testing
 -------
 
 Simply run ``pytest``, or use ``tox`` if you like.
-
-Roadmap
--------
-
--  [ ] config color
--  [ ] colorful docstring
 
 .. |Build Status| image:: https://travis-ci.org/laike9m/pdir2.svg
    :target: https://travis-ci.org/laike9m/pdir2
