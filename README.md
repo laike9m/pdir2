@@ -11,6 +11,8 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
 * Support all platforms including Windows(Thanks to [colorama](https://github.com/tartley/colorama)).
 
+* Support [ipython](https://github.com/ipython/ipython), [ptpython](https://github.com/jonathanslenders/ptpython) and [bpython](https://www.bpython-interpreter.org/)! See [wiki](https://github.com/laike9m/pdir2/wiki#repl-support) for more information.
+
 * The return value of `pdir()` can still be used as a list of names.
 
 * You can search for certain names with `.s()` or `.search()`:  
@@ -27,14 +29,4 @@ About the name. I wanted to call it `pdir`, but there's already one with this
 name on pypi. Mine is better, of course.
 
 ## Testing
-*   
-    ```
-    pytest
-    ```
-    This doesn't need any dependency except pytest.  
-*
-    ```
-    tox
-    ```
-    Requires IPython, bpython, ptpython to be installed on your system,
-    or you could run `tox -epy27,py36` if you don't have them installed.
+Simply run `pytest`, or use `tox` if you like.
