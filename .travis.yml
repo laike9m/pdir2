@@ -5,7 +5,7 @@ python:
     - "3.6"
 
 install:
-    - pip install tox-travis ipython ptpython bpython
+    - pip install tox-travis
     - pip install setuptools==34.3.1
 
 script: tox
