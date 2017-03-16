@@ -60,6 +60,7 @@ CATEGORY_FORMAT_TABLE = {
     DEFAULT_CATEGORY: AttributeFormatterType.SINGLE_LINE,
     FUNCTION: AttributeFormatterType.MULTILINE_WITH_DOC,
     CLASS: AttributeFormatterType.MULTILINE_WITH_DOC,
+    EXCEPTION: AttributeFormatterType.MULTILINE_WITH_DOC,
     # Attribute
     MODULE_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
     SPECIAL_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,

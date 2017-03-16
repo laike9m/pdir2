@@ -6,6 +6,7 @@ from sys import modules
 CLASS = 'class'
 DEFAULT_CATEGORY = 'other'
 FUNCTION = 'function'
+EXCEPTION = 'exception'
 
 # Attribute
 MODULE_ATTRIBUTE = 'module attribute'

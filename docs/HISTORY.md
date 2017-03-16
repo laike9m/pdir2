@@ -10,9 +10,8 @@ Release History
 
 ### API Changes (Backward-Compatible)
 
-* [#5](https://github.com/laike9m/pdir2/pull/5): Added a `case_sensitive` parameter into the `search` function.
+* Added a `case_sensitive` parameter into the `search` function (#5)
 
 ### Bugfixes
-* [#1](https://github.com/laike9m/pdir2/issues/1): Error calling pdir(pandas.DataFrame)
-* [#6](https://github.com/laike9m/pdir2/pull/6): Methods are now considered
-functions.
+* Error calling pdir(pandas.DataFrame) (#1)
+* Methods are now considered functions (#6)

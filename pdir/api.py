@@ -101,7 +101,7 @@ class PrettyDir(object):
     @staticmethod
     def get_category(attribute):
         if inspect.isclass(attribute):
-            return CLASS
+            return EXCEPTION if issubclass(attribute, Exception) else CLASS
         elif inspect.isfunction(attribute):
             return FUNCTION
         elif inspect.ismethod(attribute):
