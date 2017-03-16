@@ -15,7 +15,7 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=None):
+    def __init__(self, obj=None, term=None, case_sensitive=False):
         self.obj = obj
         self.attrs = []
         if obj is None:
@@ -23,6 +23,8 @@ class PrettyDir(object):
         else:
             source = {name: self.__getattr_wrapper(name) for name in dir(obj)}
         self.__inspect_category(source)
+        if term:
+            self.attrs = self._search_attrs(self, term=term, case_sensitive=case_sensitive)
 
     def __repr__(self):
         if repl_type == PTPYTHON:
@@ -56,18 +58,33 @@ class PrettyDir(object):
               (case insensitive).
 
         Return:
-            A PrettyDir object with matched names.
+            A new PrettyDir object with matched names.
         """
-        if case_sensitive:
-            self.attrs = [attr for attr in self.attrs if term in attr.name]
-        else:
-            term = term.lower()
-            self.attrs = [
-                attr for attr in self.attrs if term in attr.name.lower()
-            ]
-        return self
+        return PrettyDir(self.obj, term=term, case_sensitive=case_sensitive)
 
     s = search
+    
+    def _search_attrs(self, term, case_sensitive=False):
+        """Search for names that match some pattern.
+
+        Args:
+            term: String used to match names. A name is returned if it matches
+              the whole search term.
+            case_sensitive: Boolean to match case or not, default is False
+              (case insensitive)
+
+        Return:
+            A list of matched PrettyAttribute objects.
+        """
+        if case_sensitive:
+            return [attr for attr in self.attrs if term in attr.name]
+        else:
+            term = term.lower()
+            return [
+                attr for attr in self.attrs if term in attr.name.lower()
+            ]
+
+    s = search        
 
     def __getattr_wrapper(self, name):
         """A wrapper around getattr(), handling some exceptions."""
