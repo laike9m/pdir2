@@ -7,7 +7,7 @@ def test_pdir_module():
     import m
     result = pdir(m)
     if sys.version[0] == '2':
-        assert repr(result) == '\n'.join([
+        assert result.repr_str == repr(result) == '\n'.join([
             '\x1b[0;33mmodule attribute:\x1b[0;m', (
                 '    \x1b[0;36m__file__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__name__\x1b[0;m\x1b[1;30m, '
@@ -23,7 +23,7 @@ def test_pdir_module():
             '    \x1b[0;36mfunc:\x1b[0;m \x1b[1;30mThis is a function\x1b[0;m'
         ])
     else:
-        assert repr(result) == '\n'.join([
+        assert result.repr_str == repr(result) == '\n'.join([
             '\x1b[0;33mmodule attribute:\x1b[0;m', (
                 '    \x1b[0;36m__cached__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__file__\x1b[0;m\x1b[1;30m, '
@@ -61,7 +61,7 @@ def test_pdir_class():
 
     result = pdir(T)
     if sys.version[0] == '2':
-        assert repr(result) == '\n'.join([
+        assert result.repr_str == repr(result) == '\n'.join([
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
@@ -87,7 +87,7 @@ def test_pdir_class():
                 '\x1b[0;m\x1b[0;36m__weakref__\x1b[0;m')
         ])
     else:
-        assert repr(result) == '\n'.join([
+        assert result.repr_str == repr(result) == '\n'.join([
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__dir__\x1b[0;m\x1b[1;30m, '
@@ -133,7 +133,7 @@ def test_dir_without_argument():
         pass
 
     result = pdir()
-    assert repr(result) == '\n'.join([
+    assert result.repr_str == repr(result) == '\n'.join([
         '\x1b[0;33mother:\x1b[0;m',
         '    \x1b[0;36ma\x1b[0;m\x1b[1;30m, \x1b[0;m\x1b[0;36mb\x1b[0;m',
         '\x1b[0;33mfunction:\x1b[0;m',

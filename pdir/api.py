@@ -25,11 +25,11 @@ class PrettyDir(object):
         self.__inspect_category(source)
 
     def __repr__(self):
-        if repl_type in (PYTHON, BPYTHON):
-            return self.repr_str
-        else:
+        if repl_type == PTPYTHON:
             print(self.repr_str, end='')
             return ''
+        else:
+            return self.repr_str
 
     def __len__(self):
         return len(self.attrs)
