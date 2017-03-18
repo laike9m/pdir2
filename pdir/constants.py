@@ -186,7 +186,7 @@ BPYTHON = 'bpython'
 
 
 def get_repl_type():
-    if 'ptpython.sys' in modules:
+    if 'ptpython' in modules:
         return PTPYTHON
     if 'bpython._internal' in modules:
         return BPYTHON
