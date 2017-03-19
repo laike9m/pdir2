@@ -1,6 +1,7 @@
 # pdir2: Pretty dir() printing with joy🍺
 [![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
+![PyPI Version](https://img.shields.io/pypi/v/pdir2.svg)
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
