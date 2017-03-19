@@ -41,8 +41,26 @@ Install
 
     pip install pdir2
 
-About the name. I wanted to call it ``pdir``, but there's already one
-with this name on pypi. Mine is better, of course.
+About the name. I wanted to call it "pdir", but there's already one with
+this name on pypi. Mine is better, of course.
+
+As a better alternative of ``dir()``, it's more convenient to
+automatically import pdir2 when launching REPL. Luckily, Python provides
+a way to do this.
+
+In you ``.bashrc``\ (or ``.zshrc``), add this line:
+
+::
+
+    export PYTHONSTARTUP=$HOME/.pythonstartup
+
+Then, create ``.pythonstartup`` in your home folder. Add one line:
+
+::
+
+    import pdir
+
+Next time you launch REPL, ``pdir()`` is already there, Hooray!
 
 Testing
 -------
