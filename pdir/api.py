@@ -23,7 +23,11 @@ class PrettyDir(object):
         if obj is None:
             source = _getframe(1).f_locals
         else:
-            source = {name: self.__getattr_wrapper(name) for name in dir(obj)}
+            source = {}
+            for name in dir(obj):
+                attr = self.__getattr_wrapper(name)
+                if attr is not skipped_attribute:
+                    source[name] = attr
         self.__inspect_category(source)
 
     def __repr__(self):
@@ -76,6 +80,8 @@ class PrettyDir(object):
         if getattr(self.obj, '__name__', None) == 'DataFrame' and \
                 name in ('columns', 'index'):
             return []  # So columns falls into DEFAULT_CATEGORY.
+        if name in skipped_attribute_names:
+            return skipped_attribute
         return getattr(self.obj, name)
 
     def __inspect_category(self, source):

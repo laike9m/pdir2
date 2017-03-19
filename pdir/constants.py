@@ -3,6 +3,14 @@ import inspect
 from sys import modules
 
 
+class _SkippedAttribute(object):
+    pass
+
+
+skipped_attribute = _SkippedAttribute()
+skipped_attribute_names = frozenset({'has_repvec', 'repvec'})
+
+
 CLASS = 'class'
 DEFAULT_CATEGORY = 'other'
 FUNCTION = 'function'
