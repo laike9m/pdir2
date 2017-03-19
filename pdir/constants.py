@@ -186,9 +186,9 @@ BPYTHON = 'bpython'
 
 
 def get_repl_type():
-    if 'ptpython' in modules:
+    if any('ptpython' in key for key in modules):
         return PTPYTHON
-    if 'bpython._internal' in modules:
+    if any('bpython' in key for key in modules):
         return BPYTHON
     try:
         __IPYTHON__

@@ -15,6 +15,8 @@ init()  # To support Windows.
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
+    repl_type = repl_type
+
     def __init__(self, obj=None):
         self.obj = obj
         self.attrs = []
