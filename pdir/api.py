@@ -43,6 +43,9 @@ class PrettyDir(object):
     def __getitem__(self, index):
         return self.attrs[index].name
 
+    def index(self, value):
+        return self.attrs.index(value)
+
     @property
     def repr_str(self):
         output = []
@@ -77,12 +80,14 @@ class PrettyDir(object):
 
     def __getattr_wrapper(self, name):
         """A wrapper around getattr(), handling some exceptions."""
-        if getattr(self.obj, '__name__', None) == 'DataFrame' and \
-                name in ('columns', 'index'):
-            return []  # So columns falls into DEFAULT_CATEGORY.
-        if name in skipped_attribute_names:
-            return skipped_attribute
-        return getattr(self.obj, name)
+        if inspect.isclass(self.obj):
+            if name in ATTR_EXCEPTION_MAP.get(str(self.obj), {}):
+                return ATTR_EXCEPTION_MAP[str(self.obj)][name]
+        elif name in ATTR_EXCEPTION_MAP.get(str(type(self.obj)), {}):
+            return ATTR_EXCEPTION_MAP[str(type(self.obj))][name]
+        else:
+            # TODO: use try..except and attach exception message to output.
+            return getattr(self.obj, name)
 
     def __inspect_category(self, source):
         for name, attribute in source.items():

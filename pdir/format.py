@@ -78,6 +78,7 @@ CATEGORY_FORMAT_TABLE = {
     COUROUTINE: AttributeFormatterType.SINGLE_LINE,
     COPY: AttributeFormatterType.SINGLE_LINE,
     PICKLE: AttributeFormatterType.SINGLE_LINE,
+    ABSTRACT_CLASS: AttributeFormatterType.SINGLE_LINE,
 }
 
 

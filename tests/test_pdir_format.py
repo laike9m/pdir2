@@ -52,7 +52,7 @@ def test_pdir_object():
             pass
 
     result = pdir(T())
-    print(result)  # TODO: add read test.
+    print(result)  # TODO: add real test.
 
 
 def test_pdir_class():
@@ -62,12 +62,12 @@ def test_pdir_class():
     result = pdir(T)
     if sys.version[0] == '2':
         assert result.repr_str == repr(result) == '\n'.join([
+            '\x1b[0;33mabstract class:\x1b[0;m',
+            '    \x1b[0;36m__subclasshook__\x1b[0;m',
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m'),
-            '\x1b[0;33mclass customization:\x1b[0;m',
-            '    \x1b[0;36m__subclasshook__\x1b[0;m',
             '\x1b[0;33mobject customization:\x1b[0;m', (
                 '    \x1b[0;36m__format__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__hash__\x1b[0;m\x1b[1;30m, '
@@ -88,14 +88,15 @@ def test_pdir_class():
         ])
     else:
         assert result.repr_str == repr(result) == '\n'.join([
+            '\x1b[0;33mabstract class:\x1b[0;m',
+            '    \x1b[0;36m__subclasshook__\x1b[0;m',
             '\x1b[0;33mattribute access:\x1b[0;m', (
                 '    \x1b[0;36m__delattr__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__dir__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__getattribute__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__setattr__\x1b[0;m'),
             '\x1b[0;33mclass customization:\x1b[0;m',
-            ('    \x1b[0;36m__init_subclass__\x1b[0;m\x1b[1;30m, '
-             '\x1b[0;m\x1b[0;36m__subclasshook__\x1b[0;m'),
+            '    \x1b[0;36m__init_subclass__\x1b[0;m',
             '\x1b[0;33mobject customization:\x1b[0;m', (
                 '    \x1b[0;36m__format__\x1b[0;m\x1b[1;30m, '
                 '\x1b[0;m\x1b[0;36m__hash__\x1b[0;m\x1b[1;30m, '

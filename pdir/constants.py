@@ -8,19 +8,17 @@ class _SkippedAttribute(object):
 
 
 skipped_attribute = _SkippedAttribute()
-skipped_attribute_names = frozenset({'has_repvec', 'repvec'})
 
-
+# Basic category.
 CLASS = 'class'
 DEFAULT_CATEGORY = 'other'
 FUNCTION = 'function'
 EXCEPTION = 'exception'
 
-# Attribute
+# Detailed category.
 MODULE_ATTRIBUTE = 'module attribute'
 SPECIAL_ATTRIBUTE = 'special attribute'
-
-# Function
+ABSTRACT_CLASS = 'abstract class'
 MAGIC = 'magic method'
 ARITHMETIC = 'arithmetic'
 ITER = 'iter'
@@ -34,6 +32,25 @@ CONTAINER = 'emulating container'
 COUROUTINE = 'couroutine'
 COPY = 'copy'
 PICKLE = 'pickle'
+
+# There are always exceptions, aka attributes cannot be accessed by getattr.
+# They are recorded here, along with the type/class of their host objects.
+ATTR_EXCEPTION_MAP = {
+    "<type 'spacy.tokens.token.Token'>": {
+        'has_repvec': skipped_attribute,
+        'repvec': skipped_attribute,
+    },
+    "<class 'pandas.core.frame.DataFrame'>": {
+        'columns': None,  # DEFAULT_CATEGORY.
+        'index': None,
+    },
+    "<type 'type'>": {  # py2
+        '__abstractmethods__': None,  # ABSTRACT_CLASS.
+    },
+    "<class 'type'>": {  # py3
+        '__abstractmethods__': None,  # ABSTRACT_CLASS.
+    }
+}
 
 
 def always_true(obj):
@@ -161,7 +178,9 @@ ATTR_MAP = {
     '__prepare__': CLASS_CUSTOMIZATION,
     '__instancecheck__': CLASS_CUSTOMIZATION,
     '__subclasscheck__': CLASS_CUSTOMIZATION,
-    '__subclasshook__': CLASS_CUSTOMIZATION,
+    '__subclasshook__': ABSTRACT_CLASS,
+    '__isabstractmethod__': ABSTRACT_CLASS,
+    '__abstractmethods__': ABSTRACT_CLASS,
     '__len__': CONTAINER,
     '__length_hint__': CONTAINER,
     '__getitem__': CONTAINER,
