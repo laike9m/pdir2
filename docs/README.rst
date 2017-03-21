@@ -1,7 +1,7 @@
 pdir2: Pretty dir() printing with joy🍺
 ======================================
 
-|Build Status| |Supported Python versions|
+|Build Status| |Supported Python versions| |PyPI Version|
 
 Have you ever dreamed of a better output of ``dir()``? I do. So I
 created this.
@@ -46,9 +46,7 @@ this name on pypi. Mine is better, of course.
 
 As a better alternative of ``dir()``, it's more convenient to
 automatically import pdir2 when launching REPL. Luckily, Python provides
-a way to do this.
-
-In you ``.bashrc``\ (or ``.zshrc``), add this line:
+a way to do this. In you ``.bashrc``\ (or ``.zshrc``), add this line:
 
 ::
 
@@ -71,3 +69,5 @@ Simply run ``pytest``, or use ``tox`` if you like.
    :target: https://travis-ci.org/laike9m/pdir2
 .. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/pdir2.svg
    :target: https://pypi.python.org/pypi/pdir2/
+.. |PyPI Version| image:: https://img.shields.io/pypi/v/pdir2.svg
+
