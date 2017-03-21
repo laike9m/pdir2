@@ -23,3 +23,9 @@ def test_acting_like_a_list_when_search():
     result = pdir().s('apple')
     assert len(result) == 2
     assert list(result) == ['apple1', 'xapple2']
+
+
+def test_attr_order():
+    dir_attrs = dir(None)
+    pdir_attrs = list(pdir(None))
+    assert dir_attrs == pdir_attrs

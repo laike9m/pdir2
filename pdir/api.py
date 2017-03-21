@@ -17,18 +17,28 @@ class PrettyDir(object):
 
     repl_type = repl_type
 
-    def __init__(self, obj=default_obj):
+    def __init__(self, obj=default_obj, attrs=None):
+        """
+        Args:
+            obj: The object to inspect.
+            attrs: Used when returning search result.
+        """
         self.obj = obj
-        self.attrs = []
-        if obj is default_obj:
-            source = _getframe(1).f_locals
+        if attrs is None:
+            self.attrs = []
+            self._sorted_attrs = None
+            if obj is default_obj:
+                source = _getframe(1).f_locals
+            else:
+                source = {}
+                for name in dir(obj):
+                    attr = self.__getattr_wrapper(name)
+                    if attr is not skipped_attribute:
+                        source[name] = attr
+            self.__inspect_category(source)
         else:
-            source = {}
-            for name in dir(obj):
-                attr = self.__getattr_wrapper(name)
-                if attr is not skipped_attribute:
-                    source[name] = attr
-        self.__inspect_category(source)
+            self.attrs = attrs
+            self._sorted_attrs = sorted(attrs, key=lambda x: x.name)
 
     def __repr__(self):
         if repl_type == PTPYTHON:
@@ -41,10 +51,10 @@ class PrettyDir(object):
         return len(self.attrs)
 
     def __getitem__(self, index):
-        return self.attrs[index].name
+        return self._sorted_attrs[index].name
 
     def index(self, value):
-        return self.attrs.index(value)
+        return self._sorted_attrs.index(value)
 
     @property
     def repr_str(self):
@@ -68,13 +78,13 @@ class PrettyDir(object):
             A PrettyDir object with matched names.
         """
         if case_sensitive:
-            self.attrs = [attr for attr in self.attrs if term in attr.name]
+            return PrettyDir(
+                self.obj, [attr for attr in self.attrs if term in attr.name])
         else:
             term = term.lower()
-            self.attrs = [
+            return PrettyDir(self.obj, [
                 attr for attr in self.attrs if term in attr.name.lower()
-            ]
-        return self
+            ])
 
     s = search
 
@@ -103,6 +113,7 @@ class PrettyDir(object):
             self.attrs.append(PrettyAttribute(name, category, doc))
 
         self.attrs.sort(key=lambda x: (x.category, x.name))
+        self._sorted_attrs = sorted(self.attrs, key=lambda x: x.name)
 
     @staticmethod
     def get_oneline_doc(attribute):
