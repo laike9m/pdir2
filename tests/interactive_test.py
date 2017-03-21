@@ -3,7 +3,7 @@ import pdir
 
 def interactive_test():
     """
-    This function runs pdir2 on bpython, ipython, ptpython.
+    This function runs pdir2 in bpython, ipython, ptpython.
     Note that giving the right output does not mean pdir2 works correctly,
     because print(string) is not equivalent to repr it in a REPL.
     To ensure everything truely works, manually verification is necessary.

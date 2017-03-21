@@ -17,10 +17,10 @@ class PrettyDir(object):
 
     repl_type = repl_type
 
-    def __init__(self, obj=None):
+    def __init__(self, obj=default_obj):
         self.obj = obj
         self.attrs = []
-        if obj is None:
+        if obj is default_obj:
             source = _getframe(1).f_locals
         else:
             source = {}

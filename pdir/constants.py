@@ -8,6 +8,7 @@ class _SkippedAttribute(object):
 
 
 skipped_attribute = _SkippedAttribute()
+default_obj = skipped_attribute  # reuse!
 
 # Basic category.
 CLASS = 'class'

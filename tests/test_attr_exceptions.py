@@ -19,3 +19,9 @@ def test_type():
         if attr.name == '__abstractmethods__':
             assert attr.category == 'abstract class'
             return
+
+
+def test_none():
+    dir_attrs = dir(None)
+    pdir_attrs = list(dir(None))
+    assert dir_attrs == pdir_attrs
