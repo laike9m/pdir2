@@ -1,5 +1,5 @@
-pdir2: Pretty dir() printing with joy🍺
-=======================================
+pdir2: Pretty dir() printing with joy
+=====================================
 
 |Build Status| |Supported Python versions| |PyPI Version|
 

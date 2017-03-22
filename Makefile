@@ -10,6 +10,7 @@ rst:
 	pandoc --from=markdown --to=rst --output=$(docdir)/README.rst README.md
 	if [ -a $(docdir)/HISTORY.rst ]; then rm $(docdir)/HISTORY.rst; fi;
 	pandoc --from=markdown --to=rst --output=$(docdir)/HISTORY.rst $(docdir)/HISTORY.md
+	python setup.py check --restructuredtext --strict
 
 dry_publish: rst
 	rm -rf dist/
