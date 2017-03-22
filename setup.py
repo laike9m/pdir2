@@ -16,7 +16,7 @@ setup(
         'pdir',
     ],
     install_requires=[
-        'colorama',
+        'colorama;platform_system=="Windows"',
         'enum34;python_version<"3.4"',
     ],
     include_package_data=True,
