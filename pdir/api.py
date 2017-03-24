@@ -1,15 +1,16 @@
 from __future__ import print_function
 
 import inspect
+import platform
 from itertools import groupby
 from sys import _getframe
-
-from colorama import init
 
 from .constants import *
 from .format import format_category
 
-init()  # To support Windows.
+if platform.system() == 'Windows':
+    from colorama import init
+    init()  # To support Windows.
 
 
 class PrettyDir(object):
