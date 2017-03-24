@@ -22,8 +22,8 @@ class Color(object):
             else:
                 return '\033[1m' + colored_text
         else:
-            return '\033[%s;%sm%s\033[0;m' % (self.intensity, self.color_code,
-                                              text)
+            return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code,
+                                             text)
 
 
 white = Color('white', '37')

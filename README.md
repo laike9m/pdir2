@@ -12,7 +12,7 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
 * Support all platforms including Windows(Thanks to [colorama](https://github.com/tartley/colorama)).
 
-* Support [ipython](https://github.com/ipython/ipython), [ptpython](https://github.com/jonathanslenders/ptpython) and [bpython](https://www.bpython-interpreter.org/)! See [wiki](https://github.com/laike9m/pdir2/wiki#repl-support) for more information.
+* Support [ipython](https://github.com/ipython/ipython), [ptpython](https://github.com/jonathanslenders/ptpython), [bpython](https://www.bpython-interpreter.org/) and [Jupyter Notebook](http://jupyter.org/)! See [wiki](https://github.com/laike9m/pdir2/wiki#repl-support) for more information.
 
 * The return value of `pdir()` can still be used as a list of names.
 

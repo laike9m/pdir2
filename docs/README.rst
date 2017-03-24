@@ -19,8 +19,9 @@ Features
    `colorama <https://github.com/tartley/colorama>`__).
 
 -  Support `ipython <https://github.com/ipython/ipython>`__,
-   `ptpython <https://github.com/jonathanslenders/ptpython>`__ and
-   `bpython <https://www.bpython-interpreter.org/>`__! See
+   `ptpython <https://github.com/jonathanslenders/ptpython>`__,
+   `bpython <https://www.bpython-interpreter.org/>`__ and `Jupyter
+   Notebook <http://jupyter.org/>`__! See
    `wiki <https://github.com/laike9m/pdir2/wiki#repl-support>`__ for
    more information.
 
