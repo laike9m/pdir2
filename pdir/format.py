@@ -35,12 +35,6 @@ cyan = Color('cyan', '36')
 comma = grey.wrap_text(', ')
 
 
-class AttributeFormatterType(Enum):
-    """Use this so we can have groups for attribute categorys."""
-    SINGLE_LINE = 1
-    MULTILINE_WITH_DOC = 2
-
-
 def format_single_line(category, attrs):
     category_line = yellow.wrap_text(category + ':')
     return '{0}\n    {1}'.format(
@@ -54,6 +48,12 @@ def format_multiline_with_doc(category, attrs):
         '    {0} {1}'.format(cyan.wrap_text(attr.name + ':'),
                              grey.wrap_text(attr.doc))
         for attr in attrs)
+
+
+class AttributeFormatterType(Enum):
+    """Use this so we can have groups for attribute categorys."""
+    SINGLE_LINE = (0, format_single_line)
+    MULTILINE_WITH_DOC = (1, format_multiline_with_doc)
 
 
 CATEGORY_FORMAT_TABLE = {
@@ -84,8 +84,5 @@ CATEGORY_FORMAT_TABLE = {
 
 def format_category(category, attrs):
     """Generate repr for attrs of a category."""
-    formatter_type = CATEGORY_FORMAT_TABLE[category]
-    if formatter_type == AttributeFormatterType.MULTILINE_WITH_DOC:
-        return formatter_type.value, format_multiline_with_doc(category, attrs)
-    else:
-        return formatter_type.value, format_single_line(category, attrs)
+    formatter_index, formatter = CATEGORY_FORMAT_TABLE[category].value
+    return formatter_index, formatter(category, attrs)
