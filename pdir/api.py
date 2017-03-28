@@ -96,9 +96,9 @@ class PrettyDir(object):
                 return ATTR_EXCEPTION_MAP[str(self.obj)][name]
         elif name in ATTR_EXCEPTION_MAP.get(str(type(self.obj)), {}):
             return ATTR_EXCEPTION_MAP[str(type(self.obj))][name]
-        else:
-            # TODO: use try..except and attach exception message to output.
-            return getattr(self.obj, name)
+
+        # TODO: use try..except and attach exception message to output.
+        return getattr(self.obj, name)
 
     def __inspect_category(self, source):
         for name, attribute in source.items():

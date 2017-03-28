@@ -1,5 +1,5 @@
 """
-Test attrs defined in ATTR_EXCEPTION_MAP.
+Test attrs that previously caused bugs.
 """
 
 import pdir
@@ -18,4 +18,12 @@ def test_type():
     for attr in result.attrs:
         if attr.name == '__abstractmethods__':
             assert attr.category == 'abstract class'
+            return
+
+
+def test_list():
+    result = pdir(list)
+    for attr in result.attrs:
+        if attr.name == 'append':
+            assert attr.category == 'function'
             return
