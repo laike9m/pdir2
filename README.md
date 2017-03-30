@@ -20,7 +20,8 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
   ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
-  Search is case-insensitive by default. You can use `.search(name, case_sensitive=True)` to do case sensitive searching.
+  Search is case-insensitive by default.  
+  You can use `.search(name, case_sensitive=True)` to do case sensitive searching.
 
 ## Install
 ```

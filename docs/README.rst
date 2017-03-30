@@ -32,8 +32,9 @@ Features
 .. figure:: https://github.com/laike9m/pdir2/raw/master/images/search.gif
    :alt: 
 
-Search is case-insensitive by default. You can use
-``.search(name, case_sensitive=True)`` to do case sensitive searching.
+| Search is case-insensitive by default.
+| You can use ``.search(name, case_sensitive=True)`` to do case
+  sensitive searching.
 
 Install
 -------
