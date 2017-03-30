@@ -28,6 +28,7 @@ OBJECT_CUSTOMIZATION = 'object customization'
 RICH_COMPARISON = 'rich comparison'
 ATTRIBUTE_ACCESS = 'attribute access'
 DESCRIPTOR = 'descriptor'
+DESCRIPTOR_CLASS = 'descriptor class'
 CLASS_CUSTOMIZATION = 'class customization'
 CONTAINER = 'emulating container'
 COUROUTINE = 'couroutine'
@@ -171,10 +172,10 @@ ATTR_MAP = {
     '__setattr__': ATTRIBUTE_ACCESS,
     '__delattr__': ATTRIBUTE_ACCESS,
     '__dir__': ATTRIBUTE_ACCESS,
-    '__get__': DESCRIPTOR,
-    '__set__': DESCRIPTOR,
-    '__delete__': DESCRIPTOR,
-    '__set_name__': DESCRIPTOR,
+    '__get__': DESCRIPTOR_CLASS,
+    '__set__': DESCRIPTOR_CLASS,
+    '__delete__': DESCRIPTOR_CLASS,
+    '__set_name__': DESCRIPTOR_CLASS,
     '__init_subclass__': CLASS_CUSTOMIZATION,
     '__prepare__': CLASS_CUSTOMIZATION,
     '__instancecheck__': CLASS_CUSTOMIZATION,
@@ -211,6 +212,12 @@ PYTHON = 'python'
 IPYTHON = 'ipython'
 PTPYTHON = 'ptpython'
 BPYTHON = 'bpython'
+
+# descriptor
+GETTER = 'getter'
+SETTER = 'setter'
+DELETER = 'deleter'
+method_descriptor = type(list.append)
 
 
 def get_repl_type():

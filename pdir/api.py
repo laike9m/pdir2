@@ -1,3 +1,9 @@
+"""
+Convention:
+"attr" means the original attribute object.
+"pattr" means class PrettyAttribute instance.
+"""
+
 from __future__ import print_function
 
 import inspect
@@ -7,6 +13,7 @@ from sys import _getframe
 
 from .constants import *
 from .format import format_category
+from .utils import get_dict_attr, is_descriptor
 
 if platform.system() == 'Windows':
     from colorama import init
@@ -18,16 +25,16 @@ class PrettyDir(object):
 
     repl_type = repl_type
 
-    def __init__(self, obj=default_obj, attrs=None):
+    def __init__(self, obj=default_obj, pattrs=None):
         """
         Args:
             obj: The object to inspect.
-            attrs: Used when returning search result.
+            pattrs: Used when returning search result.
         """
         self.obj = obj
-        if attrs is None:
-            self.attrs = []
-            self._sorted_attrs = None
+        if pattrs is None:
+            self.pattrs = []
+            self._sorted_pattrs = None
             if obj is default_obj:
                 source = _getframe(1).f_locals
             else:
@@ -38,8 +45,8 @@ class PrettyDir(object):
                         source[name] = attr
             self.__inspect_category(source)
         else:
-            self.attrs = attrs
-            self._sorted_attrs = sorted(attrs, key=lambda x: x.name)
+            self.pattrs = pattrs
+            self._sorted_pattrs = sorted(pattrs, key=lambda x: x.name)
 
     def __repr__(self):
         if repl_type == PTPYTHON:
@@ -49,19 +56,19 @@ class PrettyDir(object):
             return self.repr_str
 
     def __len__(self):
-        return len(self.attrs)
+        return len(self.pattrs)
 
     def __getitem__(self, index):
-        return self._sorted_attrs[index].name
+        return self._sorted_pattrs[index].name
 
     def index(self, value):
-        return self._sorted_attrs.index(value)
+        return self._sorted_pattrs.index(value)
 
     @property
     def repr_str(self):
         output = []
-        for category, attrs in groupby(self.attrs, lambda x: x.category):
-            output.append(format_category(category, attrs))
+        for category, pattrs in groupby(self.pattrs, lambda x: x.category):
+            output.append(format_category(category, pattrs))
 
         output.sort(key=lambda x: x[0])
         return '\n'.join(category_output[1] for category_output in output)
@@ -80,11 +87,12 @@ class PrettyDir(object):
         """
         if case_sensitive:
             return PrettyDir(
-                self.obj, [attr for attr in self.attrs if term in attr.name])
+                self.obj,
+                [pattr for pattr in self.pattrs if term in pattr.name])
         else:
             term = term.lower()
             return PrettyDir(self.obj, [
-                attr for attr in self.attrs if term in attr.name.lower()
+                pattr for pattr in self.pattrs if term in pattr.name.lower()
             ])
 
     s = search
@@ -98,11 +106,16 @@ class PrettyDir(object):
             return ATTR_EXCEPTION_MAP[str(type(self.obj))][name]
 
         # TODO: use try..except and attach exception message to output.
-        return getattr(self.obj, name)
+        try:
+            # This is to ensure we get descriptor object instead of
+            # its return value.
+            return get_dict_attr(self.obj, name)
+        except AttributeError:
+            return getattr(self.obj, name)
 
     def __inspect_category(self, source):
-        for name, attribute in source.items():
-            category = ATTR_MAP.get(name, self.get_category(attribute))
+        for name, attr in source.items():
+            category = ATTR_MAP.get(name, self.get_category(attr))
             if isinstance(category, list):
                 for selector, real_category in category:
                     if selector(self.obj):
@@ -110,40 +123,69 @@ class PrettyDir(object):
                         break
                 else:
                     raise ValueError('category not match: ' + name)
-            doc = self.get_oneline_doc(attribute)
-            self.attrs.append(PrettyAttribute(name, category, doc))
+            self.pattrs.append(PrettyAttribute(name, category, attr))
 
-        self.attrs.sort(key=lambda x: (x.category, x.name))
-        self._sorted_attrs = sorted(self.attrs, key=lambda x: x.name)
-
-    @staticmethod
-    def get_oneline_doc(attribute):
-        if hasattr(attribute, '__doc__'):
-            doc = inspect.getdoc(attribute)
-            return doc.split('\n', 1)[0] if doc else ''  # default doc is None
-        return None
+        self.pattrs.sort(key=lambda x: (x.category, x.name))
+        self._sorted_pattrs = sorted(self.pattrs, key=lambda x: x.name)
 
     @staticmethod
-    def get_category(attribute):
-        if inspect.isclass(attribute):
-            return EXCEPTION if issubclass(attribute, Exception) else CLASS
-        elif inspect.isfunction(attribute):
+    def get_category(attr):
+        if inspect.isclass(attr):
+            return EXCEPTION if issubclass(attr, Exception) else CLASS
+        elif inspect.isfunction(attr):
             return FUNCTION
-        elif inspect.ismethod(attribute):
+        elif inspect.ismethod(attr):
             return FUNCTION
-        elif inspect.isbuiltin(attribute):
+        elif inspect.isbuiltin(attr):
             return FUNCTION
-        elif inspect.ismethoddescriptor(attribute):  # list.append
+        elif isinstance(attr, method_descriptor):
+            # Technically, method_descriptor is descriptor, but since they
+            # act as functions, let's treat them as functions.
             return FUNCTION
+        elif is_descriptor(attr):
+            # Maybe add getsetdescriptor memberdescriptor in the future.
+            return DESCRIPTOR
         else:
             return DEFAULT_CATEGORY
 
 
 class PrettyAttribute(object):
-    def __init__(self, name, category, doc=None):
+    def __init__(self, name, category, attr_obj):
         self.name = name
         self.category = category
-        self.doc = doc
+        self.attr_obj = attr_obj
+        self.doc = self.get_oneline_doc()
 
     def __repr__(self):
         return '%s: %s' % (self.name, self.category)
+
+    def get_oneline_doc(self):
+        """
+        Doc doesn't necessarily mean doctring. It could be anything that
+        should be put after the attr's name as an explanation.
+        """
+        attr = self.attr_obj
+        if self.category == DESCRIPTOR:
+            if isinstance(attr, property):
+                doc_list = ['@property with getter']
+                if attr.fset:
+                    doc_list.append(SETTER)
+                if attr.fdel:
+                    doc_list.append(DELETER)
+            else:
+                doc_list = ['class %s' % attr.__class__.__name__]
+                if hasattr(attr, '__get__'):
+                    doc_list.append(GETTER)
+                if hasattr(attr, '__set__'):
+                    doc_list.append(SETTER)
+                if hasattr(attr, '__delete__'):
+                    doc_list.append(DELETER)
+                doc_list[0] = ' '.join([doc_list[0], 'with', doc_list.pop(1)])
+            if attr.__doc__ is not None:
+                doc_list.append(inspect.getdoc(attr).split('\n', 1)[0])
+            return ', '.join(doc_list)
+
+        if hasattr(attr, '__doc__'):
+            doc = inspect.getdoc(attr)
+            return doc.split('\n', 1)[0] if doc else ''  # default doc is None
+        return None
