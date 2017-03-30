@@ -5,7 +5,7 @@
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
-![](https://github.com/laike9m/pdir2/raw/master/images/presentation.gif)
+![](https://github.com/laike9m/pdir2/raw/master/images/presentation_v2.gif)
 
 ## Features
 * Attributes are grouped by types/functionalities, with beautiful colors.
