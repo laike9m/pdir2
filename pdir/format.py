@@ -1,52 +1,33 @@
 """
-1. group name color
-2. attr color
-3. how attr is organized(one-line/multi-line, has doc)
+Defines how attr is organized and displayed.
 """
 from enum import Enum
 
 from .constants import *
+from .configuration import cfg
 
-
-class Color(object):
-    def __init__(self, name, color_code, intensity='0'):
-        self.name = name
-        self.color_code = color_code
-        self.intensity = intensity
-
-    def wrap_text(self, text):
-        if repl_type == BPYTHON:
-            colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
-            if self.intensity == '0':
-                return colored_text
-            else:
-                return '\033[1m' + colored_text
-        else:
-            return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code,
-                                             text)
-
-
-white = Color('white', '37')
-green = Color('green', '32')
-red = Color('red', '31')
-grey = Color('grey', '30', '1')
-yellow = Color('yellow', '33')
-cyan = Color('cyan', '36')
-comma = grey.wrap_text(', ')
+if cfg.uniform_color:
+    category_color = attribute_color = doc_color = cfg.uniform_color
+    comma = cfg.uniform_color.wrap_text(', ')
+else:
+    category_color = cfg.category_color
+    attribute_color = cfg.attribute_color
+    doc_color = cfg.doc_color
+    comma = cfg.comma_color.wrap_text(', ')
 
 
 def format_single_line(category, attrs):
-    category_line = yellow.wrap_text(category + ':')
+    category_line = category_color.wrap_text(category + ':')
     return '{0}\n    {1}'.format(
         category_line,
-        comma.join(cyan.wrap_text(attr.name) for attr in attrs))
+        comma.join(attribute_color.wrap_text(attr.name) for attr in attrs))
 
 
 def format_multiline_with_doc(category, attrs):
-    category_line = yellow.wrap_text(category + ':') + '\n'
+    category_line = category_color.wrap_text(category + ':') + '\n'
     return category_line + '\n'.join(
-        '    {0} {1}'.format(cyan.wrap_text(attr.name + ':'),
-                             grey.wrap_text(attr.doc))
+        '    {0} {1}'.format(attribute_color.wrap_text(attr.name + ':'),
+                             doc_color.wrap_text(attr.doc))
         for attr in attrs)
 
 
@@ -54,10 +35,10 @@ def format_descriptor(category, attrs):
     """
     Currently it's the same as multi-line doc mode.
     """
-    category_line = yellow.wrap_text(category + ':') + '\n'
+    category_line = category_color.wrap_text(category + ':') + '\n'
     return category_line + '\n'.join(
-        '    {0} {1}'.format(cyan.wrap_text(attr.name + ':'),
-                             grey.wrap_text(attr.doc))
+        '    {0} {1}'.format(attribute_color.wrap_text(attr.name + ':'),
+                             doc_color.wrap_text(attr.doc))
         for attr in attrs)
 
 

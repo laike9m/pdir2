@@ -1,5 +1,6 @@
 import collections
 import inspect
+from os.path import expanduser
 from sys import modules
 
 
@@ -233,3 +234,38 @@ def get_repl_type():
 
 
 repl_type = get_repl_type()
+
+# Color
+BLACK = 'black'
+BRIGHT_BLACK = 'bright black'
+GREY = 'grey'
+RED = 'red'
+BRIGHT_RED = 'bright red'
+GREEN = 'green'
+BRIGHT_GREEN = 'bright green'
+YELLOW = 'yellow'
+BRIGHT_YELLOW = 'bright yellow'
+BLUE = 'blue'
+BRIGHT_BLUE = 'bright blue'
+MAGENTA = 'magenta'
+BRIGHT_MAGENTA = 'bright magenta'
+CYAN = 'cyan'
+BRIGHT_CYAN = 'bright cyan'
+WHITE = 'white'
+BRIGHT_WHITE = 'bright white'
+VALID_COLORS = frozenset({
+    BLACK, BRIGHT_BLACK, RED, BRIGHT_RED, GREEN, BRIGHT_GREEN,
+    YELLOW, BRIGHT_YELLOW, BLUE, BRIGHT_BLUE, MAGENTA, BRIGHT_MAGENTA,
+    CYAN, BRIGHT_CYAN, WHITE, BRIGHT_WHITE})
+
+# User Configuration
+DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
+CONFIG_FILE_ENV = 'PDIR2_CONFIG_FILE'
+DEFAULT = 'global'
+UNIFORM_COLOR = 'uniform-color'
+CATEGORY_COLOR = 'category-color'
+ATTRIBUTE_COLOR = 'attribute-color'
+COMMA_COLOR = 'comma-color'
+DOC_COLOR = 'doc-color'
+VALID_CONFIG_KEYS = frozenset({
+    UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR})
