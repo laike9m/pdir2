@@ -14,3 +14,8 @@ notifications:
   email:
     on_success: never
     on_failure: always
+
+# build all branches.
+branches:
+  only:
+    - /.*/
