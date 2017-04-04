@@ -4,8 +4,7 @@ Release History
 0.2.0(2017-04-04)
 -----------------
 
-- Add support for color customization. (#14)
-
+-  Add support for color customization. (#14)
 
 0.1.0(2017-03-16)
 -----------------
