@@ -6,7 +6,7 @@ pdir2: Pretty dir() printing with joy
 Have you ever dreamed of a better output of ``dir()``? I do. So I
 created this.
 
-.. figure:: https://github.com/laike9m/pdir2/raw/master/images/presentation.gif
+.. figure:: https://github.com/laike9m/pdir2/raw/master/images/presentation_v2.gif
    :alt: 
 
 Features
@@ -15,6 +15,9 @@ Features
 -  Attributes are grouped by types/functionalities, with beautiful
    colors.
 
+-  Support color customization, `here's
+   how <https://github.com/laike9m/pdir2/wiki/User-Configuration>`__.
+
 -  Support all platforms including Windows(Thanks to
    `colorama <https://github.com/tartley/colorama>`__).
 
@@ -22,8 +25,8 @@ Features
    `ptpython <https://github.com/jonathanslenders/ptpython>`__,
    `bpython <https://www.bpython-interpreter.org/>`__ and `Jupyter
    Notebook <http://jupyter.org/>`__! See
-   `wiki <https://github.com/laike9m/pdir2/wiki#repl-support>`__ for
-   more information.
+   `wiki <https://github.com/laike9m/pdir2/wiki/REPL-Support>`__ for
+   details.
 
 -  The return value of ``pdir()`` can still be used as a list of names.
 
