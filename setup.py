@@ -15,6 +15,10 @@ setup(
     packages=[
         'pdir',
     ],
+    setup_requires=[
+        # minimum version to use environment markers
+        'setuptools>=20.6.8',
+    ],
     install_requires=[
         'colorama;platform_system=="Windows"',
         'enum34;python_version<"3.4"',
