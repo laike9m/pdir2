@@ -13,9 +13,13 @@ import shutil
 from sys import modules
 
 import pytest
+if pytest.__version__[0] == '2':
+    from pytest import yield_fixture as fixture
+elif pytest.__version__[0] == '3':
+    from pytest import fixture as fixture
 
 
-@pytest.fixture
+@fixture
 def clean():
     DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser("~"), '.pdir2config')
     yield DEFAULT_CONFIG_FILE
