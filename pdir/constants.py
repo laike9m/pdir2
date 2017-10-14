@@ -221,7 +221,7 @@ DELETER = 'deleter'
 method_descriptor = type(list.append)
 
 
-def get_repl_type():
+def _get_repl_type():
     if any('ptpython' in key for key in modules):
         return PTPYTHON
     if any('bpython' in key for key in modules):
@@ -233,7 +233,7 @@ def get_repl_type():
         return PYTHON
 
 
-repl_type = get_repl_type()
+repl_type = _get_repl_type()
 
 # Color
 BLACK = 'black'
@@ -253,10 +253,10 @@ CYAN = 'cyan'
 BRIGHT_CYAN = 'bright cyan'
 WHITE = 'white'
 BRIGHT_WHITE = 'bright white'
-VALID_COLORS = frozenset([
+VALID_COLORS = frozenset({
     BLACK, BRIGHT_BLACK, RED, BRIGHT_RED, GREEN, BRIGHT_GREEN,
     YELLOW, BRIGHT_YELLOW, BLUE, BRIGHT_BLUE, MAGENTA, BRIGHT_MAGENTA,
-    CYAN, BRIGHT_CYAN, WHITE, BRIGHT_WHITE])
+    CYAN, BRIGHT_CYAN, WHITE, BRIGHT_WHITE})
 
 # User Configuration
 DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
@@ -267,5 +267,5 @@ CATEGORY_COLOR = 'category-color'
 ATTRIBUTE_COLOR = 'attribute-color'
 COMMA_COLOR = 'comma-color'
 DOC_COLOR = 'doc-color'
-VALID_CONFIG_KEYS = frozenset([
-    UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR])
+VALID_CONFIG_KEYS = frozenset({
+    UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR})
