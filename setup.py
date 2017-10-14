@@ -6,7 +6,7 @@ history = codecs.open('docs/HISTORY.rst', encoding='utf-8').read()
 
 setup(
     name='pdir2',
-    version='0.2.1',
+    version='0.2.2',
     description='Pretty dir printing with joy',
     long_description=u'\n\n'.join([readme, history]),
     author='laike9m',
