@@ -26,12 +26,22 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
   You can use `.search(name, case_sensitive=True)` to do case sensitive searching.
 
 ## Install
+
+### Fedora
+```
+dnf install python3-pdir2
+--or--
+dnf install python2-pdir2
+```
+### Generic
 ```
 pip install pdir2
 ```
 About the name. I wanted to call it "pdir", but there's already one with this
 name on pypi. Mine is better, of course.
 
+
+## Automatic Import
 As a better alternative of `dir()`, it's more convenient to automatically import
 pdir2 when launching REPL. Luckily, Python provides a way to do this. In you `.bashrc`(or `.zshrc`), add this line:
 ```
