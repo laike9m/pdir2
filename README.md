@@ -27,12 +27,6 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
 ## Install
 
-### Fedora
-```
-dnf install python3-pdir2
---or--
-dnf install python2-pdir2
-```
 ### Generic
 ```
 pip install pdir2
@@ -40,6 +34,12 @@ pip install pdir2
 About the name. I wanted to call it "pdir", but there's already one with this
 name on pypi. Mine is better, of course.
 
+### Fedora
+```
+dnf install python3-pdir2
+--or--
+dnf install python2-pdir2
+```
 
 ## Automatic Import
 As a better alternative of `dir()`, it's more convenient to automatically import
