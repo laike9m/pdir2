@@ -3,6 +3,11 @@ import inspect
 from os.path import expanduser
 from sys import modules
 
+try:
+    from enum import IntEnum, auto
+except ImportError:
+    from aenum import IntEnum, auto
+
 
 class _SkippedAttribute(object):
     pass
@@ -11,30 +16,60 @@ class _SkippedAttribute(object):
 skipped_attribute = _SkippedAttribute()
 default_obj = skipped_attribute  # reuse!
 
-# Basic category.
-CLASS = 'class'
-DEFAULT_CATEGORY = 'other'
-FUNCTION = 'function'
-EXCEPTION = 'exception'
 
-# Detailed category.
-MODULE_ATTRIBUTE = 'module attribute'
-SPECIAL_ATTRIBUTE = 'special attribute'
-ABSTRACT_CLASS = 'abstract class'
-MAGIC = 'magic method'
-ARITHMETIC = 'arithmetic'
-ITER = 'iter'
-CONTEXT_MANAGER = 'context manager'
-OBJECT_CUSTOMIZATION = 'object customization'
-RICH_COMPARISON = 'rich comparison'
-ATTRIBUTE_ACCESS = 'attribute access'
-DESCRIPTOR = 'descriptor'
-DESCRIPTOR_CLASS = 'descriptor class'
-CLASS_CUSTOMIZATION = 'class customization'
-CONTAINER = 'emulating container'
-COUROUTINE = 'couroutine'
-COPY = 'copy'
-PICKLE = 'pickle'
+class AttrType(object):
+    def __init__(self, *categories):
+        self.categories = frozenset(categories)
+        self.max_category = max(categories)
+
+    def __eq__(self, other):
+        if isinstance(other, AttrCategory):
+            return other in self.categories
+        elif isinstance(other, AttrType):
+            return other.categories == self.categories
+        else:
+            raise TypeError('AttrCategory can\'t be compared with %s' %
+                            type(other))
+
+    def __lt__(self, other):
+        return str(self.max_category) < str(other.max_category)
+
+    def __repr__(self):
+        return repr(self.categories)
+
+
+# Uses IntEnum so that we can directly compare AttrCategory objects.
+class AttrCategory(IntEnum):
+    # Basic category.
+    CLASS = auto()
+    DEFAULT_CATEGORY = auto()
+    FUNCTION = auto()
+    EXCEPTION = auto()
+    PROPERTY = auto()
+    # Detailed category.
+    MODULE_ATTRIBUTE = auto()
+    SPECIAL_ATTRIBUTE = auto()
+    ABSTRACT_CLASS = auto()
+    MAGIC = auto()
+    ARITHMETIC = auto()
+    ITER = auto()
+    CONTEXT_MANAGER = auto()
+    OBJECT_CUSTOMIZATION = auto()
+    RICH_COMPARISON = auto()
+    ATTRIBUTE_ACCESS = auto()
+    DESCRIPTOR = auto()
+    DESCRIPTOR_CLASS = auto()
+    CLASS_CUSTOMIZATION = auto()
+    CONTAINER = auto()
+    COUROUTINE = auto()
+    COPY = auto()
+    PICKLE = auto()
+
+    def __str__(self):
+        if self is AttrCategory.DEFAULT_CATEGORY:
+            return 'other'
+        return ' '.join(self.name.split('_')).lower()
+
 
 # There are always exceptions, aka attributes cannot be accessed by getattr.
 # They are recorded here, along with the type/class of their host objects.
@@ -62,150 +97,153 @@ def always_true(obj):
 
 # Second level
 ATTR_MAP = {
-    '__doc__': SPECIAL_ATTRIBUTE,
-    '__qualname__': SPECIAL_ATTRIBUTE,
-    '__module__': SPECIAL_ATTRIBUTE,
-    '__defaults__': SPECIAL_ATTRIBUTE,
-    '__code__': SPECIAL_ATTRIBUTE,
-    '__globals__': SPECIAL_ATTRIBUTE,
-    '__dict__': SPECIAL_ATTRIBUTE,
-    '__closure__': SPECIAL_ATTRIBUTE,
-    '__annotations__': SPECIAL_ATTRIBUTE,
-    '__kwdefaults__': SPECIAL_ATTRIBUTE,
-    '__func__': SPECIAL_ATTRIBUTE,
-    '__self__': SPECIAL_ATTRIBUTE,
-    '__bases__': SPECIAL_ATTRIBUTE,
-    '__class__': SPECIAL_ATTRIBUTE,
-    '__objclass__': SPECIAL_ATTRIBUTE,
-    '__slots__': SPECIAL_ATTRIBUTE,
-    '__weakref__': SPECIAL_ATTRIBUTE,
-    '__next__': ITER,
+    '__doc__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__qualname__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__module__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__defaults__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__code__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__globals__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__dict__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__closure__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__annotations__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__kwdefaults__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__func__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__self__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__bases__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__class__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__objclass__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__slots__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__weakref__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
+    '__next__': AttrType(AttrCategory.ITER,),
     '__reversed__': [
-        (lambda obj: isinstance(obj, collections.Iterator), ITER),
-        (always_true, CONTAINER),
+        (lambda obj: isinstance(obj, collections.Iterator),
+         AttrType(AttrCategory.ITER),),
+        (always_true, AttrType(AttrCategory.CONTAINER),),
     ],
     '__iter__': [
-        (lambda obj: isinstance(obj, collections.Iterator), ITER),
-        (always_true, CONTAINER),
+        (lambda obj: isinstance(obj, collections.Iterator),
+         AttrType(AttrCategory.ITER),),
+        (always_true, AttrType(AttrCategory.CONTAINER),),
     ],
-    '__enter__': CONTEXT_MANAGER,
-    '__exit__': CONTEXT_MANAGER,
+    '__enter__': AttrType(AttrCategory.CONTEXT_MANAGER,),
+    '__exit__': AttrType(AttrCategory.CONTEXT_MANAGER,),
     '__name__': [
-        (lambda obj: inspect.ismodule(obj), MODULE_ATTRIBUTE),
-        (always_true, SPECIAL_ATTRIBUTE)
+        (lambda obj: inspect.ismodule(obj),
+         AttrType(AttrCategory.MODULE_ATTRIBUTE),),
+        (always_true, AttrType(AttrCategory.SPECIAL_ATTRIBUTE))
     ],
-    '__loader__': MODULE_ATTRIBUTE,
-    '__package__': MODULE_ATTRIBUTE,
-    '__spec__': MODULE_ATTRIBUTE,
-    '__path__': MODULE_ATTRIBUTE,
-    '__file__': MODULE_ATTRIBUTE,
-    '__cached__': MODULE_ATTRIBUTE,
-    '__abs__': ARITHMETIC,
-    '__add__': ARITHMETIC,
-    '__and__': ARITHMETIC,
-    '__complex__': ARITHMETIC,
-    '__divmod__': ARITHMETIC,
-    '__float__': ARITHMETIC,
-    '__floordiv__': ARITHMETIC,
-    '__iadd__': ARITHMETIC,
-    '__iand__': ARITHMETIC,
-    '__ifloordiv__': ARITHMETIC,
-    '__ilshift__': ARITHMETIC,
-    '__imatmul__': ARITHMETIC,
-    '__imod__': ARITHMETIC,
-    '__imul__': ARITHMETIC,
-    '__int__': ARITHMETIC,
-    '__invert__': ARITHMETIC,
-    '__ior__': ARITHMETIC,
-    '__ipow__': ARITHMETIC,
-    '__irshift__': ARITHMETIC,
-    '__isub__': ARITHMETIC,
-    '__itruediv__': ARITHMETIC,
-    '__ixor__': ARITHMETIC,
-    '__lshift__': ARITHMETIC,
-    '__matmul__': ARITHMETIC,
-    '__mod__': ARITHMETIC,
-    '__mul__': ARITHMETIC,
-    '__neg__': ARITHMETIC,
-    '__or__': ARITHMETIC,
-    '__pos__': ARITHMETIC,
-    '__pow__': ARITHMETIC,
-    '__radd__': ARITHMETIC,
-    '__rand__': ARITHMETIC,
-    '__rdivmod__': ARITHMETIC,
-    '__rfloordiv__': ARITHMETIC,
-    '__rlshift__': ARITHMETIC,
-    '__rmatmul__': ARITHMETIC,
-    '__rmod__': ARITHMETIC,
-    '__rmul__': ARITHMETIC,
-    '__ror__': ARITHMETIC,
-    '__round__': ARITHMETIC,
-    '__rpow__': ARITHMETIC,
-    '__rrshift__': ARITHMETIC,
-    '__rshift__': ARITHMETIC,
-    '__rsub__': ARITHMETIC,
-    '__rtruediv__': ARITHMETIC,
-    '__rxor__': ARITHMETIC,
-    '__sub__': ARITHMETIC,
-    '__truediv__': ARITHMETIC,
-    '__xor__': ARITHMETIC,
-    '__ceil__': ARITHMETIC,
-    '__floor__': ARITHMETIC,
-    '__trunc__': ARITHMETIC,
-    '__init__': OBJECT_CUSTOMIZATION,
-    '__new__': OBJECT_CUSTOMIZATION,
-    '__del__': OBJECT_CUSTOMIZATION,
-    '__repr__': OBJECT_CUSTOMIZATION,
-    '__str__': OBJECT_CUSTOMIZATION,
-    '__bytes__': OBJECT_CUSTOMIZATION,
-    '__format__': OBJECT_CUSTOMIZATION,
-    '__hash__': OBJECT_CUSTOMIZATION,
-    '__bool__': OBJECT_CUSTOMIZATION,
-    '__sizeof__': OBJECT_CUSTOMIZATION,
-    '__lt__': RICH_COMPARISON,
-    '__le__': RICH_COMPARISON,
-    '__eq__': RICH_COMPARISON,
-    '__ne__': RICH_COMPARISON,
-    '__gt__': RICH_COMPARISON,
-    '__ge__': RICH_COMPARISON,
-    '__getattr__': ATTRIBUTE_ACCESS,
-    '__getattribute__': ATTRIBUTE_ACCESS,
-    '__setattr__': ATTRIBUTE_ACCESS,
-    '__delattr__': ATTRIBUTE_ACCESS,
-    '__dir__': ATTRIBUTE_ACCESS,
-    '__get__': DESCRIPTOR_CLASS,
-    '__set__': DESCRIPTOR_CLASS,
-    '__delete__': DESCRIPTOR_CLASS,
-    '__set_name__': DESCRIPTOR_CLASS,
-    '__init_subclass__': CLASS_CUSTOMIZATION,
-    '__prepare__': CLASS_CUSTOMIZATION,
-    '__instancecheck__': CLASS_CUSTOMIZATION,
-    '__subclasscheck__': CLASS_CUSTOMIZATION,
-    '__subclasshook__': ABSTRACT_CLASS,
-    '__isabstractmethod__': ABSTRACT_CLASS,
-    '__abstractmethods__': ABSTRACT_CLASS,
-    '__len__': CONTAINER,
-    '__length_hint__': CONTAINER,
-    '__getitem__': CONTAINER,
-    '__missing__': CONTAINER,
-    '__setitem__': CONTAINER,
-    '__delitem__': CONTAINER,
-    '__contains__': CONTAINER,
-    '__await__': COUROUTINE,
-    '__aiter__': COUROUTINE,
-    '__anext__': COUROUTINE,
-    '__aenter__': COUROUTINE,
-    '__aexit__': COUROUTINE,
-    '__index__': MAGIC,
-    '__call__': MAGIC,
-    '__copy__': COPY,
-    '__deepcopy__': COPY,
-    '__getnewargs_ex__': PICKLE,
-    '__getnewargs__': PICKLE,
-    '__getstate__': PICKLE,
-    '__setstate__': PICKLE,
-    '__reduce__': PICKLE,
-    '__reduce_ex__': PICKLE,
+    '__loader__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__package__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__spec__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__path__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__file__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__cached__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
+    '__abs__': AttrType(AttrCategory.ARITHMETIC,),
+    '__add__': AttrType(AttrCategory.ARITHMETIC,),
+    '__and__': AttrType(AttrCategory.ARITHMETIC,),
+    '__complex__': AttrType(AttrCategory.ARITHMETIC,),
+    '__divmod__': AttrType(AttrCategory.ARITHMETIC,),
+    '__float__': AttrType(AttrCategory.ARITHMETIC,),
+    '__floordiv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__iadd__': AttrType(AttrCategory.ARITHMETIC,),
+    '__iand__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ifloordiv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ilshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__imatmul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__imod__': AttrType(AttrCategory.ARITHMETIC,),
+    '__imul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__int__': AttrType(AttrCategory.ARITHMETIC,),
+    '__invert__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ior__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ipow__': AttrType(AttrCategory.ARITHMETIC,),
+    '__irshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__isub__': AttrType(AttrCategory.ARITHMETIC,),
+    '__itruediv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ixor__': AttrType(AttrCategory.ARITHMETIC,),
+    '__lshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__matmul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__mod__': AttrType(AttrCategory.ARITHMETIC,),
+    '__mul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__neg__': AttrType(AttrCategory.ARITHMETIC,),
+    '__or__': AttrType(AttrCategory.ARITHMETIC,),
+    '__pos__': AttrType(AttrCategory.ARITHMETIC,),
+    '__pow__': AttrType(AttrCategory.ARITHMETIC,),
+    '__radd__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rand__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rdivmod__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rfloordiv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rlshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rmatmul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rmod__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rmul__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ror__': AttrType(AttrCategory.ARITHMETIC,),
+    '__round__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rpow__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rrshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rshift__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rsub__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rtruediv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__rxor__': AttrType(AttrCategory.ARITHMETIC,),
+    '__sub__': AttrType(AttrCategory.ARITHMETIC,),
+    '__truediv__': AttrType(AttrCategory.ARITHMETIC,),
+    '__xor__': AttrType(AttrCategory.ARITHMETIC,),
+    '__ceil__': AttrType(AttrCategory.ARITHMETIC,),
+    '__floor__': AttrType(AttrCategory.ARITHMETIC,),
+    '__trunc__': AttrType(AttrCategory.ARITHMETIC,),
+    '__init__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__new__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__del__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__repr__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__str__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__bytes__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__format__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__hash__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__bool__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__sizeof__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
+    '__lt__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__le__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__eq__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__ne__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__gt__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__ge__': AttrType(AttrCategory.RICH_COMPARISON,),
+    '__getattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
+    '__getattribute__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
+    '__setattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
+    '__delattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
+    '__dir__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
+    '__get__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
+    '__set__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
+    '__delete__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
+    '__set_name__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
+    '__init_subclass__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
+    '__prepare__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
+    '__instancecheck__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
+    '__subclasscheck__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
+    '__subclasshook__': AttrType(AttrCategory.ABSTRACT_CLASS,),
+    '__isabstractmethod__': AttrType(AttrCategory.ABSTRACT_CLASS,),
+    '__abstractmethods__': AttrType(AttrCategory.ABSTRACT_CLASS,),
+    '__len__': AttrType(AttrCategory.CONTAINER,),
+    '__length_hint__': AttrType(AttrCategory.CONTAINER,),
+    '__getitem__': AttrType(AttrCategory.CONTAINER,),
+    '__missing__': AttrType(AttrCategory.CONTAINER,),
+    '__setitem__': AttrType(AttrCategory.CONTAINER,),
+    '__delitem__': AttrType(AttrCategory.CONTAINER,),
+    '__contains__': AttrType(AttrCategory.CONTAINER,),
+    '__await__': AttrType(AttrCategory.COUROUTINE,),
+    '__aiter__': AttrType(AttrCategory.COUROUTINE,),
+    '__anext__': AttrType(AttrCategory.COUROUTINE,),
+    '__aenter__': AttrType(AttrCategory.COUROUTINE,),
+    '__aexit__': AttrType(AttrCategory.COUROUTINE,),
+    '__index__': AttrType(AttrCategory.MAGIC,),
+    '__call__': AttrType(AttrCategory.MAGIC,),
+    '__copy__': AttrType(AttrCategory.COPY,),
+    '__deepcopy__': AttrType(AttrCategory.COPY,),
+    '__getnewargs_ex__': AttrType(AttrCategory.PICKLE,),
+    '__getnewargs__': AttrType(AttrCategory.PICKLE,),
+    '__getstate__': AttrType(AttrCategory.PICKLE,),
+    '__setstate__': AttrType(AttrCategory.PICKLE,),
+    '__reduce__': AttrType(AttrCategory.PICKLE,),
+    '__reduce_ex__': AttrType(AttrCategory.PICKLE,),
 }
 
 # repl

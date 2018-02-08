@@ -21,7 +21,7 @@ setup(
     ],
     install_requires=[
         'colorama;platform_system=="Windows"',
-        'enum34;python_version<"3.4"',
+        'aenum;python_version<"3.6"',
     ],
     include_package_data=True,
     license='MIT License',

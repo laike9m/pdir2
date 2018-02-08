@@ -67,7 +67,9 @@ class PrettyDir(object):
     @property
     def repr_str(self):
         output = []
-        for category, pattrs in groupby(self.pattrs, lambda x: x.category):
+        for category, pattrs in groupby(self.pattrs,
+                                        lambda x: x.category.max_category):
+            # Format is determined by max_category.
             output.append(format_category(category, pattrs))
 
         output.sort(key=lambda x: x[0])
@@ -125,28 +127,32 @@ class PrettyDir(object):
                     raise ValueError('category not match: ' + name)
             self.pattrs.append(PrettyAttribute(name, category, attr))
 
+        for attr in self.pattrs:
+            if not isinstance(attr.category, AttrType):
+                raise Exception(attr.category)
         self.pattrs.sort(key=lambda x: (x.category, x.name))
         self._sorted_pattrs = sorted(self.pattrs, key=lambda x: x.name)
 
     @staticmethod
     def get_category(attr):
         if inspect.isclass(attr):
-            return EXCEPTION if issubclass(attr, Exception) else CLASS
+            return AttrType(AttrCategory.EXCEPTION) if issubclass(
+                attr, Exception) else AttrType(AttrCategory.CLASS)
         elif inspect.isfunction(attr):
-            return FUNCTION
+            return AttrType(AttrCategory.FUNCTION)
         elif inspect.ismethod(attr):
-            return FUNCTION
+            return AttrType(AttrCategory.FUNCTION)
         elif inspect.isbuiltin(attr):
-            return FUNCTION
+            return AttrType(AttrCategory.FUNCTION)
         elif isinstance(attr, method_descriptor):
             # Technically, method_descriptor is descriptor, but since they
             # act as functions, let's treat them as functions.
-            return FUNCTION
+            return AttrType(AttrCategory.FUNCTION)
         elif is_descriptor(attr):
             # Maybe add getsetdescriptor memberdescriptor in the future.
-            return DESCRIPTOR
+            return AttrType(AttrCategory.DESCRIPTOR)
         else:
-            return DEFAULT_CATEGORY
+            return AttrType(AttrCategory.DEFAULT_CATEGORY)
 
 
 class PrettyAttribute(object):
@@ -165,7 +171,7 @@ class PrettyAttribute(object):
         should be put after the attr's name as an explanation.
         """
         attr = self.attr_obj
-        if self.category == DESCRIPTOR:
+        if self.category == AttrCategory.DESCRIPTOR:
             if isinstance(attr, property):
                 doc_list = ['@property with getter']
                 if attr.fset:

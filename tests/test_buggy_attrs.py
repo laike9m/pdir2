@@ -4,20 +4,22 @@ Test attrs that previously caused bugs.
 
 import pdir
 
+from pdir.constants import AttrCategory
+
 
 def test_dataframe():
     from pandas import DataFrame
     result = pdir(DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
-            assert attr.category == 'other'
+            assert attr.category == AttrCategory.DEFAULT_CATEGORY
 
 
 def test_type():
     result = pdir(type)
     for attr in result.pattrs:
         if attr.name == '__abstractmethods__':
-            assert attr.category == 'abstract class'
+            assert attr.category == AttrCategory.ABSTRACT_CLASS
             return
 
 
@@ -25,7 +27,7 @@ def test_list():
     result = pdir(list)
     for attr in result.pattrs:
         if attr.name == 'append':
-            assert attr.category == 'function'
+            assert attr.category == AttrCategory.FUNCTION
             return
 
 
@@ -88,14 +90,14 @@ def test_descriptor():
     pattrs = pdir(t).pattrs
     for pattr in pattrs:
         if pattr.name == 'd':
-            assert pattr.category == 'descriptor'
+            assert pattr.category == AttrCategory.DESCRIPTOR
             assert pattr.doc == ('class D with getter, setter, deleter, '
                                  'this is D')
         if pattr.name == 'r':
-            assert pattr.category == 'descriptor'
+            assert pattr.category == AttrCategory.DESCRIPTOR
             assert pattr.doc == ('class RevealAccess with getter, setter, '
                                  'deleter, this is R')
         if pattr.name == 'p':
-            assert pattr.category == 'descriptor'
+            assert pattr.category == AttrCategory.DESCRIPTOR
             assert pattr.doc == ('@property with getter, setter, '
                                  'deleter, this is p')
