@@ -37,7 +37,7 @@ def format_descriptor(category, attrs):
     """
     Currently it's the same as multi-line doc mode.
     """
-    category_line = category_color.wrap_text(category + ':') + '\n'
+    category_line = category_color.wrap_text(str(category) + ':') + '\n'
     return category_line + '\n'.join('    {0} {1}'.format(
         attribute_color.wrap_text(attr.name + ':'),
         doc_color.wrap_text(attr.doc)) for attr in attrs)
