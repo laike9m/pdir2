@@ -76,7 +76,7 @@ class PrettyDir(object):
         return '\n'.join(category_output[1] for category_output in output)
 
     def search(self, term, case_sensitive=False):
-        """Search for names that match some pattern.
+        """Searches for names that match some pattern.
 
         Args:
             term: String used to match names. A name is returned if it matches
@@ -152,7 +152,9 @@ class PrettyDir(object):
             # Maybe add getsetdescriptor memberdescriptor in the future.
             return AttrType(AttrCategory.DESCRIPTOR)
         else:
-            return AttrType(AttrCategory.DEFAULT_CATEGORY)
+            # attr that is neither function nor class is a normal variable,
+            # and it's classified to property.
+            return AttrType(AttrCategory.PROPERTY)
 
 
 class PrettyAttribute(object):

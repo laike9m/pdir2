@@ -51,10 +51,10 @@ class AttributeFormatterType(Enum):
 
 
 CATEGORY_FORMAT_TABLE = {
-    AttrCategory.DEFAULT_CATEGORY: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.FUNCTION: AttributeFormatterType.MULTILINE_WITH_DOC,
     AttrCategory.CLASS: AttributeFormatterType.MULTILINE_WITH_DOC,
     AttrCategory.EXCEPTION: AttributeFormatterType.MULTILINE_WITH_DOC,
+    AttrCategory.PROPERTY: AttributeFormatterType.SINGLE_LINE,
     # Attribute
     AttrCategory.MODULE_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.SPECIAL_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,

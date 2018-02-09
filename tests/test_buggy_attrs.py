@@ -3,7 +3,6 @@ Test attrs that previously caused bugs.
 """
 
 import pdir
-
 from pdir.constants import AttrCategory
 
 
@@ -12,7 +11,7 @@ def test_dataframe():
     result = pdir(DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
-            assert attr.category == AttrCategory.DEFAULT_CATEGORY
+            assert attr.category == AttrCategory.PROPERTY
 
 
 def test_type():

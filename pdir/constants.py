@@ -44,7 +44,6 @@ class AttrType(object):
 # basic category.
 class AttrCategory(IntEnum):
     # Basic category.
-    DEFAULT_CATEGORY = Incrementer.auto()
     CLASS = Incrementer.auto()
     # Often represents the internal function that's invoked: add -> __add__.
     FUNCTION = Incrementer.auto()
@@ -74,8 +73,6 @@ class AttrCategory(IntEnum):
         """
         e.g. RICH_COMPARISON -> rich comparison
         """
-        if self is AttrCategory.DEFAULT_CATEGORY:
-            return 'other'
         return ' '.join(self.name.split('_')).lower()
 
 
