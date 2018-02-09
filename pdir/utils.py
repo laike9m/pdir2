@@ -13,6 +13,11 @@ def is_descriptor(obj):
 
 
 class Incrementer(object):
+    """Class that generates incremental int values.
+
+    auto() in enum/aenum module is not guaranteed to generate incremental
+    values, that's why this class is needed.
+    """
     __value = -1
 
     @classmethod

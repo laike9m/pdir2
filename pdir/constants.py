@@ -3,12 +3,12 @@ import inspect
 from os.path import expanduser
 from sys import modules
 
+from .utils import Incrementer
+
 try:
     from enum import IntEnum
 except ImportError:
     from aenum import IntEnum
-
-from .utils import Incrementer
 
 
 class _SkippedAttribute(object):
@@ -39,13 +39,18 @@ class AttrType(object):
 
 
 # Uses IntEnum so that we can directly compare AttrCategory objects.
+# Detailed categories are guaranteed to have large value, so
+# AttrType.max_category will always choose detailed category instead of
+# basic category.
 class AttrCategory(IntEnum):
     # Basic category.
-    CLASS = Incrementer.auto()
     DEFAULT_CATEGORY = Incrementer.auto()
+    CLASS = Incrementer.auto()
+    # Often represents the internal function that's invoked: add -> __add__.
     FUNCTION = Incrementer.auto()
     EXCEPTION = Incrementer.auto()
     PROPERTY = Incrementer.auto()
+
     # Detailed category.
     MODULE_ATTRIBUTE = Incrementer.auto()
     SPECIAL_ATTRIBUTE = Incrementer.auto()
@@ -88,7 +93,8 @@ ATTR_EXCEPTION_MAP = {
     "<type 'type'>": {  # py2
         '__abstractmethods__': None,  # ABSTRACT_CLASS.
     },
-    "<class 'type'>": {  # py3
+    "<class 'type'>":
+    {  # py3
         '__abstractmethods__': None,  # ABSTRACT_CLASS.
     }
 }
@@ -100,153 +106,287 @@ def always_true(obj):
 
 # Second level
 ATTR_MAP = {
-    '__doc__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__qualname__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__module__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__defaults__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__code__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__globals__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__dict__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__closure__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__annotations__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__kwdefaults__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__func__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__self__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__bases__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__class__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__objclass__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__slots__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__weakref__': AttrType(AttrCategory.SPECIAL_ATTRIBUTE,),
-    '__next__': AttrType(AttrCategory.ITER,),
+    '__doc__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__qualname__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__module__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__defaults__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__code__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__globals__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__dict__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__closure__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__annotations__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__kwdefaults__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__func__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__self__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__bases__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__class__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__objclass__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__slots__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__weakref__':
+    AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__next__':
+    AttrType(AttrCategory.ITER, AttrCategory.FUNCTION),
     '__reversed__': [
         (lambda obj: isinstance(obj, collections.Iterator),
-         AttrType(AttrCategory.ITER),),
-        (always_true, AttrType(AttrCategory.CONTAINER),),
+         AttrType(AttrCategory.ITER, AttrCategory.FUNCTION), ),
+        (always_true, AttrType(AttrCategory.CONTAINER,
+                               AttrCategory.FUNCTION), ),
     ],
     '__iter__': [
         (lambda obj: isinstance(obj, collections.Iterator),
-         AttrType(AttrCategory.ITER),),
-        (always_true, AttrType(AttrCategory.CONTAINER),),
+         AttrType(AttrCategory.ITER, AttrCategory.FUNCTION), ),
+        (always_true, AttrType(AttrCategory.CONTAINER,
+                               AttrCategory.FUNCTION), ),
     ],
-    '__enter__': AttrType(AttrCategory.CONTEXT_MANAGER,),
-    '__exit__': AttrType(AttrCategory.CONTEXT_MANAGER,),
-    '__name__': [
-        (lambda obj: inspect.ismodule(obj),
-         AttrType(AttrCategory.MODULE_ATTRIBUTE),),
-        (always_true, AttrType(AttrCategory.SPECIAL_ATTRIBUTE))
-    ],
-    '__loader__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__package__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__spec__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__path__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__file__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__cached__': AttrType(AttrCategory.MODULE_ATTRIBUTE,),
-    '__abs__': AttrType(AttrCategory.ARITHMETIC,),
-    '__add__': AttrType(AttrCategory.ARITHMETIC,),
-    '__and__': AttrType(AttrCategory.ARITHMETIC,),
-    '__complex__': AttrType(AttrCategory.ARITHMETIC,),
-    '__divmod__': AttrType(AttrCategory.ARITHMETIC,),
-    '__float__': AttrType(AttrCategory.ARITHMETIC,),
-    '__floordiv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__iadd__': AttrType(AttrCategory.ARITHMETIC,),
-    '__iand__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ifloordiv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ilshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__imatmul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__imod__': AttrType(AttrCategory.ARITHMETIC,),
-    '__imul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__int__': AttrType(AttrCategory.ARITHMETIC,),
-    '__invert__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ior__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ipow__': AttrType(AttrCategory.ARITHMETIC,),
-    '__irshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__isub__': AttrType(AttrCategory.ARITHMETIC,),
-    '__itruediv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ixor__': AttrType(AttrCategory.ARITHMETIC,),
-    '__lshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__matmul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__mod__': AttrType(AttrCategory.ARITHMETIC,),
-    '__mul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__neg__': AttrType(AttrCategory.ARITHMETIC,),
-    '__or__': AttrType(AttrCategory.ARITHMETIC,),
-    '__pos__': AttrType(AttrCategory.ARITHMETIC,),
-    '__pow__': AttrType(AttrCategory.ARITHMETIC,),
-    '__radd__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rand__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rdivmod__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rfloordiv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rlshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rmatmul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rmod__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rmul__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ror__': AttrType(AttrCategory.ARITHMETIC,),
-    '__round__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rpow__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rrshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rshift__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rsub__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rtruediv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__rxor__': AttrType(AttrCategory.ARITHMETIC,),
-    '__sub__': AttrType(AttrCategory.ARITHMETIC,),
-    '__truediv__': AttrType(AttrCategory.ARITHMETIC,),
-    '__xor__': AttrType(AttrCategory.ARITHMETIC,),
-    '__ceil__': AttrType(AttrCategory.ARITHMETIC,),
-    '__floor__': AttrType(AttrCategory.ARITHMETIC,),
-    '__trunc__': AttrType(AttrCategory.ARITHMETIC,),
-    '__init__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__new__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__del__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__repr__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__str__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__bytes__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__format__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__hash__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__bool__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__sizeof__': AttrType(AttrCategory.OBJECT_CUSTOMIZATION,),
-    '__lt__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__le__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__eq__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__ne__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__gt__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__ge__': AttrType(AttrCategory.RICH_COMPARISON,),
-    '__getattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
-    '__getattribute__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
-    '__setattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
-    '__delattr__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
-    '__dir__': AttrType(AttrCategory.ATTRIBUTE_ACCESS,),
-    '__get__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
-    '__set__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
-    '__delete__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
-    '__set_name__': AttrType(AttrCategory.DESCRIPTOR_CLASS,),
-    '__init_subclass__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
-    '__prepare__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
-    '__instancecheck__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
-    '__subclasscheck__': AttrType(AttrCategory.CLASS_CUSTOMIZATION,),
-    '__subclasshook__': AttrType(AttrCategory.ABSTRACT_CLASS,),
-    '__isabstractmethod__': AttrType(AttrCategory.ABSTRACT_CLASS,),
-    '__abstractmethods__': AttrType(AttrCategory.ABSTRACT_CLASS,),
-    '__len__': AttrType(AttrCategory.CONTAINER,),
-    '__length_hint__': AttrType(AttrCategory.CONTAINER,),
-    '__getitem__': AttrType(AttrCategory.CONTAINER,),
-    '__missing__': AttrType(AttrCategory.CONTAINER,),
-    '__setitem__': AttrType(AttrCategory.CONTAINER,),
-    '__delitem__': AttrType(AttrCategory.CONTAINER,),
-    '__contains__': AttrType(AttrCategory.CONTAINER,),
-    '__await__': AttrType(AttrCategory.COUROUTINE,),
-    '__aiter__': AttrType(AttrCategory.COUROUTINE,),
-    '__anext__': AttrType(AttrCategory.COUROUTINE,),
-    '__aenter__': AttrType(AttrCategory.COUROUTINE,),
-    '__aexit__': AttrType(AttrCategory.COUROUTINE,),
-    '__index__': AttrType(AttrCategory.MAGIC,),
-    '__call__': AttrType(AttrCategory.MAGIC,),
-    '__copy__': AttrType(AttrCategory.COPY,),
-    '__deepcopy__': AttrType(AttrCategory.COPY,),
-    '__getnewargs_ex__': AttrType(AttrCategory.PICKLE,),
-    '__getnewargs__': AttrType(AttrCategory.PICKLE,),
-    '__getstate__': AttrType(AttrCategory.PICKLE,),
-    '__setstate__': AttrType(AttrCategory.PICKLE,),
-    '__reduce__': AttrType(AttrCategory.PICKLE,),
-    '__reduce_ex__': AttrType(AttrCategory.PICKLE,),
+    '__enter__':
+    AttrType(AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
+    '__exit__':
+    AttrType(AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
+    '__name__':
+    [(lambda obj: inspect.ismodule(obj),
+      AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY), ),
+     (always_true, AttrType(AttrCategory.SPECIAL_ATTRIBUTE,
+                            AttrCategory.PROPERTY))],
+    '__loader__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__package__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__spec__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__path__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__file__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__cached__':
+    AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__abs__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__add__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__and__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__complex__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__divmod__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__float__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__floordiv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__iadd__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__iand__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ifloordiv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ilshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__imatmul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__imod__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__imul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__int__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__invert__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ior__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ipow__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__irshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__isub__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__itruediv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ixor__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__lshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__matmul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__mod__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__mul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__neg__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__or__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__pos__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__pow__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__radd__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rand__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rdivmod__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rfloordiv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rlshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rmatmul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rmod__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rmul__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ror__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__round__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rpow__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rrshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rshift__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rsub__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rtruediv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__rxor__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__sub__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__truediv__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__xor__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__ceil__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__floor__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__trunc__':
+    AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
+    '__init__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__new__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__del__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__repr__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__str__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__bytes__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__format__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__hash__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__bool__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__sizeof__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__lt__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__le__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__eq__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__ne__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__gt__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__ge__':
+    AttrType(AttrCategory.RICH_COMPARISON, AttrCategory.FUNCTION),
+    '__getattr__':
+    AttrType(AttrCategory.ATTRIBUTE_ACCESS, AttrCategory.FUNCTION),
+    '__getattribute__':
+    AttrType(AttrCategory.ATTRIBUTE_ACCESS, AttrCategory.FUNCTION),
+    '__setattr__':
+    AttrType(AttrCategory.ATTRIBUTE_ACCESS, AttrCategory.FUNCTION),
+    '__delattr__':
+    AttrType(AttrCategory.ATTRIBUTE_ACCESS, AttrCategory.FUNCTION),
+    '__dir__':
+    AttrType(AttrCategory.ATTRIBUTE_ACCESS, AttrCategory.FUNCTION),
+    '__get__':
+    AttrType(AttrCategory.DESCRIPTOR_CLASS, AttrCategory.FUNCTION),
+    '__set__':
+    AttrType(AttrCategory.DESCRIPTOR_CLASS, AttrCategory.FUNCTION),
+    '__delete__':
+    AttrType(AttrCategory.DESCRIPTOR_CLASS, AttrCategory.FUNCTION),
+    '__set_name__':
+    AttrType(AttrCategory.DESCRIPTOR_CLASS, AttrCategory.FUNCTION),
+    '__init_subclass__':
+    AttrType(AttrCategory.CLASS_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__prepare__':
+    AttrType(AttrCategory.CLASS_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__instancecheck__':
+    AttrType(AttrCategory.CLASS_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__subclasscheck__':
+    AttrType(AttrCategory.CLASS_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__subclasshook__':
+    AttrType(AttrCategory.ABSTRACT_CLASS, AttrCategory.FUNCTION),
+    '__isabstractmethod__':
+    AttrType(AttrCategory.ABSTRACT_CLASS, AttrCategory.FUNCTION),
+    '__abstractmethods__':
+    AttrType(AttrCategory.ABSTRACT_CLASS, AttrCategory.PROPERTY),
+    '__len__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__length_hint__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__getitem__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__missing__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__setitem__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__delitem__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__contains__':
+    AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__await__':
+    AttrType(AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__aiter__':
+    AttrType(AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__anext__':
+    AttrType(AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__aenter__':
+    AttrType(AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__aexit__':
+    AttrType(AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__index__':
+    AttrType(AttrCategory.MAGIC, AttrCategory.FUNCTION),
+    '__call__':
+    AttrType(AttrCategory.MAGIC, AttrCategory.FUNCTION),
+    '__copy__':
+    AttrType(AttrCategory.COPY, AttrCategory.FUNCTION),
+    '__deepcopy__':
+    AttrType(AttrCategory.COPY, AttrCategory.FUNCTION),
+    '__getnewargs_ex__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__getnewargs__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__getstate__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__setstate__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__reduce__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__reduce_ex__':
+    AttrType(AttrCategory.PICKLE, AttrCategory.FUNCTION),
 }
 
 # repl
@@ -295,9 +435,10 @@ BRIGHT_CYAN = 'bright cyan'
 WHITE = 'white'
 BRIGHT_WHITE = 'bright white'
 VALID_COLORS = frozenset({
-    BLACK, BRIGHT_BLACK, RED, BRIGHT_RED, GREEN, BRIGHT_GREEN,
-    YELLOW, BRIGHT_YELLOW, BLUE, BRIGHT_BLUE, MAGENTA, BRIGHT_MAGENTA,
-    CYAN, BRIGHT_CYAN, WHITE, BRIGHT_WHITE})
+    BLACK, BRIGHT_BLACK, RED, BRIGHT_RED, GREEN, BRIGHT_GREEN, YELLOW,
+    BRIGHT_YELLOW, BLUE, BRIGHT_BLUE, MAGENTA, BRIGHT_MAGENTA, CYAN,
+    BRIGHT_CYAN, WHITE, BRIGHT_WHITE
+})
 
 # User Configuration
 DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
@@ -308,5 +449,5 @@ CATEGORY_COLOR = 'category-color'
 ATTRIBUTE_COLOR = 'attribute-color'
 COMMA_COLOR = 'comma-color'
 DOC_COLOR = 'doc-color'
-VALID_CONFIG_KEYS = frozenset({
-    UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR})
+VALID_CONFIG_KEYS = frozenset(
+    {UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR})
