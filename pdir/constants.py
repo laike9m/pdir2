@@ -4,9 +4,11 @@ from os.path import expanduser
 from sys import modules
 
 try:
-    from enum import IntEnum, auto
+    from enum import IntEnum
 except ImportError:
-    from aenum import IntEnum, auto
+    from aenum import IntEnum
+
+from .utils import Incrementer
 
 
 class _SkippedAttribute(object):
@@ -32,40 +34,41 @@ class AttrType(object):
                             type(other))
 
     def __lt__(self, other):
+        """For sorting attrs by max_category in output."""
         return str(self.max_category) < str(other.max_category)
-
-    def __repr__(self):
-        return repr(self.categories)
 
 
 # Uses IntEnum so that we can directly compare AttrCategory objects.
 class AttrCategory(IntEnum):
     # Basic category.
-    CLASS = auto()
-    DEFAULT_CATEGORY = auto()
-    FUNCTION = auto()
-    EXCEPTION = auto()
-    PROPERTY = auto()
+    CLASS = Incrementer.auto()
+    DEFAULT_CATEGORY = Incrementer.auto()
+    FUNCTION = Incrementer.auto()
+    EXCEPTION = Incrementer.auto()
+    PROPERTY = Incrementer.auto()
     # Detailed category.
-    MODULE_ATTRIBUTE = auto()
-    SPECIAL_ATTRIBUTE = auto()
-    ABSTRACT_CLASS = auto()
-    MAGIC = auto()
-    ARITHMETIC = auto()
-    ITER = auto()
-    CONTEXT_MANAGER = auto()
-    OBJECT_CUSTOMIZATION = auto()
-    RICH_COMPARISON = auto()
-    ATTRIBUTE_ACCESS = auto()
-    DESCRIPTOR = auto()
-    DESCRIPTOR_CLASS = auto()
-    CLASS_CUSTOMIZATION = auto()
-    CONTAINER = auto()
-    COUROUTINE = auto()
-    COPY = auto()
-    PICKLE = auto()
+    MODULE_ATTRIBUTE = Incrementer.auto()
+    SPECIAL_ATTRIBUTE = Incrementer.auto()
+    ABSTRACT_CLASS = Incrementer.auto()
+    MAGIC = Incrementer.auto()
+    ARITHMETIC = Incrementer.auto()
+    ITER = Incrementer.auto()
+    CONTEXT_MANAGER = Incrementer.auto()
+    OBJECT_CUSTOMIZATION = Incrementer.auto()
+    RICH_COMPARISON = Incrementer.auto()
+    ATTRIBUTE_ACCESS = Incrementer.auto()
+    DESCRIPTOR = Incrementer.auto()
+    DESCRIPTOR_CLASS = Incrementer.auto()
+    CLASS_CUSTOMIZATION = Incrementer.auto()
+    CONTAINER = Incrementer.auto()
+    COUROUTINE = Incrementer.auto()
+    COPY = Incrementer.auto()
+    PICKLE = Incrementer.auto()
 
     def __str__(self):
+        """
+        e.g. RICH_COMPARISON -> rich comparison
+        """
         if self is AttrCategory.DEFAULT_CATEGORY:
             return 'other'
         return ' '.join(self.name.split('_')).lower()

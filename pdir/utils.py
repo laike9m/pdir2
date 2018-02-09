@@ -10,3 +10,12 @@ def is_descriptor(obj):
     return (hasattr(obj, "__get__") or
             hasattr(obj, "__set__") or
             hasattr(obj, "__delete__"))
+
+
+class Incrementer(object):
+    __value = -1
+
+    @classmethod
+    def auto(cls):
+        cls.__value += 1
+        return cls.__value
