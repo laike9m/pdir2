@@ -99,6 +99,57 @@ class PrettyDir(object):
 
     s = search
 
+    # Below methods "methods", "public", "own" can be chained when necessary.
+    # That is, for listing all public methods that are not inherited,
+    # use pdir(obj).public.own.methods
+    # The order should not affect results.
+
+    @property
+    def properties(self):
+        """Returns all properties of the inspected object.
+
+        Note that "properties" can mean "variables".
+        """
+        return PrettyDir(self.obj, [
+            pattr for pattr in self.pattrs
+            if pattr.category == AttrCategory.PROPERTY
+        ])
+
+    @property
+    def methods(self):
+        """Returns all methods of the inspected object.
+
+        Note that "methods" can mean "functions" when inspecting a module.
+        """
+        return PrettyDir(self.obj, [
+            pattr for pattr in self.pattrs
+            if pattr.category == AttrCategory.FUNCTION
+        ])
+
+    @property
+    def public(self):
+        """Returns public attributes of the inspected object."""
+        return PrettyDir(self.obj, [
+            pattr for pattr in self.pattrs if not pattr.name.startswith('_')
+        ])
+
+    @property
+    def own(self):
+        """Returns attributes that are not inhterited from parent classes.
+
+        Now we only use a simple judgement, it is expected that many attributes
+        not get returned, especially invoked on a module.
+
+        For instance, there's no way to distinguish between properties that
+        are initialized in instance class's __init__, or parent class's
+        __init__(assuming super() is called). So we'll just leave it.
+        """
+        return PrettyDir(self.obj, [
+            pattr for pattr in self.pattrs
+            if pattr.name in type(
+                self.obj).__dict__ or pattr.name in self.obj.__dict__
+        ])
+
     def __getattr_wrapper(self, name):
         """A wrapper around getattr(), handling some exceptions."""
         if inspect.isclass(self.obj):
@@ -127,9 +178,6 @@ class PrettyDir(object):
                     raise ValueError('category not match: ' + name)
             self.pattrs.append(PrettyAttribute(name, category, attr))
 
-        for attr in self.pattrs:
-            if not isinstance(attr.category, AttrType):
-                raise Exception(attr.category)
         self.pattrs.sort(key=lambda x: (x.category, x.name))
         self._sorted_pattrs = sorted(self.pattrs, key=lambda x: x.name)
 
@@ -150,7 +198,7 @@ class PrettyDir(object):
             return AttrType(AttrCategory.FUNCTION)
         elif is_descriptor(attr):
             # Maybe add getsetdescriptor memberdescriptor in the future.
-            return AttrType(AttrCategory.DESCRIPTOR)
+            return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY)
         else:
             # attr that is neither function nor class is a normal variable,
             # and it's classified to property.

@@ -1,6 +1,8 @@
-# Tests AttrType's behaviors.
+"""
+Tests AttrType's behaviors.
+"""
 
-from pdir.constants import AttrType, AttrCategory
+from pdir.constants import AttrCategory, AttrType
 
 
 def test_attrtype_equality():
@@ -14,7 +16,6 @@ def test_attrtype_equality():
 
 
 def test_attrtype_compare():
-    assert (AttrType(AttrCategory.CLASS) <
-            AttrType(AttrCategory.FUNCTION))
+    assert (AttrType(AttrCategory.CLASS) < AttrType(AttrCategory.FUNCTION))
     assert (AttrType(AttrCategory.FUNCTION, AttrCategory.ARITHMETIC) <
             AttrType(AttrCategory.FUNCTION, AttrCategory.DESCRIPTOR))
