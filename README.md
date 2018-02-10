@@ -27,7 +27,7 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
   Search is case-insensitive by default.  
    `search(name, case_sensitive=True)` does case sensitive searching.
 
-*  :star2: Attribute filtering
+* :star2: Attribute filtering
 
   `properties`: Find properties/variables defined in the inspected object.
 
@@ -44,8 +44,6 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
   You can also call `search` on the returned results.
 
   See a [complete example](https://github.com/laike9m/pdir2/wiki/Attribute-Filtering).
-
-  ​
 
 ## Install
 
