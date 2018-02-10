@@ -73,9 +73,33 @@ def test_own():
     ] == [p.name for p in pdir(inst).own.pattrs]
 
 
-def test_public_own_properties():
+def test_chained_filters():
     assert [
         'base_instance_variable',
         'derived_class_variable',
         'derived_instance_variable',
     ] == [p.name for p in pdir(inst).public.own.properties.pattrs]
+
+
+def test_order_of_chained_filters():
+    assert [
+        'base_instance_variable',
+        'derived_class_variable',
+        'derived_instance_variable',
+    ] == [p.name for p in pdir(inst).own.properties.public.pattrs]
+    assert [
+        'base_instance_variable',
+        'derived_class_variable',
+        'derived_instance_variable',
+    ] == [p.name for p in pdir(inst).properties.public.own.pattrs]
+
+
+def test_filters_with_search():
+    def test_chained_filters():
+        assert [
+            'derived_instance_variable',
+        ] == [
+            p.name
+            for p in pdir(inst).public.own.properties.search('derived_in')
+            .pattrs
+        ]

@@ -1,0 +1,1 @@
+# Tests descriptor attributes.

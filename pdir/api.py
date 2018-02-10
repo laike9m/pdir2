@@ -141,7 +141,7 @@ class PrettyDir(object):
         not get returned, especially invoked on a module.
 
         For instance, there's no way to distinguish between properties that
-        are initialized in instance class's __init__, or parent class's
+        are initialized in instance class's __init__ and parent class's
         __init__(assuming super() is called). So we'll just leave it.
         """
         return PrettyDir(self.obj, [

@@ -3,12 +3,9 @@ import inspect
 from os.path import expanduser
 from sys import modules
 
-from .utils import Incrementer
+from enum import IntEnum
 
-try:
-    from enum import IntEnum
-except ImportError:
-    from aenum import IntEnum
+from .utils import Incrementer
 
 
 class _SkippedAttribute(object):
