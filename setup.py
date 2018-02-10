@@ -1,4 +1,5 @@
 import codecs
+
 from setuptools import setup
 
 readme = codecs.open('docs/README.rst', encoding='utf-8').read()
@@ -6,7 +7,7 @@ history = codecs.open('docs/HISTORY.rst', encoding='utf-8').read()
 
 setup(
     name='pdir2',
-    version='0.2.2',
+    version='0.3.0',
     description='Pretty dir printing with joy',
     long_description=u'\n\n'.join([readme, history]),
     author='laike9m',
@@ -21,7 +22,7 @@ setup(
     ],
     install_requires=[
         'colorama;platform_system=="Windows"',
-        'aenum;python_version<"3.6"',
+        'enum34;python_version<"3.4"',
     ],
     include_package_data=True,
     license='MIT License',

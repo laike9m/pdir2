@@ -1,6 +1,10 @@
 Release History
 ===============
 
+0.3.0(2018-02-10)
+-----------------
+* Add support for various filters (#37)
+
 0.2.0(2017-04-04)
 -----------------
 * Add support for color customization. (#14)

@@ -30,17 +30,44 @@ Features
 
 -  The return value of ``pdir()`` can still be used as a list of names.
 
--  You can search for certain names with ``.s()`` or ``.search()``:
+-  ✨ Attribute searching
+
+You can search for certain names with ``.s()`` or ``.search()``:
 
 .. figure:: https://github.com/laike9m/pdir2/raw/master/images/search.gif
    :alt: 
 
 | Search is case-insensitive by default.
-| You can use ``.search(name, case_sensitive=True)`` to do case
-  sensitive searching.
+| ``search(name, case_sensitive=True)`` does case sensitive searching.
+
+-  :star2: Attribute filtering
+
+``properties``: Find properties/variables defined in the inspected
+object.
+
+``methods``: Find methods/functions defined in the inspected object.
+
+``public``: Find public attributes.
+
+``own``: Find attributes that are not inherited from parent classes.
+
+These filters **can be chained!** Order does **NOT** matter.
+
+For example, use ``pdir(obj).public.own.methods`` to find all public own
+methods.
+
+You can also call ``search`` on the returned results.
+
+See a `complete
+example <https://github.com/laike9m/pdir2/wiki/Attribute-Filtering>`__.
+
+​
 
 Install
 -------
+
+Generic
+~~~~~~~
 
 ::
 
@@ -48,6 +75,18 @@ Install
 
 About the name. I wanted to call it "pdir", but there's already one with
 this name on pypi. Mine is better, of course.
+
+Fedora
+~~~~~~
+
+::
+
+    dnf install python3-pdir2
+    --or--
+    dnf install python2-pdir2
+
+Automatic Import
+----------------
 
 As a better alternative of ``dir()``, it's more convenient to
 automatically import pdir2 when launching REPL. Luckily, Python provides
