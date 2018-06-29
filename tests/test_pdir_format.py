@@ -1,6 +1,7 @@
 import sys
 
 import pdir
+import pytest
 
 
 def test_pdir_module():
@@ -54,6 +55,12 @@ def test_pdir_object():
     print(result)  # TODO: add real test.
 
 
+@pytest.mark.xfail(
+    sys.version_info[:2] not in ((2, 7), (3, 6)),
+    reason='not intended to be tested under Python {0.major}.{0.minor}'.format(
+        sys.version_info
+    )
+)
 def test_pdir_class():
     class T(object):
         pass
