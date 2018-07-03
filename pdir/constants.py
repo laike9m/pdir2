@@ -1,9 +1,8 @@
 import collections
 import inspect
+from enum import IntEnum
 from os.path import expanduser
 from sys import modules
-
-from enum import IntEnum
 
 from .utils import Incrementer
 
@@ -27,8 +26,8 @@ class AttrType(object):
         elif isinstance(other, AttrType):
             return other.categories == self.categories
         else:
-            raise TypeError('AttrCategory can\'t be compared with %s' %
-                            type(other))
+            raise TypeError(
+                'AttrCategory can\'t be compared with %s' % type(other))
 
     def __lt__(self, other):
         """For sorting attrs by max_category in output."""
@@ -87,8 +86,7 @@ ATTR_EXCEPTION_MAP = {
     "<type 'type'>": {  # py2
         '__abstractmethods__': None,  # ABSTRACT_CLASS.
     },
-    "<class 'type'>":
-    {  # py3
+    "<class 'type'>": {  # py3
         '__abstractmethods__': None,  # ABSTRACT_CLASS.
     }
 }
@@ -137,26 +135,34 @@ ATTR_MAP = {
     '__next__':
     AttrType(AttrCategory.ITER, AttrCategory.FUNCTION),
     '__reversed__': [
-        (lambda obj: isinstance(obj, collections.Iterator),
-         AttrType(AttrCategory.ITER, AttrCategory.FUNCTION), ),
-        (always_true, AttrType(AttrCategory.CONTAINER,
-                               AttrCategory.FUNCTION), ),
+        (
+            lambda obj: isinstance(obj, collections.Iterator),
+            AttrType(AttrCategory.ITER, AttrCategory.FUNCTION),
+        ),
+        (
+            always_true,
+            AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+        ),
     ],
     '__iter__': [
-        (lambda obj: isinstance(obj, collections.Iterator),
-         AttrType(AttrCategory.ITER, AttrCategory.FUNCTION), ),
-        (always_true, AttrType(AttrCategory.CONTAINER,
-                               AttrCategory.FUNCTION), ),
+        (
+            lambda obj: isinstance(obj, collections.Iterator),
+            AttrType(AttrCategory.ITER, AttrCategory.FUNCTION),
+        ),
+        (
+            always_true,
+            AttrType(AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+        ),
     ],
     '__enter__':
     AttrType(AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
     '__exit__':
     AttrType(AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
-    '__name__':
-    [(lambda obj: inspect.ismodule(obj),
-      AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY), ),
-     (always_true, AttrType(AttrCategory.SPECIAL_ATTRIBUTE,
-                            AttrCategory.PROPERTY))],
+    '__name__': [(
+        lambda obj: inspect.ismodule(obj),
+        AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    ), (always_true,
+        AttrType(AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY))],
     '__loader__':
     AttrType(AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__package__':
@@ -274,6 +280,8 @@ ATTR_MAP = {
     '__trunc__':
     AttrType(AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
     '__init__':
+    AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
+    '__post_init__':
     AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
     '__new__':
     AttrType(AttrCategory.OBJECT_CUSTOMIZATION, AttrCategory.FUNCTION),
