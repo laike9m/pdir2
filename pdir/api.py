@@ -196,6 +196,9 @@ class PrettyDir(object):
             # Technically, method_descriptor is descriptor, but since they
             # act as functions, let's treat them as functions.
             return AttrType(AttrCategory.FUNCTION)
+        elif isinstance(attr, staticmethod):
+            return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.STATIC_METHOD,
+                            AttrCategory.FUNCTION)
         elif is_descriptor(attr):
             # Maybe add getsetdescriptor memberdescriptor in the future.
             return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY)

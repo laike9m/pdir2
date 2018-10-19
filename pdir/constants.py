@@ -59,6 +59,7 @@ class AttrCategory(IntEnum):
     ATTRIBUTE_ACCESS = Incrementer.auto()
     DESCRIPTOR = Incrementer.auto()
     DESCRIPTOR_CLASS = Incrementer.auto()
+    STATIC_METHOD = Incrementer.auto()
     CLASS_CUSTOMIZATION = Incrementer.auto()
     CONTAINER = Incrementer.auto()
     COUROUTINE = Incrementer.auto()
