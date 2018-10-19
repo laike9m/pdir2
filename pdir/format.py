@@ -68,6 +68,7 @@ CATEGORY_FORMAT_TABLE = {
     AttrCategory.ATTRIBUTE_ACCESS: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.DESCRIPTOR: AttributeFormatterType.DESCRIPTOR,
     AttrCategory.DESCRIPTOR_CLASS: AttributeFormatterType.SINGLE_LINE,
+    AttrCategory.STATIC_METHOD: AttributeFormatterType.DESCRIPTOR,
     AttrCategory.CLASS_CUSTOMIZATION: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.CONTAINER: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.COUROUTINE: AttributeFormatterType.SINGLE_LINE,
