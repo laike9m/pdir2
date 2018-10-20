@@ -33,6 +33,10 @@ class AttrType(object):
         """For sorting attrs by max_category in output."""
         return str(self.max_category) < str(other.max_category)
 
+    def __str__(self):
+        categories_str = sorted([str(c) for c in self.categories])
+        return '<AttrType: {}>'.format(', '.join(categories_str))
+
 
 # Uses IntEnum so that we can directly compare AttrCategory objects.
 # Detailed categories are guaranteed to have large value, so
@@ -45,6 +49,8 @@ class AttrCategory(IntEnum):
     FUNCTION = Incrementer.auto()
     EXCEPTION = Incrementer.auto()
     PROPERTY = Incrementer.auto()
+    CLASS_VARIABLE = Incrementer.auto()
+    INSTANCE_VARIABLE = Incrementer.auto()
 
     # Detailed category.
     MODULE_ATTRIBUTE = Incrementer.auto()
@@ -60,6 +66,7 @@ class AttrCategory(IntEnum):
     DESCRIPTOR = Incrementer.auto()
     DESCRIPTOR_CLASS = Incrementer.auto()
     STATIC_METHOD = Incrementer.auto()
+    CLASS_METHOD = Incrementer.auto()
     CLASS_CUSTOMIZATION = Incrementer.auto()
     CONTAINER = Incrementer.auto()
     COUROUTINE = Incrementer.auto()

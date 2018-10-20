@@ -168,7 +168,7 @@ class PrettyDir(object):
 
     def __inspect_category(self, source):
         for name, attr in source.items():
-            category = ATTR_MAP.get(name, self.get_category(attr))
+            category = ATTR_MAP.get(name, self.get_category(name, attr))
             if isinstance(category, list):
                 for selector, real_category in category:
                     if selector(self.obj):
@@ -182,7 +182,7 @@ class PrettyDir(object):
         self._sorted_pattrs = sorted(self.pattrs, key=lambda x: x.name)
 
     @staticmethod
-    def get_category(attr):
+    def get_category(name, attr):
         if inspect.isclass(attr):
             return AttrType(AttrCategory.EXCEPTION) if issubclass(
                 attr, Exception) else AttrType(AttrCategory.CLASS)
@@ -199,13 +199,41 @@ class PrettyDir(object):
         elif isinstance(attr, staticmethod):
             return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.STATIC_METHOD,
                             AttrCategory.FUNCTION)
+        elif isinstance(attr, classmethod):
+            return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.CLASS_METHOD,
+                            AttrCategory.FUNCTION)
         elif is_descriptor(attr):
             # Maybe add getsetdescriptor memberdescriptor in the future.
             return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY)
         else:
             # attr that is neither function nor class is a normal variable,
-            # and it's classified to property.
-            return AttrType(AttrCategory.PROPERTY)
+            # Possible cases: local variable (checking current frame),
+            # instance variable, class variable
+            return [
+                    # if we are checking current frame
+                    (
+                        lambda obj: obj is default_obj,
+                        AttrType(AttrCategory.PROPERTY)
+                    ),
+                    # object is a class, certainly class variable
+                    (
+                        lambda obj: inspect.isclass(obj),
+                        AttrType(AttrCategory.PROPERTY, AttrCategory.CLASS_VARIABLE)
+                    ),
+                    # if not a class:
+                    (
+                        # in instance dict, instance variable
+                        # built in types have no __dict__, however, they also don't
+                        # have instance variables, so using __dict__ is allright here
+                        lambda obj: name in obj.__dict__,
+                        AttrType(AttrCategory.PROPERTY, AttrCategory.INSTANCE_VARIABLE)
+                    ),
+                    # other cases: assume to be class variable
+                    (
+                        always_true,
+                        AttrType(AttrCategory.PROPERTY, AttrCategory.CLASS_VARIABLE)
+                    ),
+                   ]
 
 
 class PrettyAttribute(object):

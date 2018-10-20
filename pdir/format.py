@@ -55,6 +55,8 @@ CATEGORY_FORMAT_TABLE = {
     AttrCategory.CLASS: AttributeFormatterType.MULTILINE_WITH_DOC,
     AttrCategory.EXCEPTION: AttributeFormatterType.MULTILINE_WITH_DOC,
     AttrCategory.PROPERTY: AttributeFormatterType.SINGLE_LINE,
+    AttrCategory.CLASS_VARIABLE: AttributeFormatterType.SINGLE_LINE,
+    AttrCategory.INSTANCE_VARIABLE: AttributeFormatterType.SINGLE_LINE,
     # Attribute
     AttrCategory.MODULE_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.SPECIAL_ATTRIBUTE: AttributeFormatterType.SINGLE_LINE,
@@ -69,6 +71,7 @@ CATEGORY_FORMAT_TABLE = {
     AttrCategory.DESCRIPTOR: AttributeFormatterType.DESCRIPTOR,
     AttrCategory.DESCRIPTOR_CLASS: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.STATIC_METHOD: AttributeFormatterType.DESCRIPTOR,
+    AttrCategory.CLASS_METHOD: AttributeFormatterType.DESCRIPTOR,
     AttrCategory.CLASS_CUSTOMIZATION: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.CONTAINER: AttributeFormatterType.SINGLE_LINE,
     AttrCategory.COUROUTINE: AttributeFormatterType.SINGLE_LINE,
