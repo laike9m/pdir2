@@ -1,43 +1,45 @@
-from .constants import *
+from ._internal_utils import is_bpython
 
 
 class Color(object):
-    def __init__(self, name, color_code, bright=False):
-        self.name = name
-        self.color_code = color_code
-        self.intensity = '1' if bright else '0'
-
-    def __repr__(self):
-        return ('', 'bright ')[self.intensity == '1'] + self.name
+    def __init__(self, color_code, bright=False):
+        self.color_code = str(color_code)
+        self.intensity = "1" if bright else "0"
 
     def wrap_text(self, text):
-        if repl_type == BPYTHON:
-            colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
-            if self.intensity == '0':
+        if is_bpython():
+            colored_text = "\033[%sm%s\033[0m" % (self.color_code, text)
+            if self.intensity == "0":
                 return colored_text
             else:
-                return '\033[1m' + colored_text
+                return "\033[1m" + colored_text
         else:
-            return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code,
-                                             text)
+            return "\033[%s;%sm%s\033[0m" % (self.intensity, self.color_code, text)
+
+    def __eq__(self, other):
+        return self.color_code == other.color_code
+
+    def __repr__(self):
+        return "\033[%sm%s\033[0m" % (self.color_code, "color")
 
 
-COLOR_TABLE = {
-    BLACK: Color(BLACK, '30'),
-    BRIGHT_BLACK: Color(BRIGHT_BLACK, '30', True),
-    GREY: Color(GREY, '30', True),
-    RED: Color(RED, '31'),
-    BRIGHT_RED: Color(BRIGHT_RED, '31', True),
-    GREEN: Color(GREEN, '32'),
-    BRIGHT_GREEN: Color(BRIGHT_GREEN, '32', True),
-    YELLOW: Color(YELLOW, '33'),
-    BRIGHT_YELLOW: Color(BRIGHT_YELLOW, '33', True),
-    BLUE: Color(BLUE, '34'),
-    BRIGHT_BLUE: Color(BRIGHT_BLUE, '34', True),
-    MAGENTA: Color(MAGENTA, '35'),
-    BRIGHT_MAGENTA: Color(BRIGHT_MAGENTA, '35', True),
-    CYAN: Color(CYAN, '36'),
-    BRIGHT_CYAN: Color(BRIGHT_CYAN, '36', True),
-    WHITE: Color(WHITE, '37'),
-    BRIGHT_WHITE: Color(BRIGHT_WHITE, '37', True),
+# TODO: use enum for colors
+COLORS = {
+    "black": Color(30),
+    "bright black": Color(30, True),
+    "grey": Color(30, True),
+    "red": Color(31),
+    "bright red": Color(31, True),
+    "green": Color(32),
+    "bright green": Color(32, True),
+    "yellow": Color(33),
+    "bright yellow": Color(33, True),
+    "blue": Color(34),
+    "bright blue": Color(34, True),
+    "magenta": Color(35),
+    "bright magenta": Color(35, True),
+    "cyan": Color(36),
+    "bright cyan": Color(36, True),
+    "white": Color(37),
+    "bright white": Color(37, True),
 }

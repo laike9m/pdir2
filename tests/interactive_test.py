@@ -1,4 +1,6 @@
 import pdir
+from pdir._internal_utils import _get_repl_type
+from pdir.constants import ReplType
 
 
 def interactive_test():
@@ -8,11 +10,12 @@ def interactive_test():
     because print(string) is not equivalent to repr it in a REPL.
     To ensure everything truely works, manually verification is necessary.
     """
-    print("Environment: " + pdir.repl_type)
+    print("Environment: " + _get_repl_type().value)
     import requests
     print("\nShould show result of pdir(requests):")
     print(pdir(requests))
-    if pdir.repl_type == 'bpython':
+    # if any('bpython' in key for key in sys.modules):
+    if _get_repl_type() == ReplType.BPYTHON:
         import sys
 
         # exit() in bpython interactive mode leads to a ValueError.
@@ -22,10 +25,7 @@ def interactive_test():
             sys.exit(0)
 
         sys.excepthook = deal_with_exception_when_exit
-        try:
-            exit()
-        except:
-            pass
+        exit()
     else:
         exit()
 

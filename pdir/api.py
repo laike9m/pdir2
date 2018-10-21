@@ -8,12 +8,12 @@ from __future__ import print_function
 
 import inspect
 import platform
-from itertools import groupby
 from sys import _getframe
 
+from ._internal_utils import category_match, get_dict_attr, is_ptpython
+from .attr_category import AttrCategory, get_attr_category
 from .constants import *
-from .format import format_category
-from .utils import get_dict_attr, is_descriptor
+from .format import format_pattrs
 
 if platform.system() == 'Windows':
     from colorama import init
@@ -23,9 +23,27 @@ if platform.system() == 'Windows':
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    repl_type = repl_type
+    # There are always exceptions, aka attributes cannot be accessed by
+    # getattr. They are recorded here, along with the type/class of their host
+    # objects.
+    ATTR_EXCEPTIONS = {
+        "<type 'spacy.tokens.token.Token'>": {
+            'has_repvec': dummy_obj,
+            'repvec': dummy_obj,
+        },
+        "<class 'pandas.core.frame.DataFrame'>": {
+            'columns': None,  # DEFAULT_CATEGORY.
+            'index': None,
+        },
+        "<type 'type'>": {  # py2
+            '__abstractmethods__': None,  # ABSTRACT_CLASS.
+        },
+        "<class 'type'>": {  # py3
+            '__abstractmethods__': None,  # ABSTRACT_CLASS.
+        }
+    }
 
-    def __init__(self, obj=default_obj, pattrs=None):
+    def __init__(self, obj=dummy_obj, pattrs=None):
         """
         Args:
             obj: The object to inspect.
@@ -34,46 +52,42 @@ class PrettyDir(object):
         self.obj = obj
         if pattrs is None:
             self.pattrs = []
-            self._sorted_pattrs = None
-            if obj is default_obj:
+            if obj is dummy_obj:
                 source = _getframe(1).f_locals
             else:
                 source = {}
                 for name in dir(obj):
-                    attr = self.__getattr_wrapper(name)
-                    if attr is not skipped_attribute:
+                    attr = self._getattr(name)
+                    if attr is not dummy_obj:
                         source[name] = attr
-            self.__inspect_category(source)
+            self.dir_result = sorted(list(source.keys()))
+            self.pattrs = [
+                PrettyAttribute(name, get_attr_category(name, attr, self.obj),
+                                attr) for name, attr in source.items()
+            ]
         else:
             self.pattrs = pattrs
-            self._sorted_pattrs = sorted(pattrs, key=lambda x: x.name)
+            self.dir_result = sorted([p.name for p in pattrs])
 
     def __repr__(self):
-        if repl_type == PTPYTHON:
+        if is_ptpython():
             print(self.repr_str, end='')
             return ''
         else:
             return self.repr_str
 
     def __len__(self):
-        return len(self.pattrs)
+        return len(self.dir_result)
 
     def __getitem__(self, index):
-        return self._sorted_pattrs[index].name
+        return self.dir_result[index]
 
     def index(self, value):
-        return self._sorted_pattrs.index(value)
+        return self.dir_result.index(value)
 
     @property
     def repr_str(self):
-        output = []
-        for category, pattrs in groupby(self.pattrs,
-                                        lambda x: x.category.max_category):
-            # Format is determined by max_category.
-            output.append(format_category(category, pattrs))
-
-        output.sort(key=lambda x: x[0])
-        return '\n'.join(category_output[1] for category_output in output)
+        return format_pattrs(self.pattrs)
 
     def search(self, term, case_sensitive=False):
         """Searches for names that match some pattern.
@@ -93,9 +107,9 @@ class PrettyDir(object):
                 [pattr for pattr in self.pattrs if term in pattr.name])
         else:
             term = term.lower()
-            return PrettyDir(self.obj, [
-                pattr for pattr in self.pattrs if term in pattr.name.lower()
-            ])
+            return PrettyDir(
+                self.obj,
+                [pattr for pattr in self.pattrs if term in pattr.name.lower()])
 
     s = search
 
@@ -112,7 +126,7 @@ class PrettyDir(object):
         """
         return PrettyDir(self.obj, [
             pattr for pattr in self.pattrs
-            if pattr.category == AttrCategory.PROPERTY
+            if category_match(pattr.category, AttrCategory.PROPERTY)
         ])
 
     @property
@@ -123,15 +137,15 @@ class PrettyDir(object):
         """
         return PrettyDir(self.obj, [
             pattr for pattr in self.pattrs
-            if pattr.category == AttrCategory.FUNCTION
+            if category_match(pattr.category, AttrCategory.FUNCTION)
         ])
 
     @property
     def public(self):
         """Returns public attributes of the inspected object."""
-        return PrettyDir(self.obj, [
-            pattr for pattr in self.pattrs if not pattr.name.startswith('_')
-        ])
+        return PrettyDir(
+            self.obj,
+            [pattr for pattr in self.pattrs if not pattr.name.startswith('_')])
 
     @property
     def own(self):
@@ -146,17 +160,17 @@ class PrettyDir(object):
         """
         return PrettyDir(self.obj, [
             pattr for pattr in self.pattrs
-            if pattr.name in type(
-                self.obj).__dict__ or pattr.name in self.obj.__dict__
+            if pattr.name in type(self.obj).__dict__
+            or pattr.name in self.obj.__dict__
         ])
 
-    def __getattr_wrapper(self, name):
+    def _getattr(self, name):
         """A wrapper around getattr(), handling some exceptions."""
         if inspect.isclass(self.obj):
-            if name in ATTR_EXCEPTION_MAP.get(str(self.obj), {}):
-                return ATTR_EXCEPTION_MAP[str(self.obj)][name]
-        elif name in ATTR_EXCEPTION_MAP.get(str(type(self.obj)), {}):
-            return ATTR_EXCEPTION_MAP[str(type(self.obj))][name]
+            if name in self.ATTR_EXCEPTIONS.get(str(self.obj), {}):
+                return self.ATTR_EXCEPTIONS[str(self.obj)][name]
+        elif name in self.ATTR_EXCEPTIONS.get(str(type(self.obj)), {}):
+            return self.ATTR_EXCEPTIONS[str(type(self.obj))][name]
 
         # TODO: use try..except and attach exception message to output.
         try:
@@ -166,52 +180,16 @@ class PrettyDir(object):
         except AttributeError:
             return getattr(self.obj, name)
 
-    def __inspect_category(self, source):
-        for name, attr in source.items():
-            category = ATTR_MAP.get(name, self.get_category(attr))
-            if isinstance(category, list):
-                for selector, real_category in category:
-                    if selector(self.obj):
-                        category = real_category
-                        break
-                else:
-                    raise ValueError('category not match: ' + name)
-            self.pattrs.append(PrettyAttribute(name, category, attr))
-
-        self.pattrs.sort(key=lambda x: (x.category, x.name))
-        self._sorted_pattrs = sorted(self.pattrs, key=lambda x: x.name)
-
-    @staticmethod
-    def get_category(attr):
-        if inspect.isclass(attr):
-            return AttrType(AttrCategory.EXCEPTION) if issubclass(
-                attr, Exception) else AttrType(AttrCategory.CLASS)
-        elif inspect.isfunction(attr):
-            return AttrType(AttrCategory.FUNCTION)
-        elif inspect.ismethod(attr):
-            return AttrType(AttrCategory.FUNCTION)
-        elif inspect.isbuiltin(attr):
-            return AttrType(AttrCategory.FUNCTION)
-        elif isinstance(attr, method_descriptor):
-            # Technically, method_descriptor is descriptor, but since they
-            # act as functions, let's treat them as functions.
-            return AttrType(AttrCategory.FUNCTION)
-        elif isinstance(attr, staticmethod):
-            return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.STATIC_METHOD,
-                            AttrCategory.FUNCTION)
-        elif is_descriptor(attr):
-            # Maybe add getsetdescriptor memberdescriptor in the future.
-            return AttrType(AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY)
-        else:
-            # attr that is neither function nor class is a normal variable,
-            # and it's classified to property.
-            return AttrType(AttrCategory.PROPERTY)
-
 
 class PrettyAttribute(object):
     def __init__(self, name, category, attr_obj):
         self.name = name
         self.category = category
+        # Names are grouped by their category. When multiple categories exist,
+        # pick the largest one which usually represents a more detailed
+        # category.
+        self.display_group = max(category) if isinstance(category,
+                                                         tuple) else category
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
 
@@ -224,7 +202,7 @@ class PrettyAttribute(object):
         should be put after the attr's name as an explanation.
         """
         attr = self.attr_obj
-        if self.category == AttrCategory.DESCRIPTOR:
+        if self.display_group == AttrCategory.DESCRIPTOR:
             if isinstance(attr, property):
                 doc_list = ['@property with getter']
                 if attr.fset:

@@ -13,6 +13,8 @@ import shutil
 from sys import modules
 
 import pytest
+from pdir.color import COLORS
+
 if pytest.__version__[0] == '2':
     from pytest import yield_fixture as fixture
 elif pytest.__version__[0] == '3':
@@ -53,10 +55,10 @@ def test_read_config(clean):
     # 'clean' is the DEFAULT_CONFIG_FILE yielded from fixture.
     shutil.copyfile('tests/data/config_1.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
-    assert doc_color.name == 'white'
-    assert category_color.name == 'bright yellow'
+    assert doc_color == COLORS['white']
+    assert category_color == COLORS['bright yellow']
     assert comma == '\033[1;32m, \033[0m'
-    assert attribute_color.name == 'cyan'
+    assert attribute_color == COLORS['cyan']
 
 
 def test_read_config_from_custom_location(clean):
@@ -64,28 +66,28 @@ def test_read_config_from_custom_location(clean):
         os.path.expanduser("~"), '.myconfig')
     shutil.copyfile('tests/data/config_1.ini', os.environ['PDIR2_CONFIG_FILE'])
     from pdir.format import doc_color, category_color, attribute_color, comma
-    assert doc_color.name == 'white'
-    assert category_color.name == 'bright yellow'
+    assert doc_color == COLORS['white']
+    assert category_color == COLORS['bright yellow']
     assert comma == '\033[1;32m, \033[0m'
-    assert attribute_color.name == 'cyan'
+    assert attribute_color == COLORS['cyan']
 
 
 def test_uniform_color(clean):
     shutil.copyfile('tests/data/config_2.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
-    assert doc_color.name == 'white'
-    assert category_color.name == 'white'
+    assert doc_color == COLORS['white']
+    assert category_color == COLORS['white']
     assert comma == '\033[0;37m, \033[0m'
-    assert attribute_color.name == 'white'
+    assert attribute_color == COLORS['white']
 
 
 def test_empty_config(clean):
     shutil.copyfile('tests/data/empty_config.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
-    assert doc_color.name == 'grey'
-    assert category_color.name == 'yellow'
+    assert doc_color == COLORS['grey']
+    assert category_color == COLORS['yellow']
     assert comma == '\033[1;30m, \033[0m'
-    assert attribute_color.name == 'cyan'
+    assert attribute_color == COLORS['cyan']
 
 
 def test_invalid_config_1(clean):

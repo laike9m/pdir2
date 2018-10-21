@@ -3,7 +3,8 @@ Test attrs that previously caused bugs.
 """
 
 import pdir
-from pdir.constants import AttrCategory
+from pdir._internal_utils import category_match
+from pdir.attr_category import AttrCategory
 
 
 def test_dataframe():
@@ -11,14 +12,14 @@ def test_dataframe():
     result = pdir(DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
-            assert attr.category == AttrCategory.PROPERTY
+            assert category_match(attr.category, AttrCategory.PROPERTY)
 
 
 def test_type():
     result = pdir(type)
     for attr in result.pattrs:
         if attr.name == '__abstractmethods__':
-            assert attr.category == AttrCategory.ABSTRACT_CLASS
+            assert category_match(attr.category, AttrCategory.ABSTRACT_CLASS)
             return
 
 
@@ -26,7 +27,7 @@ def test_list():
     result = pdir(list)
     for attr in result.pattrs:
         if attr.name == 'append':
-            assert attr.category == AttrCategory.FUNCTION
+            assert category_match(attr.category, AttrCategory.FUNCTION)
             return
 
 
@@ -89,14 +90,14 @@ def test_descriptor():
     pattrs = pdir(t).pattrs
     for pattr in pattrs:
         if pattr.name == 'd':
-            assert pattr.category == AttrCategory.DESCRIPTOR
+            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
             assert pattr.doc == ('class D with getter, setter, deleter, '
                                  'this is D')
         if pattr.name == 'r':
-            assert pattr.category == AttrCategory.DESCRIPTOR
+            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
             assert pattr.doc == ('class RevealAccess with getter, setter, '
                                  'deleter, this is R')
         if pattr.name == 'p':
-            assert pattr.category == AttrCategory.DESCRIPTOR
+            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
             assert pattr.doc == ('@property with getter, setter, '
                                  'deleter, this is p')

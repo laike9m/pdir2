@@ -7,45 +7,54 @@ except ImportError:
     from ConfigParser import ConfigParser
 
 import os
+from os.path import expanduser
 
-from .constants import *
-from .color import COLOR_TABLE
+from .color import COLORS
+
+# User Configuration
+DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
+CONFIG_FILE_ENV = 'PDIR2_CONFIG_FILE'
+DEFAULT = 'global'
+UNIFORM_COLOR = 'uniform-color'
+CATEGORY_COLOR = 'category-color'
+ATTRIBUTE_COLOR = 'attribute-color'
+COMMA_COLOR = 'comma-color'
+DOC_COLOR = 'doc-color'
+VALID_CONFIG_KEYS = frozenset(
+    {UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR})
 
 
 class Configuration(object):
 
-    DEFAULT_CONFIG = {
-        UNIFORM_COLOR: None,
-        CATEGORY_COLOR: YELLOW,
-        ATTRIBUTE_COLOR: CYAN,
-        COMMA_COLOR: GREY,
-        DOC_COLOR: GREY,
-    }
+    _uniform_color = None
+    _category_color = COLORS['yellow']
+    _attribute_color = COLORS['cyan']
+    _comma_color = COLORS['grey']
+    _doc_color = COLORS['grey']
 
     def __init__(self):
         self._configparser = ConfigParser()
-        self._config = self.DEFAULT_CONFIG
         self._load()
 
     @property
     def uniform_color(self):
-        return COLOR_TABLE.get(self._config[UNIFORM_COLOR], None)
+        return self._uniform_color
 
     @property
     def category_color(self):
-        return COLOR_TABLE[self._config[CATEGORY_COLOR]]
+        return self._category_color
 
     @property
     def attribute_color(self):
-        return COLOR_TABLE[self._config[ATTRIBUTE_COLOR]]
+        return self._attribute_color
 
     @property
     def comma_color(self):
-        return COLOR_TABLE[self._config[COMMA_COLOR]]
+        return self._comma_color
 
     @property
     def doc_color(self):
-        return COLOR_TABLE[self._config[DOC_COLOR]]
+        return self._doc_color
 
     def _load(self):
         config_file = os.environ.get(CONFIG_FILE_ENV, DEFAULT_CONFIG_FILE)
@@ -64,17 +73,25 @@ class Configuration(object):
 
         # UNIFORM_COLOR suppresses other settings.
         if UNIFORM_COLOR in user_config_dict:
-            uniform_color = user_config_dict[UNIFORM_COLOR]
-            for key in self._config:
-                self._config[key] = uniform_color
+            self._uniform_color = COLORS[user_config_dict[UNIFORM_COLOR]]
             return
 
-        for key, value in user_config_dict.items():
-            if key not in VALID_CONFIG_KEYS:
-                raise ValueError('Invalid key: %s' % key)
-            if value not in VALID_COLORS:
-                raise ValueError('Invalid color value: %s' % value)
-            self._config[key] = value
+        for item, color in user_config_dict.items():
+            if item not in VALID_CONFIG_KEYS:
+                raise ValueError('Invalid key: %s' % item)
+            if color not in set(COLORS.keys()):
+                raise ValueError('Invalid color value: %s' % color)
+            # item uses "-", e.g. "doc-color"
+            self.__setattr__('_' + item.replace('-', '_'), COLORS[color])
 
 
-cfg = Configuration()
+_cfg = Configuration()
+
+if _cfg.uniform_color:
+    category_color = attribute_color = doc_color = _cfg.uniform_color
+    comma = _cfg.uniform_color.wrap_text(', ')
+else:
+    category_color = _cfg.category_color
+    attribute_color = _cfg.attribute_color
+    doc_color = _cfg.doc_color
+    comma = _cfg.comma_color.wrap_text(', ')
