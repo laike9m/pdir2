@@ -23,7 +23,6 @@ class Color(object):
         return "\033[%sm%s\033[0m" % (self.color_code, "color")
 
 
-# TODO: use enum for colors
 COLORS = {
     "black": Color(30),
     "bright black": Color(30, True),
