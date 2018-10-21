@@ -13,12 +13,10 @@ setup(
     author='laike9m',
     author_email='laike9m@gmail.com',
     url='http://github.com/laike9m/pdir2',
-    packages=[
-        'pdir',
-    ],
+    packages=['pdir'],
     setup_requires=[
         # minimum version to use environment markers
-        'setuptools>=20.6.8',
+        'setuptools>=20.6.8'
     ],
     install_requires=[
         'colorama;platform_system=="Windows"',
@@ -38,4 +36,5 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Programming Language :: Python :: Implementation :: CPython',
-    ], )
+    ],
+)

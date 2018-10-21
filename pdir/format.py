@@ -1,6 +1,6 @@
-"""
+'''
 Defines how attr is organized and displayed.
-"""
+'''
 from collections import namedtuple
 from itertools import groupby
 
@@ -23,22 +23,22 @@ def format_pattrs(pattrs):
             _FORMATTER[display_group].formatter(display_group, grouped_pattrs)
         )
 
-    return "\n".join(output)
+    return '\n'.join(output)
 
 
 def _format_single_line(category, attrs):
-    category_line = category_color.wrap_text(str(category) + ":")
-    return "{0}\n    {1}".format(
+    category_line = category_color.wrap_text(str(category) + ':')
+    return '{0}\n    {1}'.format(
         category_line,
         comma.join(attribute_color.wrap_text(attr.name) for attr in attrs),
     )
 
 
 def _format_multiline_with_doc(category, attrs):
-    category_line = category_color.wrap_text(str(category) + ":") + "\n"
-    return category_line + "\n".join(
-        "    {0} {1}".format(
-            attribute_color.wrap_text(attr.name + ":"), doc_color.wrap_text(attr.doc)
+    category_line = category_color.wrap_text(str(category) + ':') + '\n'
+    return category_line + '\n'.join(
+        '    {0} {1}'.format(
+            attribute_color.wrap_text(attr.name + ':'), doc_color.wrap_text(attr.doc)
         )
         for attr in attrs
     )
@@ -49,7 +49,7 @@ def _format_descriptor(category, attrs):
 
 
 _AttributeGroupFormatter = namedtuple(
-    "_AttributeGroupFormatter", ["display_index", "formatter"]
+    '_AttributeGroupFormatter', ['display_index', 'formatter']
 )
 
 _single_line = _AttributeGroupFormatter(display_index=0, formatter=_format_single_line)

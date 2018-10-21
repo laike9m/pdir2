@@ -12,11 +12,12 @@ from sys import _getframe
 
 from ._internal_utils import category_match, get_dict_attr, is_ptpython
 from .attr_category import AttrCategory, get_attr_category
-from .constants import *
+from .constants import dummy_obj, GETTER, SETTER, DELETER
 from .format import format_pattrs
 
 if platform.system() == 'Windows':
     from colorama import init
+
     init()  # To support Windows.
 
 
@@ -35,12 +36,8 @@ class PrettyDir(object):
             'columns': None,  # DEFAULT_CATEGORY.
             'index': None,
         },
-        "<type 'type'>": {  # py2
-            '__abstractmethods__': None,  # ABSTRACT_CLASS.
-        },
-        "<class 'type'>": {  # py3
-            '__abstractmethods__': None,  # ABSTRACT_CLASS.
-        }
+        "<type 'type'>": {'__abstractmethods__': None},  # py2  # ABSTRACT_CLASS.
+        "<class 'type'>": {'__abstractmethods__': None},  # py3  # ABSTRACT_CLASS.
     }
 
     def __init__(self, obj=dummy_obj, pattrs=None):
@@ -62,8 +59,8 @@ class PrettyDir(object):
                         source[name] = attr
             self.dir_result = sorted(list(source.keys()))
             self.pattrs = [
-                PrettyAttribute(name, get_attr_category(name, attr, self.obj),
-                                attr) for name, attr in source.items()
+                PrettyAttribute(name, get_attr_category(name, attr, self.obj), attr)
+                for name, attr in source.items()
             ]
         else:
             self.pattrs = pattrs
@@ -103,13 +100,13 @@ class PrettyDir(object):
         """
         if case_sensitive:
             return PrettyDir(
-                self.obj,
-                [pattr for pattr in self.pattrs if term in pattr.name])
+                self.obj, [pattr for pattr in self.pattrs if term in pattr.name]
+            )
         else:
             term = term.lower()
             return PrettyDir(
-                self.obj,
-                [pattr for pattr in self.pattrs if term in pattr.name.lower()])
+                self.obj, [pattr for pattr in self.pattrs if term in pattr.name.lower()]
+            )
 
     s = search
 
@@ -124,10 +121,14 @@ class PrettyDir(object):
 
         Note that "properties" can mean "variables".
         """
-        return PrettyDir(self.obj, [
-            pattr for pattr in self.pattrs
-            if category_match(pattr.category, AttrCategory.PROPERTY)
-        ])
+        return PrettyDir(
+            self.obj,
+            [
+                pattr
+                for pattr in self.pattrs
+                if category_match(pattr.category, AttrCategory.PROPERTY)
+            ],
+        )
 
     @property
     def methods(self):
@@ -135,17 +136,21 @@ class PrettyDir(object):
 
         Note that "methods" can mean "functions" when inspecting a module.
         """
-        return PrettyDir(self.obj, [
-            pattr for pattr in self.pattrs
-            if category_match(pattr.category, AttrCategory.FUNCTION)
-        ])
+        return PrettyDir(
+            self.obj,
+            [
+                pattr
+                for pattr in self.pattrs
+                if category_match(pattr.category, AttrCategory.FUNCTION)
+            ],
+        )
 
     @property
     def public(self):
         """Returns public attributes of the inspected object."""
         return PrettyDir(
-            self.obj,
-            [pattr for pattr in self.pattrs if not pattr.name.startswith('_')])
+            self.obj, [pattr for pattr in self.pattrs if not pattr.name.startswith('_')]
+        )
 
     @property
     def own(self):
@@ -158,11 +163,15 @@ class PrettyDir(object):
         are initialized in instance class's __init__ and parent class's
         __init__(assuming super() is called). So we'll just leave it.
         """
-        return PrettyDir(self.obj, [
-            pattr for pattr in self.pattrs
-            if pattr.name in type(self.obj).__dict__
-            or pattr.name in self.obj.__dict__
-        ])
+        return PrettyDir(
+            self.obj,
+            [
+                pattr
+                for pattr in self.pattrs
+                if pattr.name in type(self.obj).__dict__
+                or pattr.name in self.obj.__dict__
+            ],
+        )
 
     def _getattr(self, name):
         """A wrapper around getattr(), handling some exceptions."""
@@ -188,8 +197,7 @@ class PrettyAttribute(object):
         # Names are grouped by their category. When multiple categories exist,
         # pick the largest one which usually represents a more detailed
         # category.
-        self.display_group = max(category) if isinstance(category,
-                                                         tuple) else category
+        self.display_group = max(category) if isinstance(category, tuple) else category
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
 

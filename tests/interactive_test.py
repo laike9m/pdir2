@@ -10,9 +10,10 @@ def interactive_test():
     because print(string) is not equivalent to repr it in a REPL.
     To ensure everything truely works, manually verification is necessary.
     """
-    print("Environment: " + _get_repl_type().value)
+    print('Environment: ' + _get_repl_type().value)
     import requests
-    print("\nShould show result of pdir(requests):")
+
+    print('\nShould show result of pdir(requests):')
     print(pdir(requests))
     # if any('bpython' in key for key in sys.modules):
     if _get_repl_type() == ReplType.BPYTHON:
