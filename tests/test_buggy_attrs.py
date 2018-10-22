@@ -101,3 +101,14 @@ def test_descriptor():
         if pattr.name == "p":
             assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
             assert pattr.doc == ("@property with getter, setter, " "deleter, this is p")
+
+
+class A:
+    __slots__ = ['a']
+
+
+def test_slots():
+    a = A()
+    assert len(pdir(a).public.pattrs) == 0
+    a.a = 1
+    assert category_match(pdir(a).public.pattrs[0].category, AttrCategory.PROPERTY)

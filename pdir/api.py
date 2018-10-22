@@ -183,11 +183,18 @@ class PrettyDir(object):
 
         # TODO: use try..except and attach exception message to output.
         try:
-            # This is to ensure we get descriptor object instead of
-            # its return value.
-            return get_dict_attr(self.obj, name)
+            try:
+                # This is to ensure we get descriptor object instead of
+                # its return value.
+                return get_dict_attr(self.obj, name)
+            except AttributeError:
+                return getattr(self.obj, name)
+        # This is for checking class with __slots__ which doesn't have __dict__
         except AttributeError:
-            return getattr(self.obj, name)
+            if hasattr(self.obj, '__slots__') and name in self.obj.__slots__:
+                return dummy_obj
+            else:
+                raise AttributeError
 
 
 class PrettyAttribute(object):
