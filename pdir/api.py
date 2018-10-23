@@ -24,22 +24,6 @@ if platform.system() == 'Windows':
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    # There are always exceptions, aka attributes cannot be accessed by
-    # getattr. They are recorded here, along with the type/class of their host
-    # objects.
-    ATTR_EXCEPTIONS = {
-        "<type 'spacy.tokens.token.Token'>": {
-            'has_repvec': dummy_obj,
-            'repvec': dummy_obj,
-        },
-        "<class 'pandas.core.frame.DataFrame'>": {
-            'columns': None,  # DEFAULT_CATEGORY.
-            'index': None,
-        },
-        "<type 'type'>": {'__abstractmethods__': None},  # py2  # ABSTRACT_CLASS.
-        "<class 'type'>": {'__abstractmethods__': None},  # py3  # ABSTRACT_CLASS.
-    }
-
     def __init__(self, obj=dummy_obj, pattrs=None):
         """
         Args:
@@ -48,19 +32,11 @@ class PrettyDir(object):
         """
         self.obj = obj
         if pattrs is None:
-            self.pattrs = []
-            if obj is dummy_obj:
-                source = _getframe(1).f_locals
-            else:
-                source = {}
-                for name in dir(obj):
-                    attr = self._getattr(name)
-                    if attr is not dummy_obj:
-                        source[name] = attr
-            self.dir_result = sorted(list(source.keys()))
+            attrs = _getframe(1).f_locals if obj is dummy_obj else self._getattr()
+            self.dir_result = sorted(list(attrs.keys()))
             self.pattrs = [
-                PrettyAttribute(name, get_attr_category(name, attr, self.obj), attr)
-                for name, attr in source.items()
+                PrettyAttribute(name, get_attr_category(name, attr, obj), attr)
+                for name, attr in attrs.items()
             ]
         else:
             self.pattrs = pattrs
@@ -173,21 +149,16 @@ class PrettyDir(object):
             ],
         )
 
-    def _getattr(self, name):
+    def _getattr(self):
         """A wrapper around getattr(), handling some exceptions."""
-        if inspect.isclass(self.obj):
-            if name in self.ATTR_EXCEPTIONS.get(str(self.obj), {}):
-                return self.ATTR_EXCEPTIONS[str(self.obj)][name]
-        elif name in self.ATTR_EXCEPTIONS.get(str(type(self.obj)), {}):
-            return self.ATTR_EXCEPTIONS[str(type(self.obj))][name]
-
-        # TODO: use try..except and attach exception message to output.
-        try:
-            # This is to ensure we get descriptor object instead of
-            # its return value.
-            return get_dict_attr(self.obj, name)
-        except AttributeError:
-            return getattr(self.obj, name)
+        attrs = {}
+        for name in dir(self.obj):
+            try:
+                # Ensures we get descriptor object instead of its return value.
+                attrs[name] = get_dict_attr(self.obj, name)
+            except AttributeError:
+                attrs[name] = getattr(self.obj, name)
+        return attrs
 
 
 class PrettyAttribute(object):
