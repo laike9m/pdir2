@@ -1,6 +1,6 @@
-'''
+"""
 Defines how attr is organized and displayed.
-'''
+"""
 from collections import namedtuple
 from itertools import groupby
 

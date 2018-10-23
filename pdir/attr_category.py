@@ -37,9 +37,9 @@ class AttrCategory(IntEnum):
     PICKLE = Incrementer.auto()
 
     def __str__(self):
-        '''
+        """
         e.g. RICH_COMPARISON -> rich comparison
-        '''
+        """
         return ' '.join(self.name.split('_')).lower()
 
 

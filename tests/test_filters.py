@@ -46,68 +46,68 @@ def test_properties():
     assert items_equal(
         [p.name for p in pdir(inst).properties.pattrs],
         [
-            "base_class_variable",
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
-            "__class__",
-            "__dict__",
-            "__doc__",
-            "__module__",
-            "__weakref__",
+            'base_class_variable',
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
+            '__class__',
+            '__dict__',
+            '__doc__',
+            '__module__',
+            '__weakref__',
         ],
     )
 
 
 def test_methods():
-    if sys.version[0] == "2":
+    if sys.version[0] == '2':
         assert items_equal(
             [p.name for p in pdir(inst).methods.pattrs],
             [
-                "__subclasshook__",
-                "__delattr__",
-                "__getattribute__",
-                "__setattr__",
-                "base_method",
-                "derived_method",
-                "__format__",
-                "__hash__",
-                "__init__",
-                "__new__",
-                "__repr__",
-                "__sizeof__",
-                "__str__",
-                "__reduce__",
-                "__reduce_ex__",
+                '__subclasshook__',
+                '__delattr__',
+                '__getattribute__',
+                '__setattr__',
+                'base_method',
+                'derived_method',
+                '__format__',
+                '__hash__',
+                '__init__',
+                '__new__',
+                '__repr__',
+                '__sizeof__',
+                '__str__',
+                '__reduce__',
+                '__reduce_ex__',
             ],
         )
     else:
         assert items_equal(
             [p.name for p in pdir(inst).methods.pattrs],
             [
-                "__subclasshook__",
-                "__delattr__",
-                "__dir__",
-                "__getattribute__",
-                "__setattr__",
-                "__init_subclass__",
-                "base_method",
-                "derived_method",
-                "__format__",
-                "__hash__",
-                "__init__",
-                "__new__",
-                "__repr__",
-                "__sizeof__",
-                "__str__",
-                "__reduce__",
-                "__reduce_ex__",
-                "__eq__",
-                "__ge__",
-                "__gt__",
-                "__le__",
-                "__lt__",
-                "__ne__",
+                '__subclasshook__',
+                '__delattr__',
+                '__dir__',
+                '__getattribute__',
+                '__setattr__',
+                '__init_subclass__',
+                'base_method',
+                'derived_method',
+                '__format__',
+                '__hash__',
+                '__init__',
+                '__new__',
+                '__repr__',
+                '__sizeof__',
+                '__str__',
+                '__reduce__',
+                '__reduce_ex__',
+                '__eq__',
+                '__ge__',
+                '__gt__',
+                '__le__',
+                '__lt__',
+                '__ne__',
             ],
         )
 
@@ -116,12 +116,12 @@ def test_public():
     assert items_equal(
         [p.name for p in pdir(inst).public.pattrs],
         [
-            "base_method",
-            "derived_method",
-            "base_class_variable",
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
+            'base_method',
+            'derived_method',
+            'base_class_variable',
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
         ],
     )
 
@@ -130,13 +130,13 @@ def test_own():
     assert items_equal(
         [p.name for p in pdir(inst).own.pattrs],
         [
-            "derived_method",
-            "__init__",
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
-            "__doc__",
-            "__module__",
+            'derived_method',
+            '__init__',
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
+            '__doc__',
+            '__module__',
         ],
     )
 
@@ -145,9 +145,9 @@ def test_chained_filters():
     assert items_equal(
         [p.name for p in pdir(inst).public.own.properties.pattrs],
         [
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
         ],
     )
 
@@ -156,17 +156,17 @@ def test_order_of_chained_filters():
     assert items_equal(
         [p.name for p in pdir(inst).own.properties.public.pattrs],
         [
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
         ],
     )
     assert items_equal(
         [p.name for p in pdir(inst).properties.public.own.pattrs],
         [
-            "base_instance_variable",
-            "derived_class_variable",
-            "derived_instance_variable",
+            'base_instance_variable',
+            'derived_class_variable',
+            'derived_instance_variable',
         ],
     )
 
@@ -176,7 +176,7 @@ def test_filters_with_search():
         assert items_equal(
             [
                 p.name
-                for p in pdir(inst).public.own.properties.search("derived_in").pattrs
+                for p in pdir(inst).public.own.properties.search('derived_in').pattrs
             ],
-            ["derived_instance_variable"],
+            ['derived_instance_variable'],
         )
