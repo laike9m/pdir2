@@ -44,10 +44,10 @@ class PrettyDir(object):
 
     def __repr__(self):
         if is_ptpython():
-            print(self.repr_str, end='')
+            print(format_pattrs(self.pattrs), end='')
             return ''
         else:
-            return self.repr_str
+            return format_pattrs(self.pattrs)
 
     def __len__(self):
         return len(self.dir_result)
@@ -57,10 +57,6 @@ class PrettyDir(object):
 
     def index(self, value):
         return self.dir_result.index(value)
-
-    @property
-    def repr_str(self):
-        return format_pattrs(self.pattrs)
 
     def search(self, term, case_sensitive=False):
         """Searches for names that match some pattern.
@@ -172,7 +168,9 @@ class PrettyAttribute(object):
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
         # single category can not be a bare slot
-        self.slotted = AttrCategory.SLOT in self.category if isinstance(category, tuple) else False
+        self.slotted = (
+            AttrCategory.SLOT in self.category if isinstance(category, tuple) else False
+        )
 
     def __repr__(self):
         return '%s: %s' % (self.name, self.category)

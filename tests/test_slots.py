@@ -57,15 +57,15 @@ class DeriveSlotBaseSlot(BaseSlot):
 
 def test_not_set():
     expected_res = [  # class type    empty slot attr num
-                    (DeriveNoSlotBaseEmpty,    0),
-                    (DeriveNoSlotBaseSlot,     1),
-                    (DeriveEmptySlotBaseNo,    0),
-                    (DeriveEmptySlotBaseEmpty, 0),
-                    (DeriveEmptySlotBaseSlot,  1),
-                    (DeriveSlotBaseNo,         1),
-                    (DeriveSlotBaseEmpty,      1),
-                    (DeriveSlotBaseSlot,       2),
-                   ]
+        (DeriveNoSlotBaseEmpty, 0),
+        (DeriveNoSlotBaseSlot, 1),
+        (DeriveEmptySlotBaseNo, 0),
+        (DeriveEmptySlotBaseEmpty, 0),
+        (DeriveEmptySlotBaseSlot, 1),
+        (DeriveSlotBaseNo, 1),
+        (DeriveSlotBaseEmpty, 1),
+        (DeriveSlotBaseSlot, 2),
+    ]
     for c_type, attr_num in expected_res:
         attr_count = 0
         for attr in pdir(c_type()).pattrs:
