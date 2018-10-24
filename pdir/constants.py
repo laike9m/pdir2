@@ -15,3 +15,10 @@ class ReplType(Enum):
 GETTER = 'getter'
 SETTER = 'setter'
 DELETER = 'deleter'
+
+
+class A(object):
+    __slots__ = ['a']
+
+
+SLOT_TYPE = type(A.a)

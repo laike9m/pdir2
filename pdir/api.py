@@ -168,9 +168,10 @@ class PrettyAttribute(object):
         # Names are grouped by their category. When multiple categories exist,
         # pick the largest one which usually represents a more detailed
         # category.
-        self.display_group = max(category) if isinstance(category, tuple) else category
+        self.display_group = max(category)
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
+        self.slotted = AttrCategory.SLOT in self.category
 
     def __repr__(self):
         return '%s: %s' % (self.name, self.category)

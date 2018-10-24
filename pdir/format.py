@@ -5,7 +5,7 @@ from collections import namedtuple
 from itertools import groupby
 
 from .attr_category import AttrCategory
-from .configuration import attribute_color, category_color, comma, doc_color
+from .configuration import attribute_color, category_color, comma, slot, doc_color
 
 
 def format_pattrs(pattrs):
@@ -26,22 +26,28 @@ def format_pattrs(pattrs):
     return '\n'.join(output)
 
 
-def _format_single_line(category, attrs):
+def _format_single_line(category, pattrs):
     category_line = category_color.wrap_text(str(category) + ':')
-    return '{0}\n    {1}'.format(
-        category_line,
-        comma.join(attribute_color.wrap_text(attr.name) for attr in attrs),
-    )
+    single_attr_list = []
+    for pattr in pattrs:
+        single_attr = attribute_color.wrap_text(pattr.name)
+        if pattr.slotted:
+            single_attr += slot
+        single_attr_list.append(single_attr)
+    return '{0}\n    {1}'.format(category_line, comma.join(single_attr_list))
 
 
-def _format_multiline_with_doc(category, attrs):
+def _format_multiline_with_doc(category, pattrs):
     category_line = category_color.wrap_text(str(category) + ':') + '\n'
-    return category_line + '\n'.join(
-        '    {0} {1}'.format(
-            attribute_color.wrap_text(attr.name + ':'), doc_color.wrap_text(attr.doc)
-        )
-        for attr in attrs
-    )
+    single_attr_list = []
+    for pattr in pattrs:
+        name = attribute_color.wrap_text(pattr.name)
+        if pattr.slotted:
+            name += slot
+        name += attribute_color.wrap_text(': ')
+        doc = doc_color.wrap_text(pattr.doc)
+        single_attr_list.append('    {0}{1}'.format(name, doc))
+    return category_line + '\n'.join(single_attr_list)
 
 
 def _format_descriptor(category, attrs):
