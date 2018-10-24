@@ -97,10 +97,10 @@ _cfg = Configuration()
 if _cfg.uniform_color:
     category_color = attribute_color = doc_color = _cfg.uniform_color
     comma = _cfg.uniform_color.wrap_text(', ')
-    slot = _cfg.uniform_color.wrap_text('(Slotted)')
+    slot = _cfg.uniform_color.wrap_text('(slotted)')
 else:
     category_color = _cfg.category_color
     attribute_color = _cfg.attribute_color
     doc_color = _cfg.doc_color
     comma = _cfg.comma_color.wrap_text(', ')
-    slot = _cfg.slot_color.wrap_text('(Slotted)')
+    slot = _cfg.slot_color.wrap_text('(slotted)')
