@@ -20,8 +20,9 @@ CATEGORY_COLOR = 'category-color'
 ATTRIBUTE_COLOR = 'attribute-color'
 COMMA_COLOR = 'comma-color'
 DOC_COLOR = 'doc-color'
+SLOT_COLOR = 'slot-color'
 VALID_CONFIG_KEYS = frozenset(
-    {UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR}
+    {UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR, SLOT_COLOR}
 )
 
 
@@ -32,6 +33,7 @@ class Configuration(object):
     _attribute_color = COLORS['cyan']
     _comma_color = COLORS['grey']
     _doc_color = COLORS['grey']
+    _slot_color = COLORS['grey']
 
     def __init__(self):
         self._configparser = ConfigParser()
@@ -56,6 +58,10 @@ class Configuration(object):
     @property
     def doc_color(self):
         return self._doc_color
+
+    @property
+    def slot_color(self):
+        return self._slot_color
 
     def _load(self):
         config_file = os.environ.get(CONFIG_FILE_ENV, DEFAULT_CONFIG_FILE)
@@ -91,8 +97,10 @@ _cfg = Configuration()
 if _cfg.uniform_color:
     category_color = attribute_color = doc_color = _cfg.uniform_color
     comma = _cfg.uniform_color.wrap_text(', ')
+    slot_tag = _cfg.uniform_color.wrap_text('(slotted)')
 else:
     category_color = _cfg.category_color
     attribute_color = _cfg.attribute_color
     doc_color = _cfg.doc_color
     comma = _cfg.comma_color.wrap_text(', ')
+    slot_tag = _cfg.slot_color.wrap_text('(slotted)')

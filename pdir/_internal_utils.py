@@ -1,14 +1,21 @@
 import sys
 
-from .constants import ReplType
+from .constants import ReplType, SLOT_TYPE
 
 
-# Copied from http://stackoverflow.com/a/3681323/2142577.
-def get_dict_attr(obj, attr_name):
-    for obj in [obj] + list(obj.__class__.__mro__):
-        if attr_name in obj.__dict__:
+# Modified from http://stackoverflow.com/a/3681323/2142577.
+def get_dict_attr(attr_obj, attr_name):
+    for obj in [attr_obj] + list(attr_obj.__class__.__mro__):
+        if hasattr(obj, '__dict__') and attr_name in obj.__dict__:
             return obj.__dict__[attr_name]
     raise AttributeError
+
+
+def is_slotted_attr(child_obj, attr_name):
+    for obj in list(child_obj.__class__.__mro__):
+        if isinstance(getattr(obj, attr_name, None), SLOT_TYPE):
+            return True
+    return False
 
 
 class Incrementer(object):

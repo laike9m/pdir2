@@ -171,6 +171,8 @@ class PrettyAttribute(object):
         self.display_group = max(category) if isinstance(category, tuple) else category
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
+        # single category can not be a bare slot
+        self.slotted = AttrCategory.SLOT in self.category if isinstance(category, tuple) else False
 
     def __repr__(self):
         return '%s: %s' % (self.name, self.category)

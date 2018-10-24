@@ -1,12 +1,15 @@
 import collections
+import functools
 import inspect
 from enum import IntEnum  # TODO: use native Python 3 enum
 
-from ._internal_utils import Incrementer
+from ._internal_utils import Incrementer, is_slotted_attr
 
 
 # Detailed category should have larger values than general category.
 class AttrCategory(IntEnum):
+    # Slot category: orthogonal to all other category
+    SLOT = Incrementer.auto()
     # Basic category.
     CLASS = Incrementer.auto()
     # Often represents the internal function that's invoked: add -> __add__.
@@ -205,6 +208,22 @@ ATTR_MAP = {
 }
 
 
+def check_slotted(get_attr_category_func):
+    @functools.wraps(get_attr_category_func)
+    def wrapped(name, attr, obj):
+        category = get_attr_category_func(name, attr, obj)
+        if is_slotted_attr(obj, name):
+            # Refactoring all tuples to lists is not easy
+            # and pleasant. Maybe do this in future if necessary
+            if isinstance(category, tuple):
+                category = tuple([AttrCategory.SLOT] + list(category))
+            else:
+                category = tuple([AttrCategory.SLOT, category])
+        return category
+    return wrapped
+
+
+@check_slotted
 def get_attr_category(name, attr, obj):
     def is_descriptor(obj):
         return (
@@ -215,14 +234,14 @@ def get_attr_category(name, attr, obj):
 
     method_descriptor = type(list.append)
 
-    try:
+    if name in ATTR_MAP:
         attr_category = ATTR_MAP[name]
         if isinstance(attr_category, list):
             for condition, category in attr_category:
                 if condition(obj):
                     return category
         return attr_category
-    except KeyError:
+    else:
         if inspect.isclass(attr):
             return (
                 AttrCategory.EXCEPTION
