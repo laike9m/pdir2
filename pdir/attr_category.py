@@ -215,7 +215,10 @@ def check_slotted(get_attr_category_func):
         if is_slotted_attr(obj, name):
             # Refactoring all tuples to lists is not easy
             # and pleasant. Maybe do this in future if necessary
-            category = tuple([AttrCategory.SLOT] + list(category))
+            if isinstance(category, tuple):
+                category = tuple([AttrCategory.SLOT] + list(category))
+            else:
+                category = tuple([AttrCategory.SLOT, category])
         return category
     return wrapped
 
@@ -243,7 +246,7 @@ def get_attr_category(name, attr, obj):
             return (
                 AttrCategory.EXCEPTION
                 if issubclass(attr, Exception)
-                else AttrCategory.CLASS,
+                else AttrCategory.CLASS
             )
         elif any(
             f.__call__(attr)
@@ -251,7 +254,7 @@ def get_attr_category(name, attr, obj):
         ) or isinstance(attr, method_descriptor):
             # Technically, method_descriptor is descriptor, but since they
             # act as functions, let's treat them as functions.
-            return (AttrCategory.FUNCTION, )
+            return AttrCategory.FUNCTION
         elif isinstance(attr, staticmethod):
             return (
                 AttrCategory.DESCRIPTOR,
@@ -264,4 +267,4 @@ def get_attr_category(name, attr, obj):
         else:
             # attr that is neither function nor class is a normal variable,
             # and it's classified to property.
-            return (AttrCategory.PROPERTY, )
+            return AttrCategory.PROPERTY

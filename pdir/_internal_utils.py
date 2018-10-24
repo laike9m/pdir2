@@ -4,8 +4,8 @@ from .constants import ReplType, SLOT_TYPE
 
 
 # Modified from http://stackoverflow.com/a/3681323/2142577.
-def get_dict_attr(child_obj, attr_name):
-    for obj in [child_obj] + list(child_obj.__class__.__mro__):
+def get_dict_attr(attr_obj, attr_name):
+    for obj in [attr_obj] + list(attr_obj.__class__.__mro__):
         if hasattr(obj, '__dict__') and attr_name in obj.__dict__:
             return obj.__dict__[attr_name]
     raise AttributeError
