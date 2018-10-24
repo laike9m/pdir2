@@ -25,6 +25,8 @@ class AttrCategory(IntEnum):
     OBJECT_CUSTOMIZATION = Incrementer.auto()
     RICH_COMPARISON = Incrementer.auto()
     ATTRIBUTE_ACCESS = Incrementer.auto()
+    # TODO: We should probably call it "user-defined descriptor", cause pretty much
+    # everything inside a class is a "descriptor".
     DESCRIPTOR = Incrementer.auto()
     DESCRIPTOR_CLASS = Incrementer.auto()
     STATIC_METHOD = Incrementer.auto()
@@ -35,9 +37,9 @@ class AttrCategory(IntEnum):
     PICKLE = Incrementer.auto()
 
     def __str__(self):
-        '''
+        """
         e.g. RICH_COMPARISON -> rich comparison
-        '''
+        """
         return ' '.join(self.name.split('_')).lower()
 
 
@@ -229,7 +231,7 @@ def get_attr_category(name, attr, obj):
             )
         elif any(
             f.__call__(attr)
-            for f in [inspect.isfunction, inspect.ismethod, inspect.isbuiltin]
+            for f in (inspect.isfunction, inspect.ismethod, inspect.isbuiltin)
         ) or isinstance(attr, method_descriptor):
             # Technically, method_descriptor is descriptor, but since they
             # act as functions, let's treat them as functions.

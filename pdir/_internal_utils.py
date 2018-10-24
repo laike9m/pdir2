@@ -4,10 +4,10 @@ from .constants import ReplType
 
 
 # Copied from http://stackoverflow.com/a/3681323/2142577.
-def get_dict_attr(obj, attr):
+def get_dict_attr(obj, attr_name):
     for obj in [obj] + list(obj.__class__.__mro__):
-        if attr in obj.__dict__:
-            return obj.__dict__[attr]
+        if attr_name in obj.__dict__:
+            return obj.__dict__[attr_name]
     raise AttributeError
 
 
