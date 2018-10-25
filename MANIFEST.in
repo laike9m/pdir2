@@ -1,2 +1,2 @@
 include LICENSE
-graft docs
+include *.md
