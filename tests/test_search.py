@@ -2,9 +2,9 @@ import pdir
 
 
 def test_search_without_argument():
-    dadada = 1
-    cadada = 1
-    vadada = 1
+    foo = 1
+    bar = 1
+    baz = 1
     apple1 = 1
     xapple2 = 1
     result, result2 = pdir().s('apple'), pdir().search('apple')

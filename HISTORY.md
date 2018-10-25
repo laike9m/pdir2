@@ -1,6 +1,14 @@
 Release History
 ===============
 
+0.3.1(2018-10-25)
+-----------------
+* Add support for `__slots__` (#44, #45)
+* Seperate `@staticmethod` with other descriptors(#38, #42)
+* Add `__post_init__` support
+
+Special thanks to @liwt31 for his great contribution.
+
 0.3.0(2018-02-10)
 -----------------
 * Add support for various filters (#37)

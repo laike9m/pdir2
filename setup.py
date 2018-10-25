@@ -2,14 +2,15 @@ import codecs
 
 from setuptools import setup
 
-readme = codecs.open('docs/README.rst', encoding='utf-8').read()
-history = codecs.open('docs/HISTORY.rst', encoding='utf-8').read()
+readme = codecs.open('README.md', encoding='utf-8').read()
+history = codecs.open('HISTORY.md', encoding='utf-8').read()
 
 setup(
     name='pdir2',
-    version='0.3.0',
+    version='0.3.1.post1',
     description='Pretty dir printing with joy',
     long_description=u'\n\n'.join([readme, history]),
+    long_description_content_type='text/markdown',
     author='laike9m',
     author_email='laike9m@gmail.com',
     url='http://github.com/laike9m/pdir2',

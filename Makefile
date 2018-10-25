@@ -1,18 +1,10 @@
-.PHONY: rst dry_publish publist debug
+.PHONY: dry_publish publist debug
 
 install:
 	python2 setup.py install
 	python3 setup.py install
 
-docdir = docs
-rst:
-	if [ -a $(docdir)/README.rst ]; then rm $(docdir)/README.rst; fi;
-	pandoc --from=markdown --to=rst --output=$(docdir)/README.rst README.md
-	if [ -a $(docdir)/HISTORY.rst ]; then rm $(docdir)/HISTORY.rst; fi;
-	pandoc --from=markdown --to=rst --output=$(docdir)/HISTORY.rst $(docdir)/HISTORY.md
-	python setup.py check --restructuredtext --strict
-
-dry_publish: rst
+dry_publish:
 	rm -rf dist/
 	python setup.py sdist bdist_wheel
 
