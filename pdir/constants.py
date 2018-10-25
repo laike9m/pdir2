@@ -17,8 +17,8 @@ SETTER = 'setter'
 DELETER = 'deleter'
 
 
-class A(object):
+class _ClassWithSlot(object):
     __slots__ = ['a']
 
 
-SLOT_TYPE = type(A.a)
+SLOT_TYPE = type(_ClassWithSlot.a)

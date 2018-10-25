@@ -12,17 +12,18 @@ from os.path import expanduser
 from .color import COLORS
 
 # User Configuration
-DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
-CONFIG_FILE_ENV = 'PDIR2_CONFIG_FILE'
-DEFAULT = 'global'
-UNIFORM_COLOR = 'uniform-color'
-CATEGORY_COLOR = 'category-color'
-ATTRIBUTE_COLOR = 'attribute-color'
-COMMA_COLOR = 'comma-color'
-DOC_COLOR = 'doc-color'
-SLOT_COLOR = 'slot-color'
+_DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
+_DEFAULT = 'global'
+_UNIFORM_COLOR = 'uniform-color'
 VALID_CONFIG_KEYS = frozenset(
-    {UNIFORM_COLOR, CATEGORY_COLOR, ATTRIBUTE_COLOR, COMMA_COLOR, DOC_COLOR, SLOT_COLOR}
+    {
+        _UNIFORM_COLOR,
+        'category-color',
+        'attribute-color',
+        'comma-color',
+        'doc-color',
+        'slot-color',
+    }
 )
 
 
@@ -64,23 +65,23 @@ class Configuration(object):
         return self._slot_color
 
     def _load(self):
-        config_file = os.environ.get(CONFIG_FILE_ENV, DEFAULT_CONFIG_FILE)
+        config_file = os.environ.get('PDIR2_CONFIG_FILE', _DEFAULT_CONFIG_FILE)
         config_file = os.path.expanduser(config_file)
         if not os.path.exists(config_file):
-            if config_file == DEFAULT_CONFIG_FILE:
+            if config_file == _DEFAULT_CONFIG_FILE:
                 # Only raise exception if user set CONFIG_FILE_ENV.
                 return
             else:
                 raise OSError('Config file not exist: %s' % config_file)
 
         self._configparser.read(config_file)
-        if not self._configparser.has_section(DEFAULT):
+        if not self._configparser.has_section(_DEFAULT):
             return
-        user_config_dict = dict(self._configparser.items(DEFAULT))
+        user_config_dict = dict(self._configparser.items(_DEFAULT))
 
         # UNIFORM_COLOR suppresses other settings.
-        if UNIFORM_COLOR in user_config_dict:
-            self._uniform_color = COLORS[user_config_dict[UNIFORM_COLOR]]
+        if _UNIFORM_COLOR in user_config_dict:
+            self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
             return
 
         for item, color in user_config_dict.items():
