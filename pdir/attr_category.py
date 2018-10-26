@@ -4,6 +4,7 @@ import inspect
 from enum import IntEnum  # TODO: use native Python 3 enum
 
 from ._internal_utils import Incrementer, is_slotted_attr
+from .constants import dummy_obj
 
 
 # Detailed category should have larger values than general category.
@@ -16,6 +17,8 @@ class AttrCategory(IntEnum):
     FUNCTION = Incrementer.auto()
     EXCEPTION = Incrementer.auto()
     PROPERTY = Incrementer.auto()
+    CLASS_VARIABLE = Incrementer.auto()
+    INSTANCE_VARIABLE = Incrementer.auto()
 
     # Detailed category.
     MODULE_ATTRIBUTE = Incrementer.auto()
@@ -33,6 +36,7 @@ class AttrCategory(IntEnum):
     DESCRIPTOR = Incrementer.auto()
     DESCRIPTOR_CLASS = Incrementer.auto()
     STATIC_METHOD = Incrementer.auto()
+    CLASS_METHOD = Incrementer.auto()
     CLASS_CUSTOMIZATION = Incrementer.auto()
     CONTAINER = Incrementer.auto()
     COUROUTINE = Incrementer.auto()
@@ -261,10 +265,29 @@ def get_attr_category(name, attr, obj):
                 AttrCategory.STATIC_METHOD,
                 AttrCategory.FUNCTION,
             )
+        elif isinstance(attr, classmethod):
+            return (
+                AttrCategory.DESCRIPTOR,
+                AttrCategory.CLASS_METHOD,
+                AttrCategory.FUNCTION,
+            )
         elif is_descriptor(attr):
             # Maybe add getsetdescriptor memberdescriptor in the future.
             return AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY
         else:
-            # attr that is neither function nor class is a normal variable,
-            # and it's classified to property.
-            return AttrCategory.PROPERTY
+            # attr that is neither function nor class is a normal variable
+            # Possible cases: local variable (checking current frame),
+            # instance variable, class variable
+
+            # if we are checking current frame
+            if obj is dummy_obj:
+                return AttrCategory.PROPERTY
+            elif inspect.isclass(obj):
+                return AttrCategory.PROPERTY, AttrCategory.CLASS_VARIABLE
+            # if not a class
+            elif hasattr(obj, '__dict__') and name in obj.__dict__:
+                # in instance dict, instance variable
+                return AttrCategory.PROPERTY, AttrCategory.INSTANCE_VARIABLE
+            else:
+                # class variable in other cases
+                return AttrCategory.PROPERTY, AttrCategory.CLASS_VARIABLE

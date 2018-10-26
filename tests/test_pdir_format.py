@@ -11,7 +11,7 @@ def test_pdir_module():
     if sys.version[0] == '2':
         expected = '\n'.join(
             [
-                '\x1b[0;33mproperty:\x1b[0m',
+                '\x1b[0;33minstance variable:\x1b[0m',
                 (
                     '    \x1b[0;36m__builtins__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36ma\x1b[0m\x1b[1;30m, '
@@ -38,7 +38,7 @@ def test_pdir_module():
     else:
         expected = '\n'.join(
             [
-                '\x1b[0;33mproperty:\x1b[0m',
+                '\x1b[0;33minstance variable:\x1b[0m',
                 (
                     '    \x1b[0;36m__builtins__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36ma\x1b[0m\x1b[1;30m, '

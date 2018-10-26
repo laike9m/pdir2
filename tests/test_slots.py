@@ -56,7 +56,8 @@ class DeriveSlotBaseSlot(BaseSlot):
 
 
 def test_not_set():
-    expected_res = [  # class type    empty slot attr num
+    expected_res = [
+        # class type    empty slot attr num
         (DeriveNoSlotBaseEmpty, 0),
         (DeriveNoSlotBaseSlot, 1),
         (DeriveEmptySlotBaseNo, 0),

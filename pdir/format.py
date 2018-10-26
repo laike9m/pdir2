@@ -67,6 +67,8 @@ _FORMATTER = {
     AttrCategory.CLASS: _multiline_with_doc,
     AttrCategory.EXCEPTION: _multiline_with_doc,
     AttrCategory.PROPERTY: _single_line,
+    AttrCategory.CLASS_VARIABLE: _single_line,
+    AttrCategory.INSTANCE_VARIABLE: _single_line,
     # Attribute
     AttrCategory.MODULE_ATTRIBUTE: _single_line,
     AttrCategory.SPECIAL_ATTRIBUTE: _single_line,
@@ -81,6 +83,7 @@ _FORMATTER = {
     AttrCategory.DESCRIPTOR: _descriptor,
     AttrCategory.DESCRIPTOR_CLASS: _single_line,
     AttrCategory.STATIC_METHOD: _descriptor,
+    AttrCategory.CLASS_METHOD: _descriptor,
     AttrCategory.CLASS_CUSTOMIZATION: _single_line,
     AttrCategory.CONTAINER: _single_line,
     AttrCategory.COUROUTINE: _single_line,
