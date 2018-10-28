@@ -7,6 +7,7 @@ In short, if you're still using pdir2 for Python <3.5, install via `pip install 
 [![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
 ![PyPI Version](https://img.shields.io/pypi/v/pdir2.svg)
+<a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
