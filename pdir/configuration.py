@@ -34,7 +34,7 @@ class Configuration(object):
     _attribute_color = COLORS['cyan']
     _comma_color = COLORS['grey']
     _doc_color = COLORS['grey']
-    _slot_color = COLORS['grey']
+    _slot_color = COLORS['magenta']
 
     def __init__(self):
         self._configparser = ConfigParser()
