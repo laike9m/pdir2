@@ -220,12 +220,12 @@ def test_slots():
                 '\x1b[0;33mabstract class:\x1b[0m',
                 '    \x1b[0;36m__subclasshook__\x1b[0m',
                 '\x1b[0;33marithmetic:\x1b[0m',
-                '    \x1b[0;36m__mul__\x1b[0m\x1b[1;30m(slotted)\x1b[0m',
+                '    \x1b[0;36m__mul__\x1b[0m\x1b[0;35m(slotted)\x1b[0m',
                 '\x1b[0;33mobject customization:\x1b[0m',
                 (
                     '    \x1b[0;36m__format__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__hash__\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[1;30m, '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__init__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__new__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__repr__\x1b[0m\x1b[1;30m, '
@@ -246,13 +246,13 @@ def test_slots():
                 '\x1b[0;33mdescriptor:\x1b[0m',
                 (
                     '    \x1b[0;36ma\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[0;36m: '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[0;36m: '
                     '\x1b[0m\x1b[1;30mclass member_descriptor with '
                     'getter, setter, deleter\x1b[0m'
                 ),
                 (
                     '    \x1b[0;36mb\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[0;36m: '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[0;36m: '
                     '\x1b[0m\x1b[1;30mclass member_descriptor with '
                     'getter, setter, deleter\x1b[0m'
                 ),
@@ -271,12 +271,12 @@ def test_slots():
                 '\x1b[0;33mabstract class:\x1b[0m',
                 '    \x1b[0;36m__subclasshook__\x1b[0m',
                 '\x1b[0;33marithmetic:\x1b[0m',
-                '    \x1b[0;36m__mul__\x1b[0m\x1b[1;30m(slotted)\x1b[0m',
+                '    \x1b[0;36m__mul__\x1b[0m\x1b[0;35m(slotted)\x1b[0m',
                 '\x1b[0;33mobject customization:\x1b[0m',
                 (
                     '    \x1b[0;36m__format__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__hash__\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[1;30m, '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__init__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__new__\x1b[0m\x1b[1;30m, '
                     '\x1b[0m\x1b[0;36m__repr__\x1b[0m\x1b[1;30m, '
@@ -309,13 +309,13 @@ def test_slots():
                 '\x1b[0;33mdescriptor:\x1b[0m',
                 (
                     '    \x1b[0;36ma\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[0;36m: '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[0;36m: '
                     '\x1b[0m\x1b[1;30mclass member_descriptor with '
                     'getter, setter, deleter\x1b[0m'
                 ),
                 (
                     '    \x1b[0;36mb\x1b[0m'
-                    '\x1b[1;30m(slotted)\x1b[0m\x1b[0;36m: '
+                    '\x1b[0;35m(slotted)\x1b[0m\x1b[0;36m: '
                     '\x1b[0m\x1b[1;30mclass member_descriptor with '
                     'getter, setter, deleter\x1b[0m'
                 ),
