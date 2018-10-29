@@ -2,6 +2,8 @@
 Test attrs that previously caused bugs.
 """
 
+import pytest
+
 import pdir
 from pdir._internal_utils import category_match
 from pdir.attr_category import AttrCategory
@@ -101,3 +103,21 @@ def test_descriptor():
         if pattr.name == 'p':
             assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
             assert pattr.doc == ('@property with getter, setter, ' 'deleter, this is p')
+
+
+@pytest.mark.xfail
+def test_override_dir():
+
+    # classes that attrs can not be found in `__dict__`
+    class WeirdDir(object):
+        def __init__(self):
+            self._data = {'foo': 'bar'}
+
+        def __getattr__(self, attr):
+            return self._data.get(attr)
+
+        def __dir__(self):
+            return super(WeirdDir, self).__dir__() + list(self._data.keys())
+
+    pattrs = pdir(WeirdDir()).pattrs
+    assert 'foo' in [pattr.name for pattr in pattrs]
