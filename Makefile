@@ -1,8 +1,11 @@
-.PHONY: dry_publish publist debug
+.PHONY: format dry_publish publist debug
 
 install:
 	python2 setup.py install
 	python3 setup.py install
+
+format:
+	black --config pyproject.toml .
 
 dry_publish:
 	rm -rf dist/

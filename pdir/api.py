@@ -149,11 +149,8 @@ class PrettyDir(object):
         """A wrapper around getattr(), handling some exceptions."""
         attrs = {}
         for name in dir(self.obj):
-            try:
-                # Ensures we get descriptor object instead of its return value.
-                attrs[name] = get_dict_attr(self.obj, name)
-            except AttributeError:
-                attrs[name] = getattr(self.obj, name)
+            # Ensures we get descriptor object instead of its return value.
+            attrs[name] = get_dict_attr(self.obj, name)
         return attrs
 
 
