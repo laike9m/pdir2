@@ -108,7 +108,7 @@ def test_descriptor():
 @pytest.mark.xfail
 def test_override_dir():
 
-    # classes that attrs can not be found in `__dict__`
+    # In the class attrs in `__dir__()` can not be found in `__dict__`
     class WeirdDir(object):
         def __init__(self):
             self._data = {'foo': 'bar'}
@@ -119,5 +119,6 @@ def test_override_dir():
         def __dir__(self):
             return super(WeirdDir, self).__dir__() + list(self._data.keys())
 
+    inst = WeirdDir()
     pattrs = pdir(WeirdDir()).pattrs
-    assert 'foo' in [pattr.name for pattr in pattrs]
+    assert 'foo' in [pattr.name for pattr in pattrs] == 'foo' in dir(inst)
