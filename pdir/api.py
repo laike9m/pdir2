@@ -10,7 +10,7 @@ import inspect
 import platform
 from sys import _getframe
 
-from ._internal_utils import category_match, get_dict_attr, is_ptpython
+from ._internal_utils import category_match, get_attr_from_dict, is_ptpython
 from .attr_category import AttrCategory, get_attr_category
 from .constants import dummy_obj, GETTER, SETTER, DELETER
 from .format import format_pattrs
@@ -150,7 +150,12 @@ class PrettyDir(object):
         attrs = {}
         for name in dir(self.obj):
             # Ensures we get descriptor object instead of its return value.
-            attrs[name] = get_dict_attr(self.obj, name)
+            try:
+                attrs[name] = get_attr_from_dict(self.obj, name)
+            except AttributeError:
+                # This happens when user-defined __dir__ returns something that's not
+                # in any __dict__. See test_override_dir.
+                attrs[name] = name
         return attrs
 
 

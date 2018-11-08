@@ -5,7 +5,7 @@ from .constants import ReplType, SLOT_TYPE
 
 
 # Modified from http://stackoverflow.com/a/3681323/2142577.
-def get_dict_attr(attr_obj, attr_name):
+def get_attr_from_dict(attr_obj, attr_name):
     if inspect.isclass(attr_obj):
         obj_list = [attr_obj] + list(attr_obj.__mro__)
     else:
