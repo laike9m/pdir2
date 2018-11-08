@@ -4,6 +4,7 @@ b = 2
 
 class OOO:
     """OOO today."""
+
     pass
 
 

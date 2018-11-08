@@ -220,6 +220,7 @@ def check_slotted(get_attr_category_func):
             else:
                 category = tuple([AttrCategory.SLOT, category])
         return category
+
     return wrapped
 
 
