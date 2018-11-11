@@ -3,8 +3,7 @@ Test attrs that previously caused bugs.
 """
 
 import pdir
-from pdir._internal_utils import category_match
-from pdir.attr_category import AttrCategory
+from pdir.attr_category import AttrCategory, category_match
 
 
 def test_dataframe():

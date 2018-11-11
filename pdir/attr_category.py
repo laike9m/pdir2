@@ -1,43 +1,43 @@
 import collections
 import functools
 import inspect
-from enum import IntEnum  # TODO: use native Python 3 enum
+from enum import IntEnum, auto
 
-from ._internal_utils import Incrementer, is_slotted_attr
+from ._internal_utils import is_slotted_attr
 
 
 # Detailed category should have larger values than general category.
 class AttrCategory(IntEnum):
     # Slot category: orthogonal to all other category
-    SLOT = Incrementer.auto()
+    SLOT = auto()
     # Basic category.
-    CLASS = Incrementer.auto()
+    CLASS = auto()
     # Often represents the internal function that's invoked: add -> __add__.
-    FUNCTION = Incrementer.auto()
-    EXCEPTION = Incrementer.auto()
-    PROPERTY = Incrementer.auto()
+    FUNCTION = auto()
+    EXCEPTION = auto()
+    PROPERTY = auto()
 
     # Detailed category.
-    MODULE_ATTRIBUTE = Incrementer.auto()
-    SPECIAL_ATTRIBUTE = Incrementer.auto()
-    ABSTRACT_CLASS = Incrementer.auto()
-    MAGIC = Incrementer.auto()
-    ARITHMETIC = Incrementer.auto()
-    ITER = Incrementer.auto()
-    CONTEXT_MANAGER = Incrementer.auto()
-    OBJECT_CUSTOMIZATION = Incrementer.auto()
-    RICH_COMPARISON = Incrementer.auto()
-    ATTRIBUTE_ACCESS = Incrementer.auto()
+    MODULE_ATTRIBUTE = auto()
+    SPECIAL_ATTRIBUTE = auto()
+    ABSTRACT_CLASS = auto()
+    MAGIC = auto()
+    ARITHMETIC = auto()
+    ITER = auto()
+    CONTEXT_MANAGER = auto()
+    OBJECT_CUSTOMIZATION = auto()
+    RICH_COMPARISON = auto()
+    ATTRIBUTE_ACCESS = auto()
     # TODO: We should probably call it "user-defined descriptor", cause pretty much
     # everything inside a class is a "descriptor".
-    DESCRIPTOR = Incrementer.auto()
-    DESCRIPTOR_CLASS = Incrementer.auto()
-    STATIC_METHOD = Incrementer.auto()
-    CLASS_CUSTOMIZATION = Incrementer.auto()
-    CONTAINER = Incrementer.auto()
-    COUROUTINE = Incrementer.auto()
-    COPY = Incrementer.auto()
-    PICKLE = Incrementer.auto()
+    DESCRIPTOR = auto()
+    DESCRIPTOR_CLASS = auto()
+    STATIC_METHOD = auto()
+    CLASS_CUSTOMIZATION = auto()
+    CONTAINER = auto()
+    COUROUTINE = auto()
+    COPY = auto()
+    PICKLE = auto()
 
     def __str__(self):
         """
@@ -48,6 +48,12 @@ class AttrCategory(IntEnum):
 
 def _always_true(obj):
     return True
+
+
+def category_match(pattr_category, target_category):
+    if pattr_category == target_category:
+        return True
+    return isinstance(pattr_category, tuple) and target_category in pattr_category
 
 
 ATTR_MAP = {

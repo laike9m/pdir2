@@ -27,27 +27,6 @@ def is_slotted_attr(child_obj, attr_name):
     return False
 
 
-class Incrementer(object):
-    """Class that generates incremental int values.
-
-    auto() in enum/aenum module is not guaranteed to generate incremental
-    values, that's why this class is needed.
-    """
-
-    __value = -1
-
-    @classmethod
-    def auto(cls):
-        cls.__value += 1
-        return cls.__value
-
-
-def category_match(pattr_category, target_category):
-    if pattr_category == target_category:
-        return True
-    return isinstance(pattr_category, tuple) and target_category in pattr_category
-
-
 def _get_repl_type():
     if any(ReplType.PTPYTHON.value in key for key in sys.modules):
         return ReplType.PTPYTHON

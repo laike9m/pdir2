@@ -10,8 +10,8 @@ import inspect
 import platform
 from sys import _getframe
 
-from ._internal_utils import category_match, get_attr_from_dict, is_ptpython
-from .attr_category import AttrCategory, get_attr_category
+from ._internal_utils import get_attr_from_dict, is_ptpython
+from .attr_category import AttrCategory, get_attr_category, category_match
 from .constants import dummy_obj, GETTER, SETTER, DELETER
 from .format import format_pattrs
 
