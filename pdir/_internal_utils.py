@@ -4,16 +4,20 @@ import inspect
 from .constants import ReplType, SLOT_TYPE
 
 
-# Modified from http://stackoverflow.com/a/3681323/2142577.
-def get_attr_from_dict(attr_obj, attr_name):
-    if inspect.isclass(attr_obj):
-        obj_list = [attr_obj] + list(attr_obj.__mro__)
+def get_attr_from_dict(inspected_obj, attr_name):
+    """Ensures we get descriptor object instead of its return value.
+    """
+    if inspect.isclass(inspected_obj):
+        obj_list = [inspected_obj] + list(inspected_obj.__mro__)
     else:
-        obj_list = [attr_obj] + list(attr_obj.__class__.__mro__)
+        obj_list = [inspected_obj] + list(inspected_obj.__class__.__mro__)
     for obj in obj_list:
         if hasattr(obj, '__dict__') and attr_name in obj.__dict__:
             return obj.__dict__[attr_name]
-    raise AttributeError
+    # This happens when user-defined __dir__ returns something that's not
+    # in any __dict__. See test_override_dir.
+    # Returns attr_name so that it's treated as a normal property.
+    return attr_name
 
 
 def is_slotted_attr(child_obj, attr_name):

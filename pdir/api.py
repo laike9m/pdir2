@@ -32,8 +32,15 @@ class PrettyDir(object):
         """
         self.obj = obj
         if pattrs is None:
-            attrs = _getframe(1).f_locals if obj is dummy_obj else self._getattr()
-            self.dir_result = sorted(list(attrs.keys()))
+            if obj is dummy_obj:
+                # User is calling dir() without arguments.
+                attrs = _getframe(1).f_locals
+                self.dir_result = sorted(list(attrs.keys()))
+            else:
+                self.dir_result = dir(self.obj)
+                attrs = {
+                    name: get_attr_from_dict(self.obj, name) for name in self.dir_result
+                }
             self.pattrs = [
                 PrettyAttribute(name, get_attr_category(name, attr, obj), attr)
                 for name, attr in attrs.items()
@@ -144,19 +151,6 @@ class PrettyDir(object):
                 or pattr.name in self.obj.__dict__
             ],
         )
-
-    def _getattr(self):
-        """A wrapper around getattr(), handling some exceptions."""
-        attrs = {}
-        for name in dir(self.obj):
-            # Ensures we get descriptor object instead of its return value.
-            try:
-                attrs[name] = get_attr_from_dict(self.obj, name)
-            except AttributeError:
-                # This happens when user-defined __dir__ returns something that's not
-                # in any __dict__. See test_override_dir.
-                attrs[name] = name
-        return attrs
 
 
 class PrettyAttribute(object):
