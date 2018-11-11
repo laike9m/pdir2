@@ -56,3 +56,6 @@ docs/_build/
 
 # pyenv
 .python-version
+
+# pip editable src
+src/
