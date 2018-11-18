@@ -1,4 +1,4 @@
-:warning: pdir2 will soon switch to a codebase that only supports Python 3.5+, because I want to add type hints and apply those cool toolings like mypy. The Python 2 compatible version will exist in the 0.3.x branch, and will still be receiving bug fixes. All new features will be developed on master therefore is Python 3.5+ exclusive.
+:warning: On master branch, pdir2's codebase is **Python 3.5+**, with annotations and mypy check. The Python 2 compatible version exists in the [0.3.x](https://github.com/laike9m/pdir2/tree/0.3.x) branch and will still be receiving bug fixes. All new features will be developed on master therefore is Python 3.5+ exclusive.
 
 In short, if you're still using pdir2 for Python &lt;3.5, install via `pip install "pdir2>=0.3,<0.4"`.
 
