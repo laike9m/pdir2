@@ -71,7 +71,7 @@ def test_pdir_module():
 
 
 def test_pdir_object():
-    class T(object):
+    class T:
         def what(self):
             """doc line"""
             pass
@@ -87,7 +87,7 @@ def test_pdir_object():
     ),
 )
 def test_pdir_class():
-    class T(object):
+    class T:
         pass
 
     result = pdir(T)
@@ -201,7 +201,7 @@ def test_dir_without_argument():
 
 
 def test_slots():
-    class A(object):
+    class A:
         __slots__ = ['__mul__', '__hash__', 'a', 'b']
 
     a = A()

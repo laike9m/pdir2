@@ -31,7 +31,7 @@ def test_list():
             return
 
 
-class D(object):
+class D:
     """this is D"""
 
     def __init__(self):
@@ -47,7 +47,7 @@ class D(object):
         pass
 
 
-class RevealAccess(object):
+class RevealAccess:
     """this is R"""
 
     def __init__(self, initval=None, name='var'):
@@ -67,7 +67,7 @@ class RevealAccess(object):
 
 
 def test_descriptor():
-    class T(object):
+    class T:
         r = RevealAccess(10, 'var ' r'')
 
         def __init__(self):
@@ -105,7 +105,7 @@ def test_descriptor():
 def test_override_dir():
 
     # In the class attrs in `__dir__()` can not be found in `__dict__`
-    class ClassWithUserDefinedDir(object):
+    class ClassWithUserDefinedDir:
         def __dir__(self):
             return ['foo']
 

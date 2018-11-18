@@ -4,32 +4,32 @@
         "line": 9,
         "func_name": "get_attr_from_dict",
         "type_comments": [
-            "(test_buggy_attrs.T, str) -> getset_descriptor",
+            "(type, str) -> Dict[int, str]",
+            "(type, str) -> Dict[str, int]",
+            "(type, str) -> property",
             "(type, str) -> wrapper_descriptor",
-            "(test_buggy_attrs.T, str) -> wrapper_descriptor",
-            "(test_buggy_attrs.T, str) -> None",
-            "(test_buggy_attrs.ClassWithUserDefinedDir, str) -> str",
+            "(type, str) -> int",
             "(type, str) -> getset_descriptor",
-            "(test_buggy_attrs.T, str) -> method_descriptor",
+            "(type, str) -> function",
             "(type, str) -> member_descriptor"
         ],
-        "samples": 102
+        "samples": 116
     },
     {
         "path": "pdir/_internal_utils.py",
         "line": 25,
         "func_name": "is_slotted_attr",
         "type_comments": [
-            "(None, str) -> bool",
-            "(test_buggy_attrs.ClassWithUserDefinedDir, str) -> bool",
-            "(object, str) -> bool",
-            "(test_filters.DerivedClass, str) -> bool",
             "(type, str) -> bool",
+            "(object, str) -> bool",
+            "(None, str) -> bool",
+            "(test_filters.DerivedClass, str) -> bool",
             "(module, str) -> bool",
-            "(test_buggy_attrs.T, str) -> bool",
-            "(test_pdir_format.T, str) -> bool"
+            "(test_pdir_format.T, str) -> bool",
+            "(test_buggy_attrs.ClassWithUserDefinedDir, str) -> bool",
+            "(test_buggy_attrs.T, str) -> bool"
         ],
-        "samples": 122
+        "samples": 136
     },
     {
         "path": "pdir/_internal_utils.py",
@@ -81,7 +81,7 @@
             "(test_filters.DerivedClass, None) -> None",
             "(test_filters.DerivedClass, List[pdir.api.PrettyAttribute]) -> None"
         ],
-        "samples": 52
+        "samples": 53
     },
     {
         "path": "pdir/api.py",
@@ -106,8 +106,8 @@
         "line": 68,
         "func_name": "PrettyDir.__getitem__",
         "type_comments": [
-            "(int) -> str",
-            "(int) -> pyannotate_runtime.collect_types.NoReturnType"
+            "(int) -> pyannotate_runtime.collect_types.NoReturnType",
+            "(int) -> str"
         ],
         "samples": 14
     },
@@ -170,16 +170,16 @@
         "line": 163,
         "func_name": "PrettyAttribute.__init__",
         "type_comments": [
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], method_descriptor) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], getset_descriptor) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], wrapper_descriptor) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], member_descriptor) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], None) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory], str) -> None",
             "(str, Tuple[pdir.attr_category.AttrCategory], int) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory], type) -> None"
+            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], property) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory], Dict[int, str]) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory], Dict[str, int]) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], function) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory], function) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], getset_descriptor) -> None",
+            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], member_descriptor) -> None"
         ],
-        "samples": 122
+        "samples": 136
     },
     {
         "path": "pdir/api.py",
@@ -188,7 +188,7 @@
         "type_comments": [
             "() -> str"
         ],
-        "samples": 122
+        "samples": 136
     },
     {
         "path": "pdir/attr_category.py",
@@ -205,57 +205,58 @@
         "func_name": "category_match",
         "type_comments": [
             "(Tuple[pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
-            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
-            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool"
+            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
+            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool"
         ],
-        "samples": 39
+        "samples": 41
     },
     {
         "path": "pdir/attr_category.py",
         "line": 218,
         "func_name": "wrapped",
         "type_comments": [
+            "(str, property, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
+            "(str, function, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
             "(str, getset_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
             "(str, member_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, getset_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, wrapper_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, wrapper_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, method_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, None, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, str, test_buggy_attrs.ClassWithUserDefinedDir) -> Tuple[pdir.attr_category.AttrCategory]"
+            "(str, Dict[str, int], type) -> Tuple[pdir.attr_category.AttrCategory]",
+            "(str, int, type) -> Tuple[pdir.attr_category.AttrCategory]",
+            "(str, Dict[int, str], type) -> Tuple[pdir.attr_category.AttrCategory]",
+            "(str, function, type) -> Tuple[pdir.attr_category.AttrCategory]"
         ],
-        "samples": 122
+        "samples": 136
     },
     {
         "path": "pdir/attr_category.py",
         "line": 233,
         "func_name": "get_attr_category",
         "type_comments": [
+            "(str, property, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
+            "(str, function, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
             "(str, getset_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
             "(str, member_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, getset_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, wrapper_descriptor, type) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, wrapper_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, method_descriptor, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, None, test_buggy_attrs.T) -> Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory]",
-            "(str, str, test_buggy_attrs.ClassWithUserDefinedDir) -> pdir.attr_category.AttrCategory"
+            "(str, Dict[str, int], type) -> pdir.attr_category.AttrCategory",
+            "(str, int, type) -> pdir.attr_category.AttrCategory",
+            "(str, Dict[int, str], type) -> pdir.attr_category.AttrCategory",
+            "(str, function, type) -> pdir.attr_category.AttrCategory"
         ],
-        "samples": 122
+        "samples": 136
     },
     {
         "path": "pdir/attr_category.py",
         "line": 237,
         "func_name": "is_descriptor",
         "type_comments": [
-            "(str) -> bool",
             "(property) -> bool",
-            "(test_buggy_attrs.RevealAccess) -> bool",
             "(int) -> bool",
             "(member_descriptor) -> bool",
-            "(Dict[str, Union[_frozen_importlib.ModuleSpec, str, type]]) -> bool",
-            "(test_buggy_attrs.D) -> bool"
+            "(test_buggy_attrs.D) -> bool",
+            "(test_buggy_attrs.RevealAccess) -> bool",
+            "(str) -> bool",
+            "(Dict[int, str]) -> bool",
+            "(Dict[str, int]) -> bool"
         ],
-        "samples": 71
+        "samples": 77
     },
     {
         "path": "pdir/color.py",
@@ -317,8 +318,8 @@
         "line": 39,
         "func_name": "uniform_color",
         "type_comments": [
-            "() -> None",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
+            "() -> None"
         ],
         "samples": 7
     },
@@ -426,7 +427,7 @@
     },
     {
         "path": "pdir/format.py",
-        "line": 42,
+        "line": 41,
         "func_name": "_format_multiline_with_doc",
         "type_comments": [
             "(pdir.attr_category.AttrCategory, itertools._grouper) -> str"
@@ -435,7 +436,7 @@
     },
     {
         "path": "pdir/format.py",
-        "line": 55,
+        "line": 54,
         "func_name": "_format_descriptor",
         "type_comments": [
             "(pdir.attr_category.AttrCategory, itertools._grouper) -> str"
@@ -446,6 +447,15 @@
         "path": "tests/m.py",
         "line": 5,
         "func_name": "OOO",
+        "type_comments": [
+            "() -> None"
+        ],
+        "samples": 1
+    },
+    {
+        "path": "tests/test_buggy_attrs.py",
+        "line": 9,
+        "func_name": "test_dataframe",
         "type_comments": [
             "() -> None"
         ],
@@ -776,8 +786,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 49,
+        "path": "tests/test_user_config.py",
+        "line": 38,
         "func_name": "test_default_env_without_config",
         "type_comments": [
             "(str) -> None"
@@ -785,8 +795,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 55,
+        "path": "tests/test_user_config.py",
+        "line": 44,
         "func_name": "test_set_env_without_config",
         "type_comments": [
             "(str) -> None"
@@ -794,8 +804,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 63,
+        "path": "tests/test_user_config.py",
+        "line": 52,
         "func_name": "test_read_config",
         "type_comments": [
             "(str) -> None"
@@ -803,8 +813,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 74,
+        "path": "tests/test_user_config.py",
+        "line": 63,
         "func_name": "test_read_config_from_custom_location",
         "type_comments": [
             "(str) -> None"
@@ -812,8 +822,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 85,
+        "path": "tests/test_user_config.py",
+        "line": 74,
         "func_name": "test_uniform_color",
         "type_comments": [
             "(str) -> None"
@@ -821,8 +831,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 95,
+        "path": "tests/test_user_config.py",
+        "line": 84,
         "func_name": "test_empty_config",
         "type_comments": [
             "(str) -> None"
@@ -830,8 +840,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 105,
+        "path": "tests/test_user_config.py",
+        "line": 94,
         "func_name": "test_invalid_config_1",
         "type_comments": [
             "(str) -> None"
@@ -839,8 +849,8 @@
         "samples": 1
     },
     {
-        "path": "tests/test_z_config.py",
-        "line": 113,
+        "path": "tests/test_user_config.py",
+        "line": 102,
         "func_name": "test_invalid_config_2",
         "type_comments": [
             "(str) -> None"

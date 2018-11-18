@@ -1,11 +1,5 @@
 """
 Test user configuration.
-
-The file name 'test_zz_config' is intended for making pytest run this file
-last, because in Python 2, for unknown reasons, if del modules[module] in
-clean() is executed before executing other tests, those tests will fail.
-Since pytest discover test files in alphabetic order, inserting a 'z_' puts
-it last.
 """
 
 import os

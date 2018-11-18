@@ -17,7 +17,7 @@ SETTER = 'setter'
 DELETER = 'deleter'
 
 
-class _ClassWithSlot(object):
+class _ClassWithSlot:
     __slots__ = ['a']
 
 

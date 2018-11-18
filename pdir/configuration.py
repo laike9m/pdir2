@@ -23,7 +23,7 @@ VALID_CONFIG_KEYS = frozenset(
 )
 
 
-class Configuration(object):
+class Configuration:
 
     _uniform_color = None
     _category_color = COLORS['yellow']

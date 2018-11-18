@@ -18,7 +18,7 @@ def items_equal(first, second):
     return first == second
 
 
-class Base(object):
+class Base:
     base_class_variable = 1
 
     def __init__(self):

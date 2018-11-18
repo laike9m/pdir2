@@ -21,7 +21,7 @@ def test_search_without_argument():
 
 
 def test_search_with_argument():
-    class T(object):
+    class T:
         pass
 
     result, result2 = pdir(T).s('attr'), pdir(T).search('attr')

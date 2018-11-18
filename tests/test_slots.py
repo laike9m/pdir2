@@ -12,15 +12,15 @@ BASE = 'base'
 DERIVE = 'derive'
 
 
-class BaseNoSlot(object):
+class BaseNoSlot:
     pass
 
 
-class BaseEmptySlot(object):
+class BaseEmptySlot:
     __slots__: List[str] = []
 
 
-class BaseSlot(object):
+class BaseSlot:
     __slots__: List[str] = [BASE]
 
 

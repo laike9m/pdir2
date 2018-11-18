@@ -1,7 +1,7 @@
 from ._internal_utils import is_bpython
 
 
-class _Color(object):
+class _Color:
     def __init__(self, color_code: int, bright: bool = False) -> None:
         self.color_code = str(color_code)
         self.intensity = '1' if bright else '0'

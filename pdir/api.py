@@ -25,7 +25,7 @@ if platform.system() == 'Windows':
     init()  # To support Windows.
 
 
-class PrettyDir(object):
+class PrettyDir:
     """Class that provides pretty dir and search API."""
 
     def __init__(
@@ -159,7 +159,7 @@ class PrettyDir(object):
         )
 
 
-class PrettyAttribute(object):
+class PrettyAttribute:
     def __init__(
         self,
         name: str,
