@@ -1,6 +1,6 @@
 :warning: pdir2 will soon switch to a codebase that only supports Python 3.5+, because I want to add type hints and apply those cool toolings like mypy. The Python 2 compatible version will exist in the 0.3.x branch, and will still be receiving bug fixes. All new features will be developed on master therefore is Python 3.5+ exclusive.
 
-In short, if you're still using pdir2 for Python <3.5, install via `pip install "pdir2>=0.3,<0.4"`.
+In short, if you're still using pdir2 for Python &lt;3.5, install via `pip install "pdir2>=0.3,<0.4"`.
 
 # pdir2: Pretty dir() printing with joy
 
@@ -14,70 +14,78 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 ![](https://github.com/laike9m/pdir2/raw/master/images/presentation_v2.gif)
 
 ## Features
-* Attributes are grouped by types/functionalities, with beautiful colors.
 
-* Support color customization, [here's how](https://github.com/laike9m/pdir2/wiki/User-Configuration).
+-   Attributes are grouped by types/functionalities, with beautiful colors.
 
-* Support all platforms including Windows(Thanks to [colorama](https://github.com/tartley/colorama)).
+-   Support color customization, [here's how](https://github.com/laike9m/pdir2/wiki/User-Configuration).
 
-* Support [ipython](https://github.com/ipython/ipython), [ptpython](https://github.com/jonathanslenders/ptpython), [bpython](https://www.bpython-interpreter.org/) and [Jupyter Notebook](http://jupyter.org/)! See [wiki](https://github.com/laike9m/pdir2/wiki/REPL-Support) for details.
+-   Support all platforms including Windows(Thanks to [colorama](https://github.com/tartley/colorama)).
 
-* The return value of `pdir()` can still be used as a list of names.
+-   Support [ipython](https://github.com/ipython/ipython), [ptpython](https://github.com/jonathanslenders/ptpython), [bpython](https://www.bpython-interpreter.org/) and [Jupyter Notebook](http://jupyter.org/)! See [wiki](https://github.com/laike9m/pdir2/wiki/REPL-Support) for details.
 
-* ✨ Attribute searching
+-   The return value of `pdir()` can still be used as a list of names.
 
-  You can search for certain names with `.s()` or `.search()`:  
+-   ✨ Attribute searching
 
-  ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
+    You can search for certain names with `.s()` or `.search()`:  
 
-  Search is case-insensitive by default.  
-   `search(name, case_sensitive=True)` does case sensitive searching.
+    ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
-* :star2: Attribute filtering
+    Search is case-insensitive by default.  
+     `search(name, case_sensitive=True)` does case sensitive searching.
 
-  `properties`: Find properties/variables defined in the inspected object.
+-   :star2: Attribute filtering
 
-  `methods`: Find methods/functions defined in the inspected object.
+    `properties`: Find properties/variables defined in the inspected object.
 
-  `public`: Find public attributes.
+    `methods`: Find methods/functions defined in the inspected object.
 
-  `own`: Find attributes that are not inherited from parent classes.
+    `public`: Find public attributes.
 
-  These filters **can be chained!** Order does **NOT** matter.
+    `own`: Find attributes that are not inherited from parent classes.
 
-  For example, use `pdir(obj).public.own.methods` to find all public own methods.
+    These filters **can be chained!** Order does **NOT** matter.
 
-  You can also call `search` on the returned results.
+    For example, use `pdir(obj).public.own.methods` to find all public own methods.
 
-  See a [complete example](https://github.com/laike9m/pdir2/wiki/Attribute-Filtering).
+    You can also call `search` on the returned results.
+
+    See a [complete example](https://github.com/laike9m/pdir2/wiki/Attribute-Filtering).
 
 ## Install
 
 ### Generic
-```
-pip install pdir2
-```
+
+    pip install pdir2
+
 About the name. I wanted to call it "pdir", but there's already one with this
 name on pypi. Mine is better, of course.
 
 ### Fedora
-```
-dnf install python3-pdir2
---or--
-dnf install python2-pdir2
-```
+
+    dnf install python3-pdir2
+    --or--
+    dnf install python2-pdir2
 
 ## Automatic Import
+
 As a better alternative of `dir()`, it's more convenient to automatically import
 pdir2 when launching REPL. Luckily, Python provides a way to do this. In you `.bashrc`(or `.zshrc`), add this line:
-```
-export PYTHONSTARTUP=$HOME/.pythonstartup
-```
+
+    export PYTHONSTARTUP=$HOME/.pythonstartup
+
 Then, create `.pythonstartup` in your home folder. Add one line:
-```
-import pdir
-```
+
+    import pdir
+
 Next time you launch REPL, `pdir()` is already there, Hooray!
 
 ## Testing
+
 Simply run `pytest`, or use `tox` if you like.
+
+## Developement
+
+Clone the source, run `make install_dev_packages`.   
+Don't forget to add proper type annotations,
+if you're not sure what to do, check out the `gen_type_info` section in `tox.ini`.

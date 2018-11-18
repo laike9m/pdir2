@@ -21,4 +21,4 @@ class _ClassWithSlot(object):
     __slots__ = ['a']
 
 
-SLOT_TYPE = type(_ClassWithSlot.a)
+SLOT_TYPE = type(_ClassWithSlot.a)  # type: ignore

@@ -2,6 +2,8 @@
 Test classes with __slots__
 """
 
+from typing import List
+
 import pdir
 from pdir.attr_category import AttrCategory, category_match
 
@@ -15,11 +17,11 @@ class BaseNoSlot(object):
 
 
 class BaseEmptySlot(object):
-    __slots__ = []
+    __slots__: List[str] = []
 
 
 class BaseSlot(object):
-    __slots__ = [BASE]
+    __slots__: List[str] = [BASE]
 
 
 class DeriveNoSlotBaseEmpty(BaseEmptySlot):
@@ -31,15 +33,15 @@ class DeriveNoSlotBaseSlot(BaseSlot):
 
 
 class DeriveEmptySlotBaseNo(BaseNoSlot):
-    __slots__ = []
+    __slots__: List[str] = []
 
 
 class DeriveEmptySlotBaseEmpty(BaseEmptySlot):
-    __slots__ = []
+    __slots__: List[str] = []
 
 
 class DeriveEmptySlotBaseSlot(BaseSlot):
-    __slots__ = []
+    __slots__: List[str] = []
 
 
 class DeriveSlotBaseNo(BaseNoSlot):

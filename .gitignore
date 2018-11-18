@@ -59,3 +59,6 @@ docs/_build/
 
 # pip editable src
 src/
+
+# mypy
+.mypy_cache/

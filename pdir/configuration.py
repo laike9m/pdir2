@@ -1,12 +1,8 @@
 """Configuration management setup
 """
 
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser
-
 import os
+from configparser import ConfigParser
 from os.path import expanduser
 
 from .color import COLORS

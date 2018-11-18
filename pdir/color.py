@@ -2,11 +2,11 @@ from ._internal_utils import is_bpython
 
 
 class _Color(object):
-    def __init__(self, color_code, bright=False):
+    def __init__(self, color_code: int, bright: bool = False) -> None:
         self.color_code = str(color_code)
         self.intensity = '1' if bright else '0'
 
-    def wrap_text(self, text):
+    def wrap_text(self, text: str) -> str:
         if is_bpython():
             colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
             if self.intensity == '0':
@@ -16,7 +16,7 @@ class _Color(object):
         else:
             return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code, text)
 
-    def __eq__(self, other):
+    def __eq__(self, other: '_Color') -> bool:  # type: ignore
         return self.color_code == other.color_code
 
     def __repr__(self):

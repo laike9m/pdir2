@@ -5,6 +5,10 @@ from enum import IntEnum, auto
 
 from ._internal_utils import is_slotted_attr
 
+from typing import Any
+from typing import Tuple
+from typing import Union
+
 
 # Detailed category should have larger values than general category.
 class AttrCategory(IntEnum):
@@ -39,22 +43,38 @@ class AttrCategory(IntEnum):
     COPY = auto()
     PICKLE = auto()
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         e.g. RICH_COMPARISON -> rich comparison
         """
         return ' '.join(self.name.split('_')).lower()
 
 
-def _always_true(obj):
+def _always_true(obj: type) -> bool:
     return True
 
 
-def category_match(pattr_category, target_category):
+def category_match(
+    pattr_category: Union[Tuple[AttrCategory, ...], AttrCategory],
+    target_category: AttrCategory,
+) -> bool:
     if pattr_category == target_category:
         return True
     return isinstance(pattr_category, tuple) and target_category in pattr_category
 
+
+# Names that belong to different categories in different conditions.
+ATTR_MAP_CONDITIONAL = {
+    '__reversed__': lambda obj: (AttrCategory.ITER, AttrCategory.FUNCTION)
+    if isinstance(obj, collections.Iterator)
+    else (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__iter__': lambda obj: (AttrCategory.ITER, AttrCategory.FUNCTION)
+    if isinstance(obj, collections.Iterator)
+    else (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
+    '__name__': lambda obj: (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY)
+    if inspect.ismodule(obj)
+    else (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+}
 
 ATTR_MAP = {
     '__doc__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
@@ -75,29 +95,8 @@ ATTR_MAP = {
     '__slots__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__weakref__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__next__': (AttrCategory.ITER, AttrCategory.FUNCTION),
-    '__reversed__': [
-        (
-            lambda obj: isinstance(obj, collections.Iterator),
-            (AttrCategory.ITER, AttrCategory.FUNCTION),
-        ),
-        (_always_true, (AttrCategory.CONTAINER, AttrCategory.FUNCTION)),
-    ],
-    '__iter__': [
-        (
-            lambda obj: isinstance(obj, collections.Iterator),
-            (AttrCategory.ITER, AttrCategory.FUNCTION),
-        ),
-        (_always_true, (AttrCategory.CONTAINER, AttrCategory.FUNCTION)),
-    ],
     '__enter__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
     '__exit__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
-    '__name__': [
-        (
-            lambda obj: inspect.ismodule(obj),
-            (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
-        ),
-        (_always_true, (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY)),
-    ],
     '__loader__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__package__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__spec__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
@@ -214,25 +213,28 @@ ATTR_MAP = {
 }
 
 
-def check_slotted(get_attr_category_func):
+def attr_category_postprocess(get_attr_category_func):
+    """Unifies attr_category to a tuple, add AttrCategory.SLOT if needed."""
     @functools.wraps(get_attr_category_func)
-    def wrapped(name, attr, obj):
+    def wrapped(
+        name: str, attr: Any, obj: Any
+    ) -> Tuple[AttrCategory, ...]:
         category = get_attr_category_func(name, attr, obj)
+        category = list(category) if isinstance(category, tuple) else [category]
         if is_slotted_attr(obj, name):
             # Refactoring all tuples to lists is not easy
             # and pleasant. Maybe do this in future if necessary
-            if isinstance(category, tuple):
-                category = tuple([AttrCategory.SLOT] + list(category))
-            else:
-                category = tuple([AttrCategory.SLOT, category])
-        return category
+            category.append(AttrCategory.SLOT)
+        return tuple(category)
 
     return wrapped
 
 
-@check_slotted
-def get_attr_category(name, attr, obj):
-    def is_descriptor(obj):
+@attr_category_postprocess
+def get_attr_category(
+    name: str, attr: Any, obj: Any
+) -> Union[Tuple[AttrCategory, ...], AttrCategory]:
+    def is_descriptor(obj: Any) -> bool:
         return (
             hasattr(obj, '__get__')
             or hasattr(obj, '__set__')
@@ -241,37 +243,37 @@ def get_attr_category(name, attr, obj):
 
     method_descriptor = type(list.append)
 
+    if name in ATTR_MAP_CONDITIONAL:
+        return ATTR_MAP_CONDITIONAL[name](obj)
+
     if name in ATTR_MAP:
-        attr_category = ATTR_MAP[name]
-        if isinstance(attr_category, list):
-            for condition, category in attr_category:
-                if condition(obj):
-                    return category
-        return attr_category
+        return ATTR_MAP[name]
+
+    if inspect.isclass(attr):
+        return (
+            AttrCategory.EXCEPTION
+            if issubclass(attr, Exception)
+            else AttrCategory.CLASS
+        )
+    elif (
+        inspect.isfunction(attr)
+        or inspect.ismethod(attr)
+        or inspect.isbuiltin(attr)
+        or isinstance(attr, method_descriptor)
+    ):
+        # Technically, method_descriptor is descriptor, but since they
+        # act as functions, let's treat them as functions.
+        return AttrCategory.FUNCTION
+    elif isinstance(attr, staticmethod):
+        return (
+            AttrCategory.DESCRIPTOR,
+            AttrCategory.STATIC_METHOD,
+            AttrCategory.FUNCTION,
+        )
+    elif is_descriptor(attr):
+        # Maybe add getsetdescriptor memberdescriptor in the future.
+        return AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY
     else:
-        if inspect.isclass(attr):
-            return (
-                AttrCategory.EXCEPTION
-                if issubclass(attr, Exception)
-                else AttrCategory.CLASS
-            )
-        elif any(
-            f.__call__(attr)
-            for f in (inspect.isfunction, inspect.ismethod, inspect.isbuiltin)
-        ) or isinstance(attr, method_descriptor):
-            # Technically, method_descriptor is descriptor, but since they
-            # act as functions, let's treat them as functions.
-            return AttrCategory.FUNCTION
-        elif isinstance(attr, staticmethod):
-            return (
-                AttrCategory.DESCRIPTOR,
-                AttrCategory.STATIC_METHOD,
-                AttrCategory.FUNCTION,
-            )
-        elif is_descriptor(attr):
-            # Maybe add getsetdescriptor memberdescriptor in the future.
-            return AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY
-        else:
-            # attr that is neither function nor class is a normal variable,
-            # and it's classified to property.
-            return AttrCategory.PROPERTY
+        # attr that is neither function nor class is a normal variable,
+        # and it's classified to property.
+        return AttrCategory.PROPERTY

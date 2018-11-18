@@ -15,13 +15,8 @@ from sys import modules
 import pytest
 from pdir.color import COLORS
 
-if pytest.__version__[0] == '2':
-    from pytest import yield_fixture as fixture
-elif pytest.__version__[0] == '3':
-    from pytest import fixture as fixture
 
-
-@fixture
+@pytest.fixture
 def clean():
     DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.pdir2config')
     yield DEFAULT_CONFIG_FILE

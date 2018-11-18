@@ -1,9 +1,10 @@
 .PHONY: format dry_publish publist debug
 
-# Install development dependencies.
+# Install packages for development.
 # TODO: migrate to poetry if we can.
-prepare_dev:
-	pip install pytest tox black flake8 pyannotate pytest-annotate mypy
+install_dev_packages:
+	pip install pytest tox black flake8 pytest-annotate mypy pytest-mypy
+	# Use latest source of pyannotate to apply latest bug fixes.
 	pip install -e 'git+git://github.com/dropbox/pyannotate.git#egg=pyannotate'
 
 install:

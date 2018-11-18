@@ -6,9 +6,12 @@ from itertools import groupby
 
 from .attr_category import AttrCategory
 from .configuration import attribute_color, category_color, comma, slot_tag, doc_color
+from . import api  # noqa: F401, '.api' imported but unused
+from typing import List
+from collections import Iterable
 
 
-def format_pattrs(pattrs):
+def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
     """Generates repr string given a list of pattrs."""
     output = []
     pattrs.sort(
@@ -26,7 +29,7 @@ def format_pattrs(pattrs):
     return '\n'.join(output)
 
 
-def _format_single_line(category, pattrs):
+def _format_single_line(category: AttrCategory, pattrs: Iterable) -> str:
     category_line = category_color.wrap_text(str(category) + ':')
     output_text = []
     for pattr in pattrs:
@@ -35,7 +38,7 @@ def _format_single_line(category, pattrs):
     return '{0}\n    {1}'.format(category_line, comma.join(output_text))
 
 
-def _format_multiline_with_doc(category, pattrs):
+def _format_multiline_with_doc(category: AttrCategory, pattrs: Iterable) -> str:
     category_line = category_color.wrap_text(str(category) + ':') + '\n'
     output_text = []
     for pattr in pattrs:
@@ -48,7 +51,7 @@ def _format_multiline_with_doc(category, pattrs):
     return category_line + '\n'.join(output_text)
 
 
-def _format_descriptor(category, attrs):
+def _format_descriptor(category: AttrCategory, attrs: Iterable) -> str:
     return _format_multiline_with_doc(category, attrs)
 
 

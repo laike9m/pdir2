@@ -9,11 +9,15 @@ from __future__ import print_function
 import inspect
 import platform
 from sys import _getframe
+from typing import Any
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from ._internal_utils import get_attr_from_dict, is_ptpython
 from .attr_category import AttrCategory, get_attr_category, category_match
 from .constants import dummy_obj, GETTER, SETTER, DELETER
-from .format import format_pattrs
+from . import format
 
 if platform.system() == 'Windows':
     from colorama import init
@@ -24,7 +28,9 @@ if platform.system() == 'Windows':
 class PrettyDir(object):
     """Class that provides pretty dir and search API."""
 
-    def __init__(self, obj=dummy_obj, pattrs=None):
+    def __init__(
+        self, obj: Any = dummy_obj, pattrs: Optional[List['PrettyAttribute']] = None
+    ) -> None:
         """
         Args:
             obj: The object to inspect.
@@ -49,23 +55,23 @@ class PrettyDir(object):
             self.pattrs = pattrs
             self.dir_result = sorted([p.name for p in pattrs])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if is_ptpython():
-            print(format_pattrs(self.pattrs), end='')
+            print(format.format_pattrs(self.pattrs), end='')
             return ''
         else:
-            return format_pattrs(self.pattrs)
+            return format.format_pattrs(self.pattrs)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.dir_result)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> str:
         return self.dir_result[index]
 
     def index(self, value):
         return self.dir_result.index(value)
 
-    def search(self, term, case_sensitive=False):
+    def search(self, term: str, case_sensitive: bool = False) -> 'PrettyDir':
         """Searches for names that match some pattern.
 
         Args:
@@ -95,7 +101,7 @@ class PrettyDir(object):
     # The order should not affect results.
 
     @property
-    def properties(self):
+    def properties(self) -> 'PrettyDir':
         """Returns all properties of the inspected object.
 
         Note that "properties" can mean "variables".
@@ -110,7 +116,7 @@ class PrettyDir(object):
         )
 
     @property
-    def methods(self):
+    def methods(self) -> 'PrettyDir':
         """Returns all methods of the inspected object.
 
         Note that "methods" can mean "functions" when inspecting a module.
@@ -125,14 +131,14 @@ class PrettyDir(object):
         )
 
     @property
-    def public(self):
+    def public(self) -> 'PrettyDir':
         """Returns public attributes of the inspected object."""
         return PrettyDir(
             self.obj, [pattr for pattr in self.pattrs if not pattr.name.startswith('_')]
         )
 
     @property
-    def own(self):
+    def own(self) -> 'PrettyDir':
         """Returns attributes that are not inhterited from parent classes.
 
         Now we only use a simple judgement, it is expected that many attributes
@@ -154,24 +160,27 @@ class PrettyDir(object):
 
 
 class PrettyAttribute(object):
-    def __init__(self, name, category, attr_obj):
+    def __init__(
+        self,
+        name: str,
+        category: Tuple[AttrCategory, ...],
+        attr_obj: Any,
+    ) -> None:
         self.name = name
         self.category = category
         # Names are grouped by their category. When multiple categories exist,
         # pick the largest one which usually represents a more detailed
         # category.
-        self.display_group = max(category) if isinstance(category, tuple) else category
+        self.display_group = max(category)
         self.attr_obj = attr_obj
         self.doc = self.get_oneline_doc()
         # single category can not be a bare slot
-        self.slotted = (
-            AttrCategory.SLOT in self.category if isinstance(category, tuple) else False
-        )
+        self.slotted = AttrCategory.SLOT in self.category
 
     def __repr__(self):
         return '%s: %s' % (self.name, self.category)
 
-    def get_oneline_doc(self):
+    def get_oneline_doc(self) -> str:
         """
         Doc doesn't necessarily mean doctring. It could be anything that
         should be put after the attr's name as an explanation.
@@ -200,4 +209,4 @@ class PrettyAttribute(object):
         if hasattr(attr, '__doc__'):
             doc = inspect.getdoc(attr)
             return doc.split('\n', 1)[0] if doc else ''  # default doc is None
-        return None
+        return ''
