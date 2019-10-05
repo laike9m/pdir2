@@ -161,10 +161,7 @@ class PrettyDir:
 
 class PrettyAttribute:
     def __init__(
-        self,
-        name: str,
-        category: Tuple[AttrCategory, ...],
-        attr_obj: Any,
+        self, name: str, category: Tuple[AttrCategory, ...], attr_obj: Any
     ) -> None:
         self.name = name
         self.category = category
@@ -202,8 +199,9 @@ class PrettyAttribute:
                 if hasattr(attr, '__delete__'):
                     doc_list.append(DELETER)
                 doc_list[0] = ' '.join([doc_list[0], 'with', doc_list.pop(1)])
-            if attr.__doc__ is not None:
-                doc_list.append(inspect.getdoc(attr).split('\n', 1)[0])
+            doc = inspect.getdoc(attr)
+            if doc is not None:
+                doc_list.append(doc.split('\n', 1)[0])
             return ', '.join(doc_list)
 
         if hasattr(attr, '__doc__'):
