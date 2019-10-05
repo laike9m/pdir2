@@ -1,4 +1,4 @@
-import collections
+import collections.abc
 import functools
 import inspect
 from enum import IntEnum, auto
@@ -66,10 +66,10 @@ def category_match(
 # Names that belong to different categories in different conditions.
 ATTR_MAP_CONDITIONAL = {
     '__reversed__': lambda obj: (AttrCategory.ITER, AttrCategory.FUNCTION)
-    if isinstance(obj, collections.Iterator)
+    if isinstance(obj, collections.abc.Iterator)
     else (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
     '__iter__': lambda obj: (AttrCategory.ITER, AttrCategory.FUNCTION)
-    if isinstance(obj, collections.Iterator)
+    if isinstance(obj, collections.abc.Iterator)
     else (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
     '__name__': lambda obj: (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY)
     if inspect.ismodule(obj)
