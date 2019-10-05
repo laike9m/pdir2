@@ -8,7 +8,7 @@ from .attr_category import AttrCategory
 from .configuration import attribute_color, category_color, comma, slot_tag, doc_color
 from . import api  # noqa: F401, '.api' imported but unused
 from typing import List
-from collections import Iterable
+from collections.abc import Iterable
 
 
 def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
