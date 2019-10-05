@@ -43,7 +43,7 @@ def test_default_env_without_config(clean):
 
 def test_set_env_without_config(clean):
     os.environ['PDIR2_CONFIG_FILE'] = 'aaa'
-    with pytest.raises(OSError, message='Config file not exist: aaa'):
+    with pytest.raises(OSError, match='Config file not exist: aaa'):
         import pdir
 
         pdir()
@@ -93,7 +93,7 @@ def test_empty_config(clean):
 
 def test_invalid_config_1(clean):
     shutil.copyfile('tests/data/error_config_1.ini', clean)
-    with pytest.raises(ValueError, message='Invalid key: doc-color1'):
+    with pytest.raises(ValueError, match='Invalid key: doc-color1'):
         import pdir
 
         pdir()
@@ -101,7 +101,7 @@ def test_invalid_config_1(clean):
 
 def test_invalid_config_2(clean):
     shutil.copyfile('tests/data/error_config_2.ini', clean)
-    with pytest.raises(ValueError, message='Invalid color value: 42'):
+    with pytest.raises(ValueError, match='Invalid color value: 42'):
         import pdir
 
         pdir()
