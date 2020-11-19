@@ -2,14 +2,16 @@
 Test attrs that previously caused bugs.
 """
 
+import pytest
+
 import pdir
 from pdir.attr_category import AttrCategory, category_match
 
 
 def test_dataframe():
-    from pandas import DataFrame
+    pandas = pytest.importorskip("pandas")
 
-    result = pdir(DataFrame)
+    result = pdir(pandas.DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
             assert category_match(attr.category, AttrCategory.PROPERTY)
