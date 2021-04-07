@@ -7,14 +7,14 @@ class _Color:
         self.intensity = '1' if bright else '0'
 
     def wrap_text(self, text: str) -> str:
-        if is_bpython():
-            colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
-            if self.intensity == '0':
-                return colored_text
-            else:
-                return '\033[1m' + colored_text
-        else:
+        if not is_bpython():
             return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code, text)
+
+        colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
+        if self.intensity == '0':
+            return colored_text
+        else:
+            return '\033[1m' + colored_text
 
     def __eq__(self, other: '_Color') -> bool:  # type: ignore
         return self.color_code == other.color_code

@@ -13,7 +13,6 @@ from collections.abc import Iterable
 
 def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
     """Generates repr string given a list of pattrs."""
-    output = []
     pattrs.sort(
         key=lambda x: (
             _FORMATTER[x.display_group].display_index,
@@ -21,10 +20,12 @@ def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
             x.name,
         )
     )
-    for display_group, grouped_pattrs in groupby(pattrs, lambda x: x.display_group):
-        output.append(
-            _FORMATTER[display_group].formatter(display_group, grouped_pattrs)
+    output = [
+        _FORMATTER[display_group].formatter(display_group, grouped_pattrs)
+        for display_group, grouped_pattrs in groupby(
+            pattrs, lambda x: x.display_group
         )
+    ]
 
     return '\n'.join(output)
 

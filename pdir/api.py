@@ -56,11 +56,11 @@ class PrettyDir:
             self.dir_result = sorted([p.name for p in pattrs])
 
     def __repr__(self) -> str:
-        if is_ptpython():
-            print(format.format_pattrs(self.pattrs), end='')
-            return ''
-        else:
+        if not is_ptpython():
             return format.format_pattrs(self.pattrs)
+
+        print(format.format_pattrs(self.pattrs), end='')
+        return ''
 
     def __len__(self) -> int:
         return len(self.dir_result)
@@ -87,11 +87,10 @@ class PrettyDir:
             return PrettyDir(
                 self.obj, [pattr for pattr in self.pattrs if term in pattr.name]
             )
-        else:
-            term = term.lower()
-            return PrettyDir(
-                self.obj, [pattr for pattr in self.pattrs if term in pattr.name.lower()]
-            )
+        term = term.lower()
+        return PrettyDir(
+            self.obj, [pattr for pattr in self.pattrs if term in pattr.name.lower()]
+        )
 
     s = search
 
