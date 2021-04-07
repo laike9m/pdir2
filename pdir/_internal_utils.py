@@ -23,10 +23,10 @@ def get_attr_from_dict(inspected_obj: Any, attr_name: str) -> Any:
 
 
 def is_slotted_attr(child_obj: Any, attr_name: str) -> bool:
-    for obj in list(child_obj.__class__.__mro__):
-        if isinstance(getattr(obj, attr_name, None), SLOT_TYPE):
-            return True
-    return False
+    return any(
+        isinstance(getattr(obj, attr_name, None), SLOT_TYPE)
+        for obj in list(child_obj.__class__.__mro__)
+    )
 
 
 def _get_repl_type() -> ReplType:
