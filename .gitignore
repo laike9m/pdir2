@@ -62,3 +62,7 @@ src/
 
 # mypy
 .mypy_cache/
+
+# pdm
+.pdm.toml
+__pypackages__/
