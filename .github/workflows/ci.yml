@@ -7,7 +7,7 @@ on:
       - "*.md"
   push:
     branches:
-      - main
+      - master
     paths-ignore:
       - "images/**"
       - "*.md"
