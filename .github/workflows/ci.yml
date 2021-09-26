@@ -32,4 +32,3 @@ jobs:
         run: pdm install
       - name: Run tests
         run: pdm run tox
-        shell: cmd
