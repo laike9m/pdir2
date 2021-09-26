@@ -30,7 +30,11 @@ jobs:
 
       - name: Install dependencies
         run: pdm install
-      - name: Run tests
+      - name: Run tests  # On Windows, interactive test doesn't work, so exclude it.
         run: |
+          if [ "$RUNNER_OS" != "Windows" ]; then
              pdm run tox
+          else
+             pdm run tox -epy37,py38,py39
+          fi
         shell: bash
