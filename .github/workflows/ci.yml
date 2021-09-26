@@ -32,5 +32,6 @@ jobs:
         run: |
           pdm install
       - name: Run tests
+        shell: cmd
         run: |
           pdm run tox
