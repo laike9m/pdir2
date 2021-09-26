@@ -32,9 +32,5 @@ jobs:
         run: pdm install
       - name: Run tests
         run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-             pdm.exe run tox
-          else
              pdm run tox
-          fi
-        shell: cmd
+        shell: bash
