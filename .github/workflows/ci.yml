@@ -18,8 +18,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9 ]
-        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+        python-version: [3.7, 3.8, 3.9]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -31,10 +31,9 @@ jobs:
       - name: Install dependencies
         run: pdm install
         # On Windows, interactive test doesn't work, so exclude it.
-      - name: Run tests Windows
-        run: pdm run tox -epy37,py38,py39
-        if: runner.os == 'Windows'
-        shell: bash
       - name: Run tests
         run: pdm run tox
+
+      - name: Interactive tests
         if: runner.os != 'Windows'
+        run: pdm run tox -eextra
