@@ -203,7 +203,12 @@ class PrettyAttribute:
                 doc_list.append(doc.split('\n', 1)[0])
             return ', '.join(doc_list)
 
-        if hasattr(attr, '__doc__'):
+        try:
+            hasattr_doc = hasattr(attr, '__doc__')
+        except:
+            hasattr_doc = False
+
+        if hasattr_doc:
             doc = inspect.getdoc(attr)
             return doc.split('\n', 1)[0] if doc else ''  # default doc is None
         return ''
