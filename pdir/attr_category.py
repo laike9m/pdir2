@@ -39,9 +39,11 @@ class AttrCategory(IntEnum):
     STATIC_METHOD = auto()
     CLASS_CUSTOMIZATION = auto()
     CONTAINER = auto()
-    COUROUTINE = auto()
+    COROUTINE = auto()
     COPY = auto()
     PICKLE = auto()
+    PATTERN_MATCHING = auto()
+    TYPING = auto()
 
     def __str__(self) -> str:
         """
@@ -94,6 +96,7 @@ ATTR_MAP = {
     '__objclass__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__slots__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__weakref__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__excepthook__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__next__': (AttrCategory.ITER, AttrCategory.FUNCTION),
     '__enter__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
     '__exit__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
@@ -195,11 +198,11 @@ ATTR_MAP = {
     '__setitem__': (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
     '__delitem__': (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
     '__contains__': (AttrCategory.CONTAINER, AttrCategory.FUNCTION),
-    '__await__': (AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
-    '__aiter__': (AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
-    '__anext__': (AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
-    '__aenter__': (AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
-    '__aexit__': (AttrCategory.COUROUTINE, AttrCategory.FUNCTION),
+    '__await__': (AttrCategory.COROUTINE, AttrCategory.FUNCTION),
+    '__aiter__': (AttrCategory.COROUTINE, AttrCategory.FUNCTION),
+    '__anext__': (AttrCategory.COROUTINE, AttrCategory.FUNCTION),
+    '__aenter__': (AttrCategory.COROUTINE, AttrCategory.FUNCTION),
+    '__aexit__': (AttrCategory.COROUTINE, AttrCategory.FUNCTION),
     '__index__': (AttrCategory.MAGIC, AttrCategory.FUNCTION),
     '__call__': (AttrCategory.MAGIC, AttrCategory.FUNCTION),
     '__copy__': (AttrCategory.COPY, AttrCategory.FUNCTION),
@@ -210,6 +213,11 @@ ATTR_MAP = {
     '__setstate__': (AttrCategory.PICKLE, AttrCategory.FUNCTION),
     '__reduce__': (AttrCategory.PICKLE, AttrCategory.FUNCTION),
     '__reduce_ex__': (AttrCategory.PICKLE, AttrCategory.FUNCTION),
+    '__match_args__': (AttrCategory.PATTERN_MATCHING, AttrCategory.PROPERTY),
+    '__origin__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__args__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__parameters__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__class_getitem__': (AttrCategory.TYPING, AttrCategory.FUNCTION),
 }
 
 

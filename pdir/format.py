@@ -87,7 +87,7 @@ _FORMATTER = {
     AttrCategory.STATIC_METHOD: _descriptor,
     AttrCategory.CLASS_CUSTOMIZATION: _single_line,
     AttrCategory.CONTAINER: _single_line,
-    AttrCategory.COUROUTINE: _single_line,
+    AttrCategory.COROUTINE: _single_line,
     AttrCategory.COPY: _single_line,
     AttrCategory.PICKLE: _single_line,
     AttrCategory.ABSTRACT_CLASS: _single_line,
