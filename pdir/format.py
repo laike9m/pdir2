@@ -22,9 +22,7 @@ def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
     )
     output = [
         _FORMATTER[display_group].formatter(display_group, grouped_pattrs)
-        for display_group, grouped_pattrs in groupby(
-            pattrs, lambda x: x.display_group
-        )
+        for display_group, grouped_pattrs in groupby(pattrs, lambda x: x.display_group)
     ]
 
     return '\n'.join(output)

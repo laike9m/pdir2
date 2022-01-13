@@ -118,10 +118,11 @@ def test_override_dir():
 
 
 def test_get_attribute_fail():
-    """"Tests if get_online_doc returns '' when __doc__ access throws an exception."""
+    """ "Tests if get_online_doc returns '' when __doc__ access throws an exception."""
 
     class DocAttributeFail:
         """Fails when __doc__ atribute is accessed."""
+
         def __getattribute__(self, name):
             if name == '__doc__':
                 raise Exception('failed successfully')
@@ -130,12 +131,12 @@ def test_get_attribute_fail():
 
     class DocFailContainer:
         """Holds attributes that fail when __doc__ is accessed."""
+
         dac1 = DocAttributeFail()
+
         def __init__(self):
             self.dac2 = DocAttributeFail()
 
     for pattr in pdir(DocFailContainer()).pattrs:
         if pattr.name in ['dac1', 'dac2']:
             assert pattr.get_oneline_doc() == ''
-
-

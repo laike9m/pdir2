@@ -10,8 +10,7 @@ import pdir
 
 # https://github.com/python/cpython/blob/da2bf9f66d0c95b988c5d87646d168f65499b316/Lib/unittest/case.py#L1164-L1195
 def items_equal(first, second):
-    """A simplified version of the unittest.assertEqual method.
-    """
+    """A simplified version of the unittest.assertEqual method."""
     first_seq, second_seq = list(first), list(second)
     first = collections.Counter(first_seq)
     second = collections.Counter(second_seq)

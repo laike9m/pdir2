@@ -7,8 +7,7 @@ from .constants import ReplType, SLOT_TYPE
 
 
 def get_attr_from_dict(inspected_obj: Any, attr_name: str) -> Any:
-    """Ensures we get descriptor object instead of its return value.
-    """
+    """Ensures we get descriptor object instead of its return value."""
     if inspect.isclass(inspected_obj):
         obj_list = [inspected_obj] + list(inspected_obj.__mro__)
     else:

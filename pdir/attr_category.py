@@ -223,10 +223,9 @@ ATTR_MAP = {
 
 def attr_category_postprocess(get_attr_category_func):
     """Unifies attr_category to a tuple, add AttrCategory.SLOT if needed."""
+
     @functools.wraps(get_attr_category_func)
-    def wrapped(
-        name: str, attr: Any, obj: Any
-    ) -> Tuple[AttrCategory, ...]:
+    def wrapped(name: str, attr: Any, obj: Any) -> Tuple[AttrCategory, ...]:
         category = get_attr_category_func(name, attr, obj)
         category = list(category) if isinstance(category, tuple) else [category]
         if is_slotted_attr(obj, name):
