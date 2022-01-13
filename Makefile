@@ -1,7 +1,5 @@
 .PHONY: format dry_publish publist debug
 
-# TODO: migrate to PDM
-
 # Install packages for development.
 install_dev_packages:
 	pip install pytest tox black flake8 pytest-annotate mypy pytest-mypy
