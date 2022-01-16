@@ -11,12 +11,15 @@ install:
 format:
 	black --config pyproject.toml .
 
-dry_publish:
+publish_to_test:
 	rm -rf dist/
-	python setup.py sdist bdist_wheel
+	pdm build
+	pdm run twine upload --repository testpypi dist/*  # Assuming .pypirc exists.
 
-publish: dry_publish
-	twine upload -s dist/*
+publish:
+	rm -rf dist/
+	pdm build
+	pdm run twine upload --repository pypi dist/*  # Assuming .pypirc exists.
 
 debug:
 	pytest --pdb -s tests
