@@ -53,3 +53,7 @@ build-backend = "pdm.pep517.api"
 
 [tool.black]
 skip-string-normalization = true
+
+[[tool.mypy.overrides]]
+module = ["pytest"]
+ignore_missing_imports = true
