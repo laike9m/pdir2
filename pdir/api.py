@@ -20,7 +20,7 @@ from .constants import dummy_obj, GETTER, SETTER, DELETER
 from . import format
 
 if platform.system() == 'Windows':
-    from colorama import init
+    from colorama import init  # type: ignore
 
     init()  # To support Windows.
 

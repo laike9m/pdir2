@@ -12,14 +12,6 @@ from pdir.color import COLORS
 
 @pytest.fixture
 def clean():
-    DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.pdir2config')
-    yield DEFAULT_CONFIG_FILE
-    if 'PDIR2_CONFIG_FILE' in os.environ:
-        if os.path.exists(os.environ['PDIR2_CONFIG_FILE']):
-            os.remove(os.environ['PDIR2_CONFIG_FILE'])
-        del os.environ['PDIR2_CONFIG_FILE']
-    if os.path.exists(DEFAULT_CONFIG_FILE):
-        os.remove(DEFAULT_CONFIG_FILE)
     for module in (
         'pdir',
         'pdir.api',
@@ -33,6 +25,15 @@ def clean():
             del modules[module]
         except KeyError:
             pass
+    
+    DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.pdir2config')
+    yield DEFAULT_CONFIG_FILE
+    if 'PDIR2_CONFIG_FILE' in os.environ:
+        if os.path.exists(os.environ['PDIR2_CONFIG_FILE']):
+            os.remove(os.environ['PDIR2_CONFIG_FILE'])
+        del os.environ['PDIR2_CONFIG_FILE']
+    if os.path.exists(DEFAULT_CONFIG_FILE):
+        os.remove(DEFAULT_CONFIG_FILE)
 
 
 def test_default_env_without_config(clean):

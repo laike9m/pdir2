@@ -43,6 +43,7 @@ coverage.xml
 .project
 .pydevproject
 .idea
+.vscode
 
 # Rope
 .ropeproject
