@@ -2,13 +2,13 @@
 Defines how attr is organized and displayed.
 """
 from collections import namedtuple
-from itertools import groupby
-
-from .attr_category import AttrCategory
-from .configuration import attribute_color, category_color, comma, slot_tag, doc_color
-from . import api  # noqa: F401, '.api' imported but unused
-from typing import List
 from collections.abc import Iterable
+from itertools import groupby
+from typing import List
+
+from . import api  # noqa: F401, '.api' imported but unused
+from .attr_category import AttrCategory
+from .configuration import attribute_color, category_color, comma, doc_color, slot_tag
 
 
 def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:

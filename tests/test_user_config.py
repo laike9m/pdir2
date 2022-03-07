@@ -25,7 +25,7 @@ def clean():
             del modules[module]
         except KeyError:
             pass
-    
+
     DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.pdir2config')
     yield DEFAULT_CONFIG_FILE
     if 'PDIR2_CONFIG_FILE' in os.environ:
