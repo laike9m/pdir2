@@ -2,6 +2,13 @@ import sys
 
 import pdir
 import pytest
+from pdir.attr_category import AttrCategory
+from pdir.format import _FORMATTER
+
+
+def test_formatter_integrity():
+    for ac in AttrCategory:
+        assert ac in _FORMATTER
 
 
 def test_pdir_module():

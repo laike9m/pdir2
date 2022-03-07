@@ -65,6 +65,7 @@ _multiline_with_doc = _AttributeGroupFormatter(
 )
 
 _FORMATTER = {
+    AttrCategory.SLOT: _single_line,
     AttrCategory.FUNCTION: _multiline_with_doc,
     AttrCategory.CLASS: _multiline_with_doc,
     AttrCategory.EXCEPTION: _multiline_with_doc,
@@ -89,4 +90,6 @@ _FORMATTER = {
     AttrCategory.COPY: _single_line,
     AttrCategory.PICKLE: _single_line,
     AttrCategory.ABSTRACT_CLASS: _single_line,
+    AttrCategory.PATTERN_MATCHING: _single_line,
+    AttrCategory.TYPING: _single_line,
 }
