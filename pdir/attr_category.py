@@ -12,7 +12,7 @@ from typing import Union
 
 # Detailed category should have larger values than general category.
 class AttrCategory(IntEnum):
-    # Slot category: orthogonal to all other category
+    # Slot category: orthogonal to all other categories.
     SLOT = auto()
     # Basic category.
     CLASS = auto()
