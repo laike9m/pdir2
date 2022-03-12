@@ -1,6 +1,6 @@
 [project]
 name = "pdir2"
-version = "0.3.3"
+version = "0.3.4"
 authors = [
     {name = "laike9m", email = "laike9m@gmail.com"},
 ]
