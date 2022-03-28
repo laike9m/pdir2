@@ -29,11 +29,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: pdm install
+        run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
       - name: Run tests
-        run: pdm run tox
+        run: pdm run tox -v
 
       - name: Interactive tests
         if: runner.os != 'Windows'
-        run: pdm run tox -eextra
+        run: pdm run tox -eextra -v
