@@ -2,6 +2,7 @@ import sys
 
 import pdir
 import pytest
+from pdir._internal_utils import get_first_sentence_of_docstring
 from pdir.attr_category import AttrCategory
 from pdir.format import _FORMATTER
 
@@ -329,3 +330,21 @@ def test_slots():
             ]
         )
     assert repr(result) == expected
+
+
+@pytest.mark.parametrize(
+    'docstring, first_line',
+    [
+        ('', ''),
+        ('Foobar', 'Foobar'),
+        ('Foobar.', 'Foobar.'),
+        ('Foo\nbar', 'Foo bar'),
+        ('Foo\nbar.', 'Foo bar.'),
+        ('Return nothing.\nNo exceptions.', 'Return nothing.'),
+        ('Return a.b as\nresult', 'Return a.b as result'),
+    ],
+)
+def test_get_first_line_of_docstring(docstring, first_line):
+    CustomClass = type('CustomClass', (object,), {})
+    setattr(CustomClass, '__doc__', docstring)
+    assert get_first_sentence_of_docstring(CustomClass) == first_line

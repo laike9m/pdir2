@@ -9,15 +9,16 @@ from __future__ import print_function
 import inspect
 import platform
 from sys import _getframe
-from typing import Any
-from typing import List
-from typing import Optional
-from typing import Tuple
+from typing import Any, List, Optional, Tuple
 
-from ._internal_utils import get_attr_from_dict, is_ptpython
-from .attr_category import AttrCategory, get_attr_category, category_match
-from .constants import dummy_obj, GETTER, SETTER, DELETER
 from . import format
+from ._internal_utils import (
+    get_attr_from_dict,
+    get_first_sentence_of_docstring,
+    is_ptpython,
+)
+from .attr_category import AttrCategory, category_match, get_attr_category
+from .constants import DELETER, GETTER, SETTER, dummy_obj
 
 if platform.system() == 'Windows':
     from colorama import init  # type: ignore
@@ -182,6 +183,7 @@ class PrettyAttribute:
         should be put after the attr's name as an explanation.
         """
         attr = self.attr_obj
+        doc = get_first_sentence_of_docstring(attr)
         if self.display_group == AttrCategory.DESCRIPTOR:
             if isinstance(attr, property):
                 doc_list = ['@property with getter']
@@ -198,17 +200,8 @@ class PrettyAttribute:
                 if hasattr(attr, '__delete__'):
                     doc_list.append(DELETER)
                 doc_list[0] = ' '.join([doc_list[0], 'with', doc_list.pop(1)])
-            doc = inspect.getdoc(attr)
-            if doc is not None:
-                doc_list.append(doc.split('\n', 1)[0])
+            if doc:
+                doc_list.append(doc)
             return ', '.join(doc_list)
 
-        try:
-            hasattr_doc = hasattr(attr, '__doc__')
-        except:
-            hasattr_doc = False
-
-        if hasattr_doc:
-            doc = inspect.getdoc(attr)
-            return doc.split('\n', 1)[0] if doc else ''  # default doc is None
-        return ''
+        return doc

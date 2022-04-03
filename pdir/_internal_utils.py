@@ -1,9 +1,8 @@
-import sys
 import inspect
-
+import sys
 from typing import Any
 
-from .constants import ReplType, SLOT_TYPE
+from .constants import SLOT_TYPE, ReplType
 
 
 def get_attr_from_dict(inspected_obj: Any, attr_name: str) -> Any:
@@ -46,3 +45,34 @@ def is_bpython() -> bool:
 
 def is_ptpython() -> bool:
     return _get_repl_type() == ReplType.PTPYTHON
+
+
+def get_first_sentence_of_docstring(obj: Any) -> str:
+    """Attempt to get the first sentence from obj's docstring.
+
+    There might be more than one sentence or some non-ending dots
+    in docstring, so it's better to parse by `. ` rather than `.`.
+    If no dots are found, original docstring will be returned.
+    """
+    docstring = get_docstring_from_obj(obj)
+    if not docstring:
+        return ''
+
+    joined = ' '.join(docstring.split('\n')) + ' '
+    try:
+        first_sentence_end_pos = joined.index('. ')
+    except ValueError:
+        return joined.strip()
+
+    return joined[: first_sentence_end_pos + 1]
+
+
+def get_docstring_from_obj(obj: Any) -> str:
+    """
+    SystemError may occur on jpype objects,
+    see https://github.com/laike9m/pdir2/pull/57.
+    """
+    try:
+        return inspect.getdoc(obj) or ''
+    except Exception:
+        return ''
