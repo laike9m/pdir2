@@ -1,7 +1,3 @@
-:warning: On master branch, pdir2's codebase is **Python 3.5+**, with annotations and mypy check. The Python 2 compatible version exists in the [0.3.x](https://github.com/laike9m/pdir2/tree/0.3.x) branch and will still be receiving bug fixes. All new features will be developed on master therefore is Python 3.5+ exclusive.
-
-In short, if you're still using pdir2 for Python &lt;3.5, install via `pip install "pdir2>=0.3,<0.4"`.
-
 # pdir2: Pretty dir() printing with joy
 
 [![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
@@ -32,7 +28,7 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
     ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
     Search is case-insensitive by default.  
-     `search(name, case_sensitive=True)` does case sensitive searching.
+     `search(name, case_sensitive=True)` does case-sensitive searching.
 
 -   :star2: Attribute filtering
 
@@ -84,7 +80,7 @@ Next time you launch REPL, `pdir()` is already there, Hooray!
 
 Simply run `pytest`, or use `tox` if you like.
 
-## Developement
+## Development
 
 Clone the source, run `make install_dev_packages`.   
 Don't forget to add proper type annotations,
