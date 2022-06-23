@@ -38,8 +38,8 @@ class Configuration:
         self._load()
 
     @property
-    def disable_color(self):
-        return self._disable_color
+    def colorful_output(self):
+        return self._colorful_output
 
     @property
     def uniform_color(self):
@@ -80,7 +80,7 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
-        self._disable_color = user_config_dict.get("disable_color")
+        self._colorful_output = user_config_dict.get("colorful_output")
 
         # UNIFORM_COLOR suppresses other settings.
         if _UNIFORM_COLOR in user_config_dict:
@@ -101,16 +101,18 @@ _cfg = Configuration()
 
 def should_colorful_output():
     """
-    config_file > environ > is_tty
+    environ > config_file
     """
-    if _cfg.disable_color:
-        return False
-
     environ_set = os.getenv("PDIR2_NOCOLOR")
     if environ_set and environ_set in ["True", "Y", "1"]:
         return False
 
-    return sys.stdout.isatty()
+    if (
+        _cfg.colorful_output is None or _cfg.colorful_output == "auto"
+    ):  # Not set, default to "auto"
+        return sys.stdout.isatty()
+
+    return _cfg.colorful_output == "True"
 
 
 colorful_output = should_colorful_output()
