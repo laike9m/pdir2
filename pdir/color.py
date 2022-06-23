@@ -23,6 +23,16 @@ class _Color:
         return '\033[%sm%s\033[0m' % (self.color_code, 'color')
 
 
+class _ColorDisabled:
+    def wrap_text(self, text: str) -> str:
+        return text
+
+    def __eq__(self, other):
+        if isinstance(other, _ColorDisabled):
+            return True
+        return False
+
+
 COLORS = {
     'black': _Color(30),
     'bright black': _Color(30, True),
@@ -42,3 +52,4 @@ COLORS = {
     'white': _Color(37),
     'bright white': _Color(37, True),
 }
+COLOR_DISABLED = _ColorDisabled()

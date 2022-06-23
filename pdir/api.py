@@ -6,7 +6,6 @@ Convention:
 
 from __future__ import print_function
 
-import inspect
 import platform
 from sys import _getframe
 from typing import Any, List, Optional, Tuple

@@ -2,10 +2,11 @@
 """
 
 import os
+import sys
 from configparser import ConfigParser
 from os.path import expanduser
 
-from .color import COLORS
+from .color import COLORS, COLOR_DISABLED
 
 # User Configuration
 _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
@@ -35,6 +36,10 @@ class Configuration:
     def __init__(self):
         self._configparser = ConfigParser()
         self._load()
+
+    @property
+    def disable_color(self):
+        return self._disable_color
 
     @property
     def uniform_color(self):
@@ -75,6 +80,8 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
+        self._disable_color = user_config_dict.get("disable_color")
+
         # UNIFORM_COLOR suppresses other settings.
         if _UNIFORM_COLOR in user_config_dict:
             self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
@@ -91,13 +98,35 @@ class Configuration:
 
 _cfg = Configuration()
 
-if _cfg.uniform_color:
-    category_color = attribute_color = doc_color = _cfg.uniform_color
-    comma = _cfg.uniform_color.wrap_text(', ')
-    slot_tag = _cfg.uniform_color.wrap_text('(slotted)')
+
+def should_colorful_output():
+    """
+    config_file > environ > is_tty
+    """
+    if _cfg.disable_color:
+        return False
+
+    environ_set = os.getenv("PDIR2_NOCOLOR")
+    if environ_set and environ_set in ["True", "Y", "1"]:
+        return False
+
+    return sys.stdout.isatty()
+
+
+colorful_output = should_colorful_output()
+
+if colorful_output:
+    if _cfg.uniform_color:
+        category_color = attribute_color = doc_color = _cfg.uniform_color
+        comma = _cfg.uniform_color.wrap_text(', ')
+        slot_tag = _cfg.uniform_color.wrap_text('(slotted)')
+    else:
+        category_color = _cfg.category_color
+        attribute_color = _cfg.attribute_color
+        doc_color = _cfg.doc_color
+        comma = _cfg.comma_color.wrap_text(', ')
+        slot_tag = _cfg.slot_color.wrap_text('(slotted)')
 else:
-    category_color = _cfg.category_color
-    attribute_color = _cfg.attribute_color
-    doc_color = _cfg.doc_color
-    comma = _cfg.comma_color.wrap_text(', ')
-    slot_tag = _cfg.slot_color.wrap_text('(slotted)')
+    category_color = attribute_color = doc_color = COLOR_DISABLED
+    comma = ', '
+    slot_tag = '(slotted)'
