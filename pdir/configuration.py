@@ -135,6 +135,3 @@ else:
     category_color = attribute_color = doc_color = COLOR_DISABLED
     comma = ', '
     slot_tag = '(slotted)'
-
-
-print("init!")
