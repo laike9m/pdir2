@@ -4,9 +4,6 @@ Test classes with __slots__
 
 from typing import List
 
-import pdir
-from pdir.attr_category import AttrCategory, category_match
-
 
 BASE = 'base'
 DERIVE = 'derive'
@@ -57,6 +54,8 @@ class DeriveSlotBaseSlot(BaseSlot):
 
 
 def test_not_set():
+    import pdir
+    from pdir.attr_category import AttrCategory, category_match
     expected_res = [  # class type    empty slot attr num
         (DeriveNoSlotBaseEmpty, 0),
         (DeriveNoSlotBaseSlot, 1),
@@ -78,6 +77,8 @@ def test_not_set():
 
 
 def test_set_derive():
+    import pdir
+    from pdir.attr_category import AttrCategory, category_match
     c_types = [DeriveSlotBaseNo, DeriveSlotBaseEmpty, DeriveSlotBaseSlot]
     for c_type in c_types:
         instance = c_type()
@@ -93,6 +94,8 @@ def test_set_derive():
 
 
 def test_set_base():
+    import pdir
+    from pdir.attr_category import AttrCategory, category_match
     c_types = [DeriveNoSlotBaseSlot, DeriveEmptySlotBaseSlot, DeriveSlotBaseSlot]
     for c_type in c_types:
         instance = c_type()

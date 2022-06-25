@@ -1,18 +1,16 @@
 import sys
-
-import pdir
 import pytest
-from pdir._internal_utils import get_first_sentence_of_docstring
-from pdir.attr_category import AttrCategory
-from pdir.format import _FORMATTER
 
 
 def test_formatter_integrity():
+    from pdir.attr_category import AttrCategory
+    from pdir.format import _FORMATTER
     for ac in AttrCategory:
         assert ac in _FORMATTER
 
 
-def test_pdir_module():
+def test_pdir_module(tty):
+    import pdir
     import m
 
     result = pdir(m)
@@ -78,7 +76,8 @@ def test_pdir_module():
     del m
 
 
-def test_pdir_object():
+def test_pdir_object(tty):
+    import pdir
     class T:
         def what(self):
             """doc line"""
@@ -94,7 +93,8 @@ def test_pdir_object():
         sys.version_info
     ),
 )
-def test_pdir_class():
+def test_pdir_class(tty):
+    import pdir
     class T:
         pass
 
@@ -187,7 +187,8 @@ def test_pdir_class():
     print(result)
 
 
-def test_dir_without_argument():
+def test_dir_without_argument(tty):
+    import pdir
     a = 1
     b = 2
 
@@ -208,7 +209,8 @@ def test_dir_without_argument():
     print(result)
 
 
-def test_slots():
+def test_slots(tty):
+    import pdir
     class A:
         __slots__ = ['__mul__', '__hash__', 'a', 'b']
 
@@ -345,6 +347,7 @@ def test_slots():
     ],
 )
 def test_get_first_line_of_docstring(docstring, first_line):
+    from pdir._internal_utils import get_first_sentence_of_docstring
     CustomClass = type('CustomClass', (object,), {})
     setattr(CustomClass, '__doc__', docstring)
     assert get_first_sentence_of_docstring(CustomClass) == first_line

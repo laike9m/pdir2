@@ -7,7 +7,6 @@ import shutil
 from sys import modules
 
 import pytest
-from pdir.color import COLORS
 
 
 @pytest.fixture
@@ -54,6 +53,7 @@ def test_read_config(clean):
     # 'clean' is the DEFAULT_CONFIG_FILE yielded from fixture.
     shutil.copyfile('tests/data/config_1.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
+    from pdir.color import COLORS
 
     assert doc_color == COLORS['white']
     assert category_color == COLORS['bright yellow']
@@ -65,6 +65,7 @@ def test_read_config_from_custom_location(clean):
     os.environ['PDIR2_CONFIG_FILE'] = os.path.join(os.path.expanduser('~'), '.myconfig')
     shutil.copyfile('tests/data/config_1.ini', os.environ['PDIR2_CONFIG_FILE'])
     from pdir.format import doc_color, category_color, attribute_color, comma
+    from pdir.color import COLORS
 
     assert doc_color == COLORS['white']
     assert category_color == COLORS['bright yellow']
@@ -75,6 +76,7 @@ def test_read_config_from_custom_location(clean):
 def test_uniform_color(clean):
     shutil.copyfile('tests/data/config_2.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
+    from pdir.color import COLORS
 
     assert doc_color == COLORS['white']
     assert category_color == COLORS['white']
@@ -85,6 +87,7 @@ def test_uniform_color(clean):
 def test_empty_config(clean):
     shutil.copyfile('tests/data/empty_config.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
+    from pdir.color import COLORS
 
     assert doc_color == COLORS['grey']
     assert category_color == COLORS['yellow']
