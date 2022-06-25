@@ -107,7 +107,7 @@ def should_colorful_output():
     environ > config_file
     """
     environ_set = os.getenv("PDIR2_NOCOLOR")
-    if environ_set and environ_set in ["True", "Y", "1"]:
+    if environ_set and environ_set in ["True", "Y", "1", "true"]:
         return False
 
     if (
@@ -135,3 +135,6 @@ else:
     category_color = attribute_color = doc_color = COLOR_DISABLED
     comma = ', '
     slot_tag = '(slotted)'
+
+
+print("init!")
