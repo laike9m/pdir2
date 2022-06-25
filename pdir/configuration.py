@@ -12,9 +12,9 @@ from .color import COLORS, COLOR_DISABLED
 _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
 _DEFAULT = 'global'
 _UNIFORM_COLOR = 'uniform-color'
+_COLORFUL_OUTPUT = 'colorful-output'
 VALID_CONFIG_KEYS = frozenset(
     {
-        _UNIFORM_COLOR,
         'category-color',
         'attribute-color',
         'comma-color',
@@ -27,6 +27,7 @@ VALID_CONFIG_KEYS = frozenset(
 class Configuration:
 
     _uniform_color = None
+    _colorful_output = None
     _category_color = COLORS['yellow']
     _attribute_color = COLORS['cyan']
     _comma_color = COLORS['grey']
@@ -80,7 +81,7 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
-        self._colorful_output = user_config_dict.get("colorful_output")
+        self._colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
 
         # UNIFORM_COLOR suppresses other settings.
         if _UNIFORM_COLOR in user_config_dict:
@@ -88,6 +89,8 @@ class Configuration:
             return
 
         for item, color in user_config_dict.items():
+            if item in [_COLORFUL_OUTPUT, _UNIFORM_COLOR]:
+                continue
             if item not in VALID_CONFIG_KEYS:
                 raise ValueError('Invalid key: %s' % item)
             if color not in set(COLORS.keys()):
