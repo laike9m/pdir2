@@ -2,9 +2,10 @@ import sys
 import pytest
 
 
-def test_formatter_integrity():
+def test_formatter_integrity(tty):
     from pdir.attr_category import AttrCategory
     from pdir.format import _FORMATTER
+
     for ac in AttrCategory:
         assert ac in _FORMATTER
 
@@ -78,6 +79,7 @@ def test_pdir_module(tty):
 
 def test_pdir_object(tty):
     import pdir
+
     class T:
         def what(self):
             """doc line"""
@@ -95,6 +97,7 @@ def test_pdir_object(tty):
 )
 def test_pdir_class(tty):
     import pdir
+
     class T:
         pass
 
@@ -189,6 +192,7 @@ def test_pdir_class(tty):
 
 def test_dir_without_argument(tty):
     import pdir
+
     a = 1
     b = 2
 
@@ -200,10 +204,11 @@ def test_dir_without_argument(tty):
     assert repr(result) == '\n'.join(
         [
             '\x1b[0;33mproperty:\x1b[0m',
-            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m',
+            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mtty\x1b[0m',
+            '\x1b[0;33mclass:\x1b[0m',
+            '    \x1b[0;36mpdir\x1b[0m\x1b[0;36m: \x1b[0m\x1b[1;30mClass that provides pretty dir and search API.\x1b[0m',
             '\x1b[0;33mfunction:\x1b[0m',
-            '    \x1b[0;36mwhatever\x1b[0m\x1b[0;36m: \x1b[0m\x1b'
-            '[1;30mOne line doc.\x1b[0m',
+            '    \x1b[0;36mwhatever\x1b[0m\x1b[0;36m: \x1b[0m\x1b[1;30mOne line doc.\x1b[0m',
         ]
     )
     print(result)
@@ -211,6 +216,7 @@ def test_dir_without_argument(tty):
 
 def test_slots(tty):
     import pdir
+
     class A:
         __slots__ = ['__mul__', '__hash__', 'a', 'b']
 
@@ -346,8 +352,9 @@ def test_slots(tty):
         ('Return a.b as\nresult', 'Return a.b as result'),
     ],
 )
-def test_get_first_line_of_docstring(docstring, first_line):
+def test_get_first_line_of_docstring(docstring, first_line, tty):
     from pdir._internal_utils import get_first_sentence_of_docstring
+
     CustomClass = type('CustomClass', (object,), {})
     setattr(CustomClass, '__doc__', docstring)
     assert get_first_sentence_of_docstring(CustomClass) == first_line
