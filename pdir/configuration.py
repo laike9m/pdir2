@@ -12,7 +12,7 @@ from .color import COLORS, COLOR_DISABLED
 _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
 _DEFAULT = 'global'
 _UNIFORM_COLOR = 'uniform-color'
-_COLORFUL_OUTPUT = 'colorful-output'
+_COLORFUL_OUTPUT = 'enable-colorful-output'
 VALID_CONFIG_KEYS = frozenset(
     {
         'category-color',
@@ -27,7 +27,7 @@ VALID_CONFIG_KEYS = frozenset(
 class Configuration:
 
     _uniform_color = None
-    _colorful_output = None
+    _enable_colorful_output = None
     _category_color = COLORS['yellow']
     _attribute_color = COLORS['cyan']
     _comma_color = COLORS['grey']
@@ -39,8 +39,8 @@ class Configuration:
         self._load()
 
     @property
-    def colorful_output(self):
-        return self._colorful_output
+    def enable_colorful_output(self):
+        return self._enable_colorful_output
 
     @property
     def uniform_color(self):
@@ -81,7 +81,7 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
-        self._colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
+        self._enable_colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
 
         # UNIFORM_COLOR suppresses other settings.
         if _UNIFORM_COLOR in user_config_dict:
@@ -102,7 +102,7 @@ class Configuration:
 _cfg = Configuration()
 
 
-def should_colorful_output():
+def should_enable_colorful_output():
     """
     environ > config_file
     """
@@ -111,16 +111,16 @@ def should_colorful_output():
         return False
 
     if (
-        _cfg.colorful_output is None or _cfg.colorful_output == "auto"
+        _cfg.enable_colorful_output is None or _cfg.enable_colorful_output == "auto"
     ):  # Not set, default to "auto"
         return sys.stdout.isatty()
 
-    return _cfg.colorful_output == "True"
+    return _cfg.enable_colorful_output == "True"
 
 
-colorful_output = should_colorful_output()
+enable_colorful_output = should_enable_colorful_output()
 
-if colorful_output:
+if enable_colorful_output:
     if _cfg.uniform_color:
         category_color = attribute_color = doc_color = _cfg.uniform_color
         comma = _cfg.uniform_color.wrap_text(', ')
