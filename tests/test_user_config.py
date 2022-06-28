@@ -8,13 +8,13 @@ import shutil
 import pytest
 
 
-def test_default_env_without_config(tty, clean):
+def test_default_env_without_config(fake_tty, clean):
     import pdir
 
     pdir()
 
 
-def test_set_env_without_config(tty, clean):
+def test_set_env_without_config(fake_tty, clean):
     os.environ['PDIR2_CONFIG_FILE'] = 'aaa'
     with pytest.raises(OSError, match='Config file not exist: aaa'):
         import pdir
@@ -22,7 +22,7 @@ def test_set_env_without_config(tty, clean):
         pdir()
 
 
-def test_read_config(tty, clean):
+def test_read_config(fake_tty, clean):
     # 'clean' is the DEFAULT_CONFIG_FILE yielded from fixture.
     shutil.copyfile('tests/data/config_1.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
@@ -34,7 +34,7 @@ def test_read_config(tty, clean):
     assert attribute_color == COLORS['cyan']
 
 
-def test_config_disable_color_tty(tty, clean):
+def test_config_disable_color_tty(fake_tty, clean):
     # 'clean' is the DEFAULT_CONFIG_FILE yielded from fixture.
     shutil.copyfile('tests/data/config_disable_color.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
@@ -46,7 +46,7 @@ def test_config_disable_color_tty(tty, clean):
     assert attribute_color == COLOR_DISABLED
 
 
-def test_config_auto_color_tty(tty, clean):
+def test_config_auto_color_tty(fake_tty, clean):
     # 'clean' is the DEFAULT_CONFIG_FILE yielded from fixture.
     shutil.copyfile('tests/data/config_auto_color.ini', clean)
     from pdir.format import doc_color
@@ -64,7 +64,7 @@ def test_config_enable_color_not_tty(clean):
     assert doc_color == COLORS['grey']
 
 
-def test_env_disable_color_even_config_set(tty, clean):
+def test_env_disable_color_even_config_set(fake_tty, clean):
     shutil.copyfile('tests/data/config_enable_color.ini', clean)
     os.environ['PDIR2_NOCOLOR'] = "true"
     from pdir.format import doc_color, category_color, attribute_color, comma
@@ -78,7 +78,7 @@ def test_env_disable_color_even_config_set(tty, clean):
     del os.environ['PDIR2_NOCOLOR']
 
 
-def test_read_config_from_custom_location(tty, clean):
+def test_read_config_from_custom_location(fake_tty, clean):
     os.environ['PDIR2_CONFIG_FILE'] = os.path.join(os.path.expanduser('~'), '.myconfig')
     shutil.copyfile('tests/data/config_1.ini', os.environ['PDIR2_CONFIG_FILE'])
     from pdir.format import doc_color, category_color, attribute_color, comma
@@ -90,7 +90,7 @@ def test_read_config_from_custom_location(tty, clean):
     assert attribute_color == COLORS['cyan']
 
 
-def test_uniform_color(tty, clean):
+def test_uniform_color(fake_tty, clean):
     shutil.copyfile('tests/data/config_2.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
     from pdir.color import COLORS
@@ -101,7 +101,7 @@ def test_uniform_color(tty, clean):
     assert attribute_color == COLORS['white']
 
 
-def test_empty_config(tty, clean):
+def test_empty_config(fake_tty, clean):
     shutil.copyfile('tests/data/empty_config.ini', clean)
     from pdir.format import doc_color, category_color, attribute_color, comma
     from pdir.color import COLORS

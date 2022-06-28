@@ -2,7 +2,7 @@ import sys
 import pytest
 
 
-def test_formatter_integrity(tty):
+def test_formatter_integrity(fake_tty):
     from pdir.attr_category import AttrCategory
     from pdir.format import _FORMATTER
 
@@ -10,7 +10,7 @@ def test_formatter_integrity(tty):
         assert ac in _FORMATTER
 
 
-def test_pdir_module(tty):
+def test_pdir_module(fake_tty):
     import pdir
     import m
 
@@ -77,7 +77,7 @@ def test_pdir_module(tty):
     del m
 
 
-def test_pdir_object(tty):
+def test_pdir_object(fake_tty):
     import pdir
 
     class T:
@@ -95,7 +95,7 @@ def test_pdir_object(tty):
         sys.version_info
     ),
 )
-def test_pdir_class(tty):
+def test_pdir_class(fake_tty):
     import pdir
 
     class T:
@@ -190,7 +190,7 @@ def test_pdir_class(tty):
     print(result)
 
 
-def test_dir_without_argument(tty):
+def test_dir_without_argument(fake_tty):
     import pdir
 
     a = 1
@@ -214,7 +214,7 @@ def test_dir_without_argument(tty):
     print(result)
 
 
-def test_slots(tty):
+def test_slots(fake_tty):
     import pdir
 
     class A:

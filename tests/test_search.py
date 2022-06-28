@@ -1,4 +1,4 @@
-def test_search_without_argument(tty):
+def test_search_without_argument(fake_tty):
     import pdir
     foo = 1
     bar = 1
@@ -18,7 +18,7 @@ def test_search_without_argument(tty):
     )
 
 
-def test_search_with_argument(tty):
+def test_search_with_argument(fake_tty):
     import pdir
     class T:
         pass
