@@ -1,7 +1,16 @@
 from ._internal_utils import is_bpython
+from typing import Protocol
 
 
-class _Color:
+class _Render(Protocol):
+    def wrap_text(self, text: str) -> str:
+        pass
+
+    def __eq__(self, other: '_Render') -> bool:
+        pass
+
+
+class _Color(_Render):
     def __init__(self, color_code: int, bright: bool = False) -> None:
         self.color_code = str(color_code)
         self.intensity = '1' if bright else '0'

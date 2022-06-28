@@ -6,6 +6,17 @@ from sys import modules
 PDIR2_CONFIG_FILE = "PDIR2_CONFIG_FILE"
 
 def remove_module_cache():
+    """
+    There are some global settings which are initialized when pdir firstly
+    import, then after that, no matter how you change the config or mock
+    ``isatty()`` functions, those global values (settings, mostly), will
+    not change.
+
+    So in order to make some of our patches or test configurations work, we
+    need to clear the import cache. So that when we ``import pdir`` in test
+    cases, those global values will be initialized again due to the lack of
+    cache.
+    """
     imported_modules = modules.keys()
     pdir_modules = [m for m in imported_modules if m.startswith('pdir')]
     for module in pdir_modules:
