@@ -560,12 +560,18 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 [metadata]
 lock_version = "3.1"
 <<<<<<< HEAD
+<<<<<<< HEAD
 content_hash = "sha256:cd6b73ee92b22db86f99dc7186253be4d488b7a5c95aeab3a4fe632929d5a7e9"
 ||||||| parent of 282c595 (Protocol type checking.)
 content_hash = "sha256:2602c26d1397cce1eb7c1e675ba60538eb19f3d4f62ecdad24fa4ef4289e9b75"
 =======
 content_hash = "sha256:b93a822ea67a73b40d5affd7e3b54c97094efb74be0cb732d6f01c06ada1040d"
 >>>>>>> 282c595 (Protocol type checking.)
+||||||| parent of 05d9ecd (relock)
+content_hash = "sha256:b93a822ea67a73b40d5affd7e3b54c97094efb74be0cb732d6f01c06ada1040d"
+=======
+content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138b59995c"
+>>>>>>> 05d9ecd (relock)
 
 [metadata.files]
 "appdirs 1.4.4" = [
