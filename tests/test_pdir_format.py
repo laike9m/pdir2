@@ -204,7 +204,7 @@ def test_dir_without_argument(fake_tty):
     assert repr(result) == '\n'.join(
         [
             '\x1b[0;33mproperty:\x1b[0m',
-            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mtty\x1b[0m',
+            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mfake_tty\x1b[0m',
             '\x1b[0;33mclass:\x1b[0m',
             '    \x1b[0;36mpdir\x1b[0m\x1b[0;36m: \x1b[0m\x1b[1;30mClass that provides pretty dir and search API.\x1b[0m',
             '\x1b[0;33mfunction:\x1b[0m',
@@ -352,7 +352,7 @@ def test_slots(fake_tty):
         ('Return a.b as\nresult', 'Return a.b as result'),
     ],
 )
-def test_get_first_line_of_docstring(docstring, first_line, tty):
+def test_get_first_line_of_docstring(docstring, first_line, fake_tty):
     from pdir._internal_utils import get_first_sentence_of_docstring
 
     CustomClass = type('CustomClass', (object,), {})

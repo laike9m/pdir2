@@ -6,15 +6,9 @@ from sys import modules
 PDIR2_CONFIG_FILE = "PDIR2_CONFIG_FILE"
 
 def remove_module_cache():
-    for module in (
-        'pdir',
-        'pdir.api',
-        'pdir.constants',
-        'pdir.format',
-        'pdir.configuration',
-        'pdir.color',
-        'pdir.utils',
-    ):
+    imported_modules = modules.keys()
+    pdir_modules = [m for m in imported_modules if m.startswith('pdir')]
+    for module in pdir_modules:
         try:
             del modules[module]
         except KeyError:
@@ -36,7 +30,7 @@ def clean_cached_modules():
 
 
 @pytest.fixture(scope="session")
-def enforce_tty_output():
+def fake_tty():
     with patch("sys.stdout.isatty") as faketty:
         faketty.return_value = True
         remove_module_cache()
