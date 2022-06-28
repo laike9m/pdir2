@@ -13,6 +13,12 @@ _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
 _DEFAULT = 'global'
 _UNIFORM_COLOR = 'uniform-color'
 _COLORFUL_OUTPUT = 'enable-colorful-output'
+TRUTHY_TERMS = frozenset (
+    {
+
+        "True", "Y", "1", "true"
+    }
+)
 VALID_CONFIG_KEYS = frozenset(
     {
         'category-color',
@@ -102,12 +108,10 @@ class Configuration:
 _cfg = Configuration()
 
 
-def should_enable_colorful_output():
-    """
-    environ > config_file
-    """
+def should_enable_colorful_output() -> bool:
+    """When set, environ suppresses config file."""
     environ_set = os.getenv("PDIR2_NOCOLOR")
-    if environ_set and environ_set in ["True", "Y", "1", "true"]:
+    if environ_set and environ_set in TRUTHY_TERMS:
         return False
 
     if (
@@ -118,9 +122,8 @@ def should_enable_colorful_output():
     return _cfg.enable_colorful_output == "True"
 
 
-enable_colorful_output = should_enable_colorful_output()
 
-if enable_colorful_output:
+if should_enable_colorful_output():
     if _cfg.uniform_color:
         category_color = attribute_color = doc_color = _cfg.uniform_color
         comma = _cfg.uniform_color.wrap_text(', ')
