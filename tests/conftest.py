@@ -22,7 +22,7 @@ def remove_module_cache():
 
 
 @pytest.fixture
-def clean():
+def clean_cached_modules():
     remove_module_cache()
 
     DEFAULT_CONFIG_FILE = os.path.join(os.path.expanduser('~'), '.pdir2config')
