@@ -87,16 +87,15 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
-        self._enable_colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
-
-        # UNIFORM_COLOR suppresses other settings.
-        if _UNIFORM_COLOR in user_config_dict:
-            self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
-            return
-
         for item, color in user_config_dict.items():
-            if item in [_COLORFUL_OUTPUT, _UNIFORM_COLOR]:
+            if item == _COLORFUL_OUTPUT:
+                self._enable_colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
                 continue
+            # UNIFORM_COLOR suppresses other settings.
+            if item == _UNIFORM_COLOR:
+                self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
+                return
+            # then the color settings
             if item not in VALID_CONFIG_KEYS:
                 raise ValueError('Invalid key: %s' % item)
             if color not in set(COLORS.keys()):
@@ -120,7 +119,6 @@ def should_enable_colorful_output() -> bool:
         return sys.stdout.isatty()
 
     return _cfg.enable_colorful_output == "True"
-
 
 
 if should_enable_colorful_output():
