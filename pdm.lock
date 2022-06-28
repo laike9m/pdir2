@@ -167,6 +167,7 @@ dependencies = [
 
 [[package]]
 <<<<<<< HEAD
+<<<<<<< HEAD
 ||||||| parent of 282c595 (Protocol type checking.)
 name = "importlib-resources"
 version = "5.6.0"
@@ -188,6 +189,18 @@ dependencies = [
 
 [[package]]
 >>>>>>> 282c595 (Protocol type checking.)
+||||||| parent of 6e0c75f (relock)
+name = "importlib-resources"
+version = "5.8.0"
+requires_python = ">=3.7"
+summary = "Read resources from Python packages"
+dependencies = [
+    "zipp>=3.1.0; python_version < \"3.10\"",
+]
+
+[[package]]
+=======
+>>>>>>> 6e0c75f (relock)
 name = "iniconfig"
 version = "1.1.1"
 summary = "iniconfig: brain-dead simple config-ini parsing"
@@ -479,6 +492,7 @@ dependencies = [
 ]
 
 [[package]]
+<<<<<<< HEAD
 name = "tox-gh-actions"
 version = "2.8.1"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
@@ -488,6 +502,19 @@ dependencies = [
 ]
 
 [[package]]
+||||||| parent of 6e0c75f (relock)
+name = "tox-gh-actions"
+version = "2.9.1"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
+summary = "Seamless integration of tox into GitHub Actions"
+dependencies = [
+    "importlib-resources",
+    "tox<4,>=3.12",
+]
+
+[[package]]
+=======
+>>>>>>> 6e0c75f (relock)
 name = "tox-pdm"
 <<<<<<< HEAD
 version = "0.3.4"
@@ -561,6 +588,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 lock_version = "3.1"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 content_hash = "sha256:cd6b73ee92b22db86f99dc7186253be4d488b7a5c95aeab3a4fe632929d5a7e9"
 ||||||| parent of 282c595 (Protocol type checking.)
 content_hash = "sha256:2602c26d1397cce1eb7c1e675ba60538eb19f3d4f62ecdad24fa4ef4289e9b75"
@@ -572,6 +600,11 @@ content_hash = "sha256:b93a822ea67a73b40d5affd7e3b54c97094efb74be0cb732d6f01c06a
 =======
 content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138b59995c"
 >>>>>>> 05d9ecd (relock)
+||||||| parent of 6e0c75f (relock)
+content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138b59995c"
+=======
+content_hash = "sha256:dc8c977611e2bcb7106ebf5c4ae48485ea33fb6edf1e6f08c8fb9503b3ff4a71"
+>>>>>>> 6e0c75f (relock)
 
 [metadata.files]
 "appdirs 1.4.4" = [
@@ -775,11 +808,19 @@ content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138
     {file = "importlib_metadata-4.12.0-py3-none-any.whl", hash = "sha256:7401a975809ea1fdc658c3aa4f78cc2195a0e019c5cbc4c06122884e9ae80c23"},
     {file = "importlib_metadata-4.12.0.tar.gz", hash = "sha256:637245b8bab2b6502fcbc752cc4b7a6f6243bb02b31c5c26156ad103d3d45670"},
 ]
+<<<<<<< HEAD
 "importlib-resources 5.8.0" = [
     {file = "importlib_resources-5.8.0-py3-none-any.whl", hash = "sha256:7952325ffd516c05a8ad0858c74dff2c3343f136fe66a6002b2623dd1d43f223"},
     {file = "importlib_resources-5.8.0.tar.gz", hash = "sha256:568c9f16cb204f9decc8d6d24a572eeea27dacbb4cee9e6b03a8025736769751"},
 >>>>>>> 282c595 (Protocol type checking.)
 ]
+||||||| parent of 6e0c75f (relock)
+"importlib-resources 5.8.0" = [
+    {file = "importlib_resources-5.8.0-py3-none-any.whl", hash = "sha256:7952325ffd516c05a8ad0858c74dff2c3343f136fe66a6002b2623dd1d43f223"},
+    {file = "importlib_resources-5.8.0.tar.gz", hash = "sha256:568c9f16cb204f9decc8d6d24a572eeea27dacbb4cee9e6b03a8025736769751"},
+]
+=======
+>>>>>>> 6e0c75f (relock)
 "iniconfig 1.1.1" = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
@@ -1008,6 +1049,7 @@ content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138
     {file = "tox-3.25.0.tar.gz", hash = "sha256:37888f3092aa4e9f835fc8cc6dadbaaa0782651c41ef359e3a5743fcb0308160"},
 ]
 <<<<<<< HEAD
+<<<<<<< HEAD
 "tox-gh-actions 2.8.1" = [
     {file = "tox_gh_actions-2.8.1-py2.py3-none-any.whl", hash = "sha256:9d22215a487f3c2f61ba0af5454010009b23fecf0a909b4a831a20d641a77369"},
     {file = "tox-gh-actions-2.8.1.tar.gz", hash = "sha256:43262d7ed1c126dacfd26b600641be4d51199622ce3b3e240e19b557fd4fa5a6"},
@@ -1096,6 +1138,13 @@ content_hash = "sha256:fd8622f0ac629b3356824d58fc137f288987466c69370cc7009f82138
     {file = "tox_gh_actions-2.9.1-py2.py3-none-any.whl", hash = "sha256:90306a6a04a203e47f861b35dca215fc1f6b7ae80de942a050ace61e2eb2b4ea"},
     {file = "tox-gh-actions-2.9.1.tar.gz", hash = "sha256:2bbb681eccd3fd3573231a05f7acf228caae1e3f12397b5517b404417ab90aba"},
 ]
+||||||| parent of 6e0c75f (relock)
+"tox-gh-actions 2.9.1" = [
+    {file = "tox_gh_actions-2.9.1-py2.py3-none-any.whl", hash = "sha256:90306a6a04a203e47f861b35dca215fc1f6b7ae80de942a050ace61e2eb2b4ea"},
+    {file = "tox-gh-actions-2.9.1.tar.gz", hash = "sha256:2bbb681eccd3fd3573231a05f7acf228caae1e3f12397b5517b404417ab90aba"},
+]
+=======
+>>>>>>> 6e0c75f (relock)
 "tox-pdm 0.5.0" = [
     {file = "tox_pdm-0.5.0-py3-none-any.whl", hash = "sha256:0075ff9ed47ee13dc6e55122e6da121661a5553a633b8dd278013fbee81e4bb4"},
     {file = "tox-pdm-0.5.0.tar.gz", hash = "sha256:45531c80c9670e7d9a0109ec5ab0d9add0492db4b41aa4ae0f20b295e4fd60e3"},
