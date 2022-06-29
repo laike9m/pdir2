@@ -33,13 +33,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: __pypackages__
-          key: pypackages-${{ matrix.os }}-${{ matrix.python }}-${{ hashFiles('pdm.lock') }}
+          key: pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
       - name: Cache tox pypackages
         uses: actions/cache@v2
         with:
           path: .tox/**/__pypackages__
-          key: tox-pypackages-${{ matrix.os }}-${{ matrix.python }}-${{ hashFiles('pdm.lock') }}
+          key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
       - name: list files
         run: ls -al
