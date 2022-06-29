@@ -43,8 +43,6 @@ jobs:
 
       - name: list files
         run: ls -al
-      - name: list files
-        run: apt update && apt install -y tree && tree
 
       - name: Install dependencies
         run: pdm install -v
