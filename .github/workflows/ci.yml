@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9, "3.10"]
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -41,12 +41,16 @@ jobs:
           path: .tox/**/__pypackages__
           key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
+      - name: ls
+        run: ls -al
+
       - name: Install dependencies
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
+
       - name: Run tests
-        run: pdm run tox -v && cat .tox/**/log/*.log
+        run: pdm run tox -vv && cat .tox/**/log/*.log
 
       - name: Interactive tests
         if: runner.os != 'Windows'
-        run: pdm run tox -eextra -v
+        run: pdm run tox -eextra -vv
