@@ -45,7 +45,7 @@ jobs:
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
       - name: Run tests
-        run: pdm run tox -v
+        run: pdm run tox -v && cat .tox/**/log/*.log
 
       - name: Interactive tests
         if: runner.os != 'Windows'
