@@ -35,8 +35,8 @@ repository = "https://github.com/laike9m/pdir2"
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest==6.2.*",
-    "tox==3.*",
-    "tox-pdm==0.5.*",
+    "tox==3.24.*",
+    "tox-pdm==0.3.*",
     "ptpython==3.0.*",
     "bpython==0.21.*",
     "ipython==7.16.*",
@@ -44,7 +44,7 @@ dev = [
     "pytest-mypy==0.8.*",
     "pandas==1.1.*",
     "hypothesis==6.21.*",
-    "tox-gh-actions==2.9.*",
+    "tox-gh-actions==2.8.*",
 ]
 
 [build-system]
