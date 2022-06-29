@@ -4,6 +4,7 @@ Tests attribute filter's behaviors.
 
 import collections
 import sys
+import pdir
 
 
 # https://github.com/python/cpython/blob/da2bf9f66d0c95b988c5d87646d168f65499b316/Lib/unittest/case.py#L1164-L1195
@@ -40,7 +41,6 @@ inst = DerivedClass()
 
 
 def test_properties():
-    import pdir
 
     assert items_equal(
         [p.name for p in pdir(inst).properties.pattrs],
@@ -59,7 +59,6 @@ def test_properties():
 
 
 def test_methods():
-    import pdir
 
     if sys.version[0] == '2':
         assert items_equal(
@@ -114,7 +113,6 @@ def test_methods():
 
 
 def test_public():
-    import pdir
 
     assert items_equal(
         [p.name for p in pdir(inst).public.pattrs],
@@ -130,7 +128,6 @@ def test_public():
 
 
 def test_own():
-    import pdir
 
     assert items_equal(
         [p.name for p in pdir(inst).own.pattrs],
@@ -147,7 +144,6 @@ def test_own():
 
 
 def test_chained_filters():
-    import pdir
 
     assert items_equal(
         [p.name for p in pdir(inst).public.own.properties.pattrs],
@@ -160,7 +156,6 @@ def test_chained_filters():
 
 
 def test_order_of_chained_filters():
-    import pdir
 
     assert items_equal(
         [p.name for p in pdir(inst).own.properties.public.pattrs],
@@ -181,8 +176,6 @@ def test_order_of_chained_filters():
 
 
 def test_filters_with_search():
-    import pdir
-
     def test_chained_filters():
         assert items_equal(
             [

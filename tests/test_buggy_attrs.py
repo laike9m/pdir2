@@ -3,10 +3,10 @@ Test attrs that previously caused bugs.
 """
 
 import pytest
+import pdir
 
 
 def test_dataframe():
-    import pdir
     from pdir.attr_category import AttrCategory, category_match
 
     pandas = pytest.importorskip("pandas")
@@ -18,7 +18,6 @@ def test_dataframe():
 
 
 def test_type():
-    import pdir
     from pdir.attr_category import AttrCategory, category_match
 
     result = pdir(type)
@@ -29,7 +28,6 @@ def test_type():
 
 
 def test_list():
-    import pdir
     from pdir.attr_category import AttrCategory, category_match
 
     result = pdir(list)
@@ -75,7 +73,6 @@ class RevealAccess:
 
 
 def test_descriptor():
-    import pdir
     from pdir.attr_category import AttrCategory, category_match
 
     class T:
@@ -114,7 +111,6 @@ def test_descriptor():
 
 
 def test_override_dir():
-    import pdir
 
     # In the class attrs in `__dir__()` can not be found in `__dict__`
     class ClassWithUserDefinedDir:
@@ -129,8 +125,6 @@ def test_override_dir():
 
 def test_get_attribute_fail():
     """ "Tests if get_online_doc returns '' when __doc__ access throws an exception."""
-
-    import pdir
 
     class DocAttributeFail:
         """Fails when __doc__ atribute is accessed."""
