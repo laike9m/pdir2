@@ -42,7 +42,7 @@ dev = [
     "ipython==7.16.*",
     "flake8==3.9.*",
     "pytest-mypy==0.8.*",
-    "pandas==1.1.*",
+    "pandas==1.3.5",
     "hypothesis==6.21.*",
     "tox-gh-actions==2.8.*",
 ]
