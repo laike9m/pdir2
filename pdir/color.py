@@ -2,7 +2,7 @@ from ._internal_utils import is_bpython
 from typing import Protocol
 
 
-class _Render(Protocol):
+class _Renderable(Protocol):
     def wrap_text(self, text: str) -> str:
         pass
 
@@ -10,7 +10,7 @@ class _Render(Protocol):
         pass
 
 
-class _Color(_Render):
+class _Color(_Renderable):
     def __init__(self, color_code: int, bright: bool = False) -> None:
         self.color_code = str(color_code)
         self.intensity = '1' if bright else '0'
@@ -32,7 +32,7 @@ class _Color(_Render):
         return '\033[%sm%s\033[0m' % (self.color_code, 'color')
 
 
-class _ColorDisabled:
+class _ColorDisabled(_Renderable):
     def wrap_text(self, text: str) -> str:
         return text
 

@@ -5,6 +5,7 @@ from sys import modules
 
 PDIR2_CONFIG_FILE = "PDIR2_CONFIG_FILE"
 
+
 def remove_module_cache():
     """
     There are some global settings which are initialized when pdir firstly
@@ -16,6 +17,8 @@ def remove_module_cache():
     need to clear the import cache. So that when we ``import pdir`` in test
     cases, those global values will be initialized again due to the lack of
     cache.
+
+    more detail: https://www.kawabangga.com/posts/4706 (Chinese)
     """
     imported_modules = modules.keys()
     pdir_modules = [m for m in imported_modules if m.startswith('pdir')]

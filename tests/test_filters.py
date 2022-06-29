@@ -41,6 +41,7 @@ inst = DerivedClass()
 
 def test_properties():
     import pdir
+
     assert items_equal(
         [p.name for p in pdir(inst).properties.pattrs],
         [
@@ -59,6 +60,7 @@ def test_properties():
 
 def test_methods():
     import pdir
+
     if sys.version[0] == '2':
         assert items_equal(
             [p.name for p in pdir(inst).methods.pattrs],
@@ -113,6 +115,7 @@ def test_methods():
 
 def test_public():
     import pdir
+
     assert items_equal(
         [p.name for p in pdir(inst).public.pattrs],
         [
@@ -128,6 +131,7 @@ def test_public():
 
 def test_own():
     import pdir
+
     assert items_equal(
         [p.name for p in pdir(inst).own.pattrs],
         [
@@ -144,6 +148,7 @@ def test_own():
 
 def test_chained_filters():
     import pdir
+
     assert items_equal(
         [p.name for p in pdir(inst).public.own.properties.pattrs],
         [
@@ -156,6 +161,7 @@ def test_chained_filters():
 
 def test_order_of_chained_filters():
     import pdir
+
     assert items_equal(
         [p.name for p in pdir(inst).own.properties.public.pattrs],
         [
@@ -176,6 +182,7 @@ def test_order_of_chained_filters():
 
 def test_filters_with_search():
     import pdir
+
     def test_chained_filters():
         assert items_equal(
             [

@@ -13,12 +13,7 @@ _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
 _DEFAULT = 'global'
 _UNIFORM_COLOR = 'uniform-color'
 _COLORFUL_OUTPUT = 'enable-colorful-output'
-TRUTHY_TERMS = frozenset (
-    {
-
-        "True", "Y", "1", "true"
-    }
-)
+TRUTHY_TERMS = frozenset({'True', 'Y', '1', 'true'})
 VALID_CONFIG_KEYS = frozenset(
     {
         'category-color',

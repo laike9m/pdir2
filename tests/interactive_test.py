@@ -8,6 +8,7 @@ def interactive_test():
     import pdir
     from pdir._internal_utils import _get_repl_type
     from pdir.constants import ReplType
+
     print('Environment: ' + _get_repl_type().value)
     import requests
 
