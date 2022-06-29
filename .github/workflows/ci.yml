@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9, "3.10"]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -45,7 +45,7 @@ jobs:
         # On Windows, interactive test doesn't work, so exclude it.
 
       - name: Run tests
-        run: pdm run tox -vv && cat .tox/**/log/*.log
+        run: pdm run tox -vv
 
       - name: Interactive tests
         if: runner.os != 'Windows'
