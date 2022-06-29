@@ -34,18 +34,18 @@ jobs:
           path: __pypackages__
           key: pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
-      - name: ls
-        run: |
-          ls -al
-          ls .tox
-          ls .tox/**
+      - name: Cache tox pypackages
+        uses: actions/cache@v2
+        with:
+          path: .tox/**/__pypackages__
+          key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
       - name: Install dependencies
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
 
       - name: Run tests
-        run: pdm run tox -vv
+        run: pdm run tox -vv && cat .tox/**/log/*.log
 
       - name: Interactive tests
         if: runner.os != 'Windows'
