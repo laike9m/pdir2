@@ -6,7 +6,7 @@ class _Renderable(Protocol):
     def wrap_text(self, text: str) -> str:
         pass
 
-    def __eq__(self, other: '_Renderable') -> bool:
+    def __eq__(self, other: object) -> bool:
         pass
 
 
@@ -25,7 +25,12 @@ class _Color(_Renderable):
         else:
             return '\033[1m' + colored_text
 
-    def __eq__(self, other: '_Color') -> bool:  # type: ignore
+    def __eq__(self, other: object) -> bool:  # type: ignore
+        # __eq__ should work with any objects.
+        # https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
+        if not isinstance(other, _Color):
+            return False
+
         return self.color_code == other.color_code
 
     def __repr__(self):
@@ -36,7 +41,7 @@ class _ColorDisabled(_Renderable):
     def wrap_text(self, text: str) -> str:
         return text
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, _ColorDisabled):
             return True
         return False
