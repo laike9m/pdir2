@@ -6,7 +6,7 @@ class _Renderable(Protocol):
     def wrap_text(self, text: str) -> str:
         pass
 
-    def __eq__(self, other: '_Render') -> bool:
+    def __eq__(self, other: '_Renderable') -> bool:
         pass
 
 
