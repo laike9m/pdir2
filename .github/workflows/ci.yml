@@ -28,6 +28,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+
+      - name: Cache pypackages
+        uses: actions/cache@v2
+        with:
+          path: __pypackages__
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: pypackages-${{ matrix.os }}-${{ matrix.python }}-${{ hashFiles('pdm.lock') }}
+
       - name: Install dependencies
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
