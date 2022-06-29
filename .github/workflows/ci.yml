@@ -41,9 +41,6 @@ jobs:
           path: .tox/**/__pypackages__
           key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
-      - name: list files
-        run: ls -al
-
       - name: Install dependencies
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.
