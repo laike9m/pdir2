@@ -42,7 +42,10 @@ jobs:
           key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
 
       - name: ls
-        run: ls -al
+        run: >
+          ls -al
+          ls .tox
+          ls .tox/**
 
       - name: Install dependencies
         run: pdm install -v
