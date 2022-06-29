@@ -36,6 +36,7 @@ repository = "https://github.com/laike9m/pdir2"
 [tool.pdm.dev-dependencies]
 dev = [
 <<<<<<< HEAD
+<<<<<<< HEAD
     "pytest==6.2.*",
     "tox==3.24.*",
     "tox-pdm==0.3.*",
@@ -78,6 +79,29 @@ dev = [
     "tox-gh-actions~=2.8",
 =======
 >>>>>>> 6e0c75f (relock)
+||||||| parent of 2dfc823 (fix dependencies version lock.)
+    "pytest~=6.2",
+    "tox~=3.24",
+    "tox-pdm~=0.3",
+    "ptpython~=3.0",
+    "bpython~=0.21",
+    "ipython~=7.16",
+    "flake8~=3.9",
+    "pytest-mypy~=0.8",
+    "pandas~=1.1",
+    "hypothesis~=6.21",
+=======
+    "pytest==6.2.*",
+    "tox==3.24.*",
+    "tox-pdm==0.3.*",
+    "ptpython==3.0.*",
+    "bpython==0.21.*",
+    "ipython==7.16.*",
+    "flake8==3.9.*",
+    "pytest-mypy==0.8.*",
+    "pandas==1.1.*",
+    "hypothesis==6.21.*",
+>>>>>>> 2dfc823 (fix dependencies version lock.)
 ]
 
 [build-system]
