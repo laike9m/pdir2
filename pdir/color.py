@@ -1,5 +1,5 @@
 from ._internal_utils import is_bpython
-from typing import Protocol
+from typing_extensions import Protocol
 
 
 class _Renderable(Protocol):
