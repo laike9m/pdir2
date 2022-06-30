@@ -1,7 +1,6 @@
-import pdir
+def test_search_without_argument(fake_tty):
+    import pdir
 
-
-def test_search_without_argument():
     foo = 1
     bar = 1
     baz = 1
@@ -20,7 +19,9 @@ def test_search_without_argument():
     )
 
 
-def test_search_with_argument():
+def test_search_with_argument(fake_tty):
+    import pdir
+
     class T:
         pass
 

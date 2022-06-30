@@ -2,18 +2,20 @@
 """
 
 import os
+import sys
 from configparser import ConfigParser
 from os.path import expanduser
 
-from .color import COLORS
+from .color import COLORS, COLOR_DISABLED
 
 # User Configuration
 _DEFAULT_CONFIG_FILE = expanduser('~/.pdir2config')
 _DEFAULT = 'global'
 _UNIFORM_COLOR = 'uniform-color'
+_COLORFUL_OUTPUT = 'enable-colorful-output'
+TRUTHY_TERMS = frozenset({'True', 'Y', '1', 'true'})
 VALID_CONFIG_KEYS = frozenset(
     {
-        _UNIFORM_COLOR,
         'category-color',
         'attribute-color',
         'comma-color',
@@ -26,6 +28,7 @@ VALID_CONFIG_KEYS = frozenset(
 class Configuration:
 
     _uniform_color = None
+    _enable_colorful_output = None
     _category_color = COLORS['yellow']
     _attribute_color = COLORS['cyan']
     _comma_color = COLORS['grey']
@@ -35,6 +38,10 @@ class Configuration:
     def __init__(self):
         self._configparser = ConfigParser()
         self._load()
+
+    @property
+    def enable_colorful_output(self):
+        return self._enable_colorful_output
 
     @property
     def uniform_color(self):
@@ -75,12 +82,15 @@ class Configuration:
             return
         user_config_dict = dict(self._configparser.items(_DEFAULT))
 
-        # UNIFORM_COLOR suppresses other settings.
-        if _UNIFORM_COLOR in user_config_dict:
-            self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
-            return
-
         for item, color in user_config_dict.items():
+            if item == _COLORFUL_OUTPUT:
+                self._enable_colorful_output = user_config_dict.get(_COLORFUL_OUTPUT)
+                continue
+            # UNIFORM_COLOR suppresses other settings.
+            if item == _UNIFORM_COLOR:
+                self._uniform_color = COLORS[user_config_dict[_UNIFORM_COLOR]]
+                return
+            # then the color settings
             if item not in VALID_CONFIG_KEYS:
                 raise ValueError('Invalid key: %s' % item)
             if color not in set(COLORS.keys()):
@@ -91,13 +101,33 @@ class Configuration:
 
 _cfg = Configuration()
 
-if _cfg.uniform_color:
-    category_color = attribute_color = doc_color = _cfg.uniform_color
-    comma = _cfg.uniform_color.wrap_text(', ')
-    slot_tag = _cfg.uniform_color.wrap_text('(slotted)')
+
+def should_enable_colorful_output() -> bool:
+    """When set, environ suppresses config file."""
+    environ_set = os.getenv("PDIR2_NOCOLOR")
+    if environ_set and environ_set in TRUTHY_TERMS:
+        return False
+
+    if (
+        _cfg.enable_colorful_output is None or _cfg.enable_colorful_output == "auto"
+    ):  # Not set, default to "auto"
+        return sys.stdout.isatty()
+
+    return _cfg.enable_colorful_output == "True"
+
+
+if should_enable_colorful_output():
+    if _cfg.uniform_color:
+        category_color = attribute_color = doc_color = _cfg.uniform_color
+        comma = _cfg.uniform_color.wrap_text(', ')
+        slot_tag = _cfg.uniform_color.wrap_text('(slotted)')
+    else:
+        category_color = _cfg.category_color
+        attribute_color = _cfg.attribute_color
+        doc_color = _cfg.doc_color
+        comma = _cfg.comma_color.wrap_text(', ')
+        slot_tag = _cfg.slot_color.wrap_text('(slotted)')
 else:
-    category_color = _cfg.category_color
-    attribute_color = _cfg.attribute_color
-    doc_color = _cfg.doc_color
-    comma = _cfg.comma_color.wrap_text(', ')
-    slot_tag = _cfg.slot_color.wrap_text('(slotted)')
+    category_color = attribute_color = doc_color = COLOR_DISABLED
+    comma = ', '
+    slot_tag = '(slotted)'

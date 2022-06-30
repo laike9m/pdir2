@@ -36,14 +36,6 @@ jobs:
           restore-keys: |
             pypackages-${{ matrix.os }}-${{ matrix.python-version }}-
 
-      - name: Cache tox pypackages
-        uses: actions/cache@v2
-        with:
-          path: .tox/**/__pypackages__
-          key: tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
-          restore-keys: |
-            tox-pypackages-${{ matrix.os }}-${{ matrix.python-version }}-
-
       - name: Install dependencies
         run: pdm install -v
         # On Windows, interactive test doesn't work, so exclude it.

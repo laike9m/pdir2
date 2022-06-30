@@ -1,18 +1,17 @@
 import sys
-
-import pdir
 import pytest
-from pdir._internal_utils import get_first_sentence_of_docstring
-from pdir.attr_category import AttrCategory
-from pdir.format import _FORMATTER
 
 
-def test_formatter_integrity():
+def test_formatter_integrity(fake_tty):
+    from pdir.attr_category import AttrCategory
+    from pdir.format import _FORMATTER
+
     for ac in AttrCategory:
         assert ac in _FORMATTER
 
 
-def test_pdir_module():
+def test_pdir_module(fake_tty):
+    import pdir
     import m
 
     result = pdir(m)
@@ -78,7 +77,9 @@ def test_pdir_module():
     del m
 
 
-def test_pdir_object():
+def test_pdir_object(fake_tty):
+    import pdir
+
     class T:
         def what(self):
             """doc line"""
@@ -94,7 +95,9 @@ def test_pdir_object():
         sys.version_info
     ),
 )
-def test_pdir_class():
+def test_pdir_class(fake_tty):
+    import pdir
+
     class T:
         pass
 
@@ -187,7 +190,9 @@ def test_pdir_class():
     print(result)
 
 
-def test_dir_without_argument():
+def test_dir_without_argument(fake_tty):
+    import pdir
+
     a = 1
     b = 2
 
@@ -199,16 +204,19 @@ def test_dir_without_argument():
     assert repr(result) == '\n'.join(
         [
             '\x1b[0;33mproperty:\x1b[0m',
-            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m',
+            '    \x1b[0;36ma\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mb\x1b[0m\x1b[1;30m, \x1b[0m\x1b[0;36mfake_tty\x1b[0m',
+            '\x1b[0;33mclass:\x1b[0m',
+            '    \x1b[0;36mpdir\x1b[0m\x1b[0;36m: \x1b[0m\x1b[1;30mClass that provides pretty dir and search API.\x1b[0m',
             '\x1b[0;33mfunction:\x1b[0m',
-            '    \x1b[0;36mwhatever\x1b[0m\x1b[0;36m: \x1b[0m\x1b'
-            '[1;30mOne line doc.\x1b[0m',
+            '    \x1b[0;36mwhatever\x1b[0m\x1b[0;36m: \x1b[0m\x1b[1;30mOne line doc.\x1b[0m',
         ]
     )
     print(result)
 
 
-def test_slots():
+def test_slots(fake_tty):
+    import pdir
+
     class A:
         __slots__ = ['__mul__', '__hash__', 'a', 'b']
 
@@ -344,7 +352,9 @@ def test_slots():
         ('Return a.b as\nresult', 'Return a.b as result'),
     ],
 )
-def test_get_first_line_of_docstring(docstring, first_line):
+def test_get_first_line_of_docstring(docstring, first_line, fake_tty):
+    from pdir._internal_utils import get_first_sentence_of_docstring
+
     CustomClass = type('CustomClass', (object,), {})
     setattr(CustomClass, '__doc__', docstring)
     assert get_first_sentence_of_docstring(CustomClass) == first_line

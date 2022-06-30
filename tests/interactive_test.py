@@ -1,8 +1,3 @@
-import pdir
-from pdir._internal_utils import _get_repl_type
-from pdir.constants import ReplType
-
-
 def interactive_test():
     """
     This function runs pdir2 in bpython, ipython, ptpython.
@@ -10,6 +5,10 @@ def interactive_test():
     because print(string) is not equivalent to repr it in a REPL.
     To ensure everything truly works, manually verification is necessary.
     """
+    import pdir
+    from pdir._internal_utils import _get_repl_type
+    from pdir.constants import ReplType
+
     print('Environment: ' + _get_repl_type().value)
     import requests
 

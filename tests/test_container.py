@@ -2,6 +2,7 @@ import pdir
 
 
 def test_acting_like_a_list():
+
     dadada = 1
     cadada = 1
     vadada = 1
@@ -15,6 +16,7 @@ def test_acting_like_a_list():
 
 
 def test_acting_like_a_list_when_search():
+
     dadada = 1
     cadada = 1
     vadada = 1
@@ -26,6 +28,7 @@ def test_acting_like_a_list_when_search():
 
 
 def test_attr_order():
+
     dir_attrs = dir(None)
     pdir_attrs = list(pdir(None))
     assert dir_attrs == pdir_attrs

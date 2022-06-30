@@ -1,7 +1,16 @@
 from ._internal_utils import is_bpython
+from typing_extensions import Protocol
 
 
-class _Color:
+class _Renderable(Protocol):
+    def wrap_text(self, text: str) -> str:
+        pass
+
+    def __eq__(self, other: object) -> bool:
+        pass
+
+
+class _Color(_Renderable):
     def __init__(self, color_code: int, bright: bool = False) -> None:
         self.color_code = str(color_code)
         self.intensity = '1' if bright else '0'
@@ -16,11 +25,26 @@ class _Color:
         else:
             return '\033[1m' + colored_text
 
-    def __eq__(self, other: '_Color') -> bool:  # type: ignore
+    def __eq__(self, other: object) -> bool:  # type: ignore
+        # __eq__ should work with any objects.
+        # https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
+        if not isinstance(other, _Color):
+            return False
+
         return self.color_code == other.color_code
 
     def __repr__(self):
         return '\033[%sm%s\033[0m' % (self.color_code, 'color')
+
+
+class _ColorDisabled(_Renderable):
+    def wrap_text(self, text: str) -> str:
+        return text
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, _ColorDisabled):
+            return True
+        return False
 
 
 COLORS = {
@@ -42,3 +66,4 @@ COLORS = {
     'white': _Color(37),
     'bright white': _Color(37, True),
 }
+COLOR_DISABLED = _ColorDisabled()

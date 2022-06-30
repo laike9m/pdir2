@@ -3,14 +3,12 @@ Test attrs that previously caused bugs.
 """
 
 import pytest
-
 import pdir
 from pdir.attr_category import AttrCategory, category_match
 
 
 def test_dataframe():
     pandas = pytest.importorskip("pandas")
-
     result = pdir(pandas.DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
@@ -69,6 +67,7 @@ class RevealAccess:
 
 
 def test_descriptor():
+
     class T:
         r = RevealAccess(10, 'var ' r'')
 
