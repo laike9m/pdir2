@@ -4,13 +4,11 @@ Test attrs that previously caused bugs.
 
 import pytest
 import pdir
+from pdir.attr_category import AttrCategory, category_match
 
 
 def test_dataframe():
-    from pdir.attr_category import AttrCategory, category_match
-
     pandas = pytest.importorskip("pandas")
-
     result = pdir(pandas.DataFrame)
     for attr in result.pattrs:
         if attr.name in ('columns', 'index'):
@@ -18,8 +16,6 @@ def test_dataframe():
 
 
 def test_type():
-    from pdir.attr_category import AttrCategory, category_match
-
     result = pdir(type)
     for attr in result.pattrs:
         if attr.name == '__abstractmethods__':
@@ -28,8 +24,6 @@ def test_type():
 
 
 def test_list():
-    from pdir.attr_category import AttrCategory, category_match
-
     result = pdir(list)
     for attr in result.pattrs:
         if attr.name == 'append':
@@ -73,7 +67,6 @@ class RevealAccess:
 
 
 def test_descriptor():
-    from pdir.attr_category import AttrCategory, category_match
 
     class T:
         r = RevealAccess(10, 'var ' r'')
