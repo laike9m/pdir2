@@ -37,7 +37,7 @@ repository = "https://github.com/laike9m/pdir2"
 dev = [
     "pytest==6.2.*",
     "tox==3.24.*",
-    "tox-pdm==0.3.*",
+    "tox-pdm==0.5.*",
     "ptpython==3.0.*",
     "bpython==0.21.*",
     "ipython==7.16.*",
