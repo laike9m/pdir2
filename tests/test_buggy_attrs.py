@@ -67,7 +67,6 @@ class RevealAccess:
 
 
 def test_descriptor():
-
     class T:
         r = RevealAccess(10, 'var ' r'')
 
