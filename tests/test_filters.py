@@ -79,6 +79,7 @@ def test_methods():
                 '__str__',
                 '__reduce__',
                 '__reduce_ex__',
+                '__getstate__',
             ],
         )
     else:
@@ -102,6 +103,7 @@ def test_methods():
                 '__str__',
                 '__reduce__',
                 '__reduce_ex__',
+                '__getstate__',
                 '__eq__',
                 '__ge__',
                 '__gt__',
