@@ -1,6 +1,6 @@
 # pdir2: Pretty dir() printing with joy
 
-[![Build Status](https://travis-ci.org/laike9m/pdir2.svg)](https://travis-ci.org/laike9m/pdir2)
+![Build status](https://github.com/github/laike9m/pdir2/workflows/ci.yml/badge.svg)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
 ![PyPI Version](https://img.shields.io/pypi/v/pdir2.svg)
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
@@ -23,11 +23,11 @@ Have you ever dreamed of a better output of `dir()`? I do. So I created this.
 
 -   ✨ Attribute searching
 
-    You can search for certain names with `.s()` or `.search()`:  
+    You can search for certain names with `.s()` or `.search()`:
 
     ![](https://github.com/laike9m/pdir2/raw/master/images/search.gif)
 
-    Search is case-insensitive by default.  
+    Search is case-insensitive by default.
      `search(name, case_sensitive=True)` does case-sensitive searching.
 
 -   :star2: Attribute filtering
@@ -82,6 +82,6 @@ Simply run `pytest`, or use `tox` if you like.
 
 ## Development
 
-Clone the source, run `make install_dev_packages`.   
+Clone the source, run `make install_dev_packages`.
 Don't forget to add proper type annotations,
 if you're not sure what to do, check out the `gen_type_info` section in `tox.ini`.
