@@ -1,6 +1,6 @@
 # pdir2: Pretty dir() printing with joy
 
-![Build status](https://github.com/github/laike9m/pdir2/workflows/ci.yml/badge.svg)
+![Build status](https://github.com/laike9m/pdir2/actions/workflows/ci.yml/badge.svg)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/pdir2.svg)](https://pypi.python.org/pypi/pdir2/)
 ![PyPI Version](https://img.shields.io/pypi/v/pdir2.svg)
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
