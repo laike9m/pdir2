@@ -8,12 +8,12 @@ import pdir
 
 
 # https://github.com/python/cpython/blob/da2bf9f66d0c95b988c5d87646d168f65499b316/Lib/unittest/case.py#L1164-L1195
-def items_equal(first, second):
+def check_items_equality(first, second):
     """A simplified version of the unittest.assertEqual method."""
     first_seq, second_seq = list(first), list(second)
     first = collections.Counter(first_seq)
     second = collections.Counter(second_seq)
-    return first == second
+    assert first == second
 
 
 class Base:
@@ -41,7 +41,7 @@ inst = DerivedClass()
 
 
 def test_properties():
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).properties.pattrs],
         [
             'base_class_variable',
@@ -59,7 +59,7 @@ def test_properties():
 
 def test_methods():
     if sys.version[0] == '2':
-        assert items_equal(
+        check_items_equality(
             [p.name for p in pdir(inst).methods.pattrs],
             [
                 '__subclasshook__',
@@ -80,7 +80,8 @@ def test_methods():
             ],
         )
     else:
-        assert items_equal(
+        extra_items = ['__getstate__'] if sys.version_info >= (3, 11) else []
+        check_items_equality(
             [p.name for p in pdir(inst).methods.pattrs],
             [
                 '__subclasshook__',
@@ -106,12 +107,13 @@ def test_methods():
                 '__le__',
                 '__lt__',
                 '__ne__',
-            ],
+            ]
+            + extra_items,
         )
 
 
 def test_public():
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).public.pattrs],
         [
             'base_method',
@@ -125,7 +127,7 @@ def test_public():
 
 
 def test_own():
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).own.pattrs],
         [
             'derived_method',
@@ -140,7 +142,7 @@ def test_own():
 
 
 def test_chained_filters():
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).public.own.properties.pattrs],
         [
             'base_instance_variable',
@@ -151,7 +153,7 @@ def test_chained_filters():
 
 
 def test_order_of_chained_filters():
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).own.properties.public.pattrs],
         [
             'base_instance_variable',
@@ -159,7 +161,7 @@ def test_order_of_chained_filters():
             'derived_instance_variable',
         ],
     )
-    assert items_equal(
+    check_items_equality(
         [p.name for p in pdir(inst).properties.public.own.pattrs],
         [
             'base_instance_variable',
@@ -171,7 +173,7 @@ def test_order_of_chained_filters():
 
 def test_filters_with_search():
     def test_chained_filters():
-        assert items_equal(
+        check_items_equality(
             [
                 p.name
                 for p in pdir(inst).public.own.properties.search('derived_in').pattrs

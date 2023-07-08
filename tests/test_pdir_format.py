@@ -328,8 +328,16 @@ def test_slots(fake_tty):
                 '    \x1b[0;36m__init_subclass__\x1b[0m',
                 '\x1b[0;33mpickle:\x1b[0m',
                 (
-                    '    \x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
+                    (
+                        '    \x1b[0;36m__getstate__\x1b[0m\x1b[1;30m, '
+                        '\x1b[0m\x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
+                        '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
+                    )
+                    if sys.version_info >= (3, 11)
+                    else (
+                        '    \x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
+                        '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
+                    )
                 ),
                 '\x1b[0;33mdescriptor:\x1b[0m',
                 (
