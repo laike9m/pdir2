@@ -76,12 +76,22 @@ Then, create `.pythonstartup` in your home folder. Add one line:
 
 Next time you launch REPL, `pdir()` is already there, Hooray!
 
-## Testing
-
-Simply run `pytest`, or use `tox` if you like.
-
 ## Development
 
-Clone the source, run `make install_dev_packages`.
-Don't forget to add proper type annotations,
-if you're not sure what to do, check out the `gen_type_info` section in `tox.ini`.
+1. Set up development environment
+
+   - **PDM**: pdir2 uses [PDM](https://pdm.fming.dev/latest/) to manage dependencies, so you want to make sure it's installed.
+   - **pyenv**: Since you need to test pdir2 on multiple Python versions, [pyenv](https://github.com/pyenv/pyenv) is highly recommended.
+
+2. Install dev dependencies
+
+   Simply run `pdm install`.
+
+   If you want to work on a specific Python version, run `pdm use [PYTHON_VERSION]` first to switch PDM to that version (e.g. `pdm use 3.9` if you want to debug a Python 3.9 specific issue).
+
+
+3. Run tests
+
+   Run `pdm run tox`
+
+The guide may be incomplete. Please file bugs if you encounter any issues.
