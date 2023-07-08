@@ -81,7 +81,7 @@ Next time you launch REPL, `pdir()` is already there, Hooray!
 1. Set up development environment
 
    - **PDM**: pdir2 uses [PDM](https://pdm.fming.dev/latest/) to manage dependencies, so you want to make sure it's installed.
-   - **pyenv**: Since you need to test pdir2 on multiple Python versions, [pyenv](https://github.com/pyenv/pyenv) is highly recommended.
+   - **pyenv**: Since you need to test pdir2 on multiple Python versions, [pyenv](https://github.com/pyenv/pyenv) is highly recommended. Make sure you have Python 3.8, 3.9, 3.10 and 3.11 installed.
 
 2. Install dev dependencies
 
