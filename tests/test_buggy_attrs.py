@@ -103,7 +103,6 @@ def test_descriptor():
 
 
 def test_override_dir():
-
     # In the class attrs in `__dir__()` can not be found in `__dict__`
     class ClassWithUserDefinedDir:
         def __dir__(self):

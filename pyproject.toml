@@ -8,7 +8,7 @@ dependencies = [
     'colorama;platform_system=="Windows"',
     'typing-extensions==4.2.*',
 ]
-requires-python = ">=3.7.1,<3.11"
+requires-python = ">=3.8,<3.12"
 license = {text = "MIT"}
 description="Pretty dir printing with joy"
 readme="README.md"
@@ -32,21 +32,24 @@ Funding = "https://github.com/sponsors/laike9m"
 homepage = "https://github.com/laike9m/pdir2"
 repository = "https://github.com/laike9m/pdir2"
 
-[project.optional-dependencies]
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest==6.2.*",
     "tox==3.24.*",
     "tox-pdm==0.5.*",
     "ptpython==3.0.*",
-    "bpython==0.21.*",
+    "bpython>=0.24",
     "ipython==7.16.*",
     "flake8==3.9.*",
     "pytest-mypy==0.8.*",
-    "pandas==1.3.5",
+    "pandas==2.*",
     "hypothesis==6.21.*",
     "tox-gh-actions==2.8.*",
 ]
+
+[tool.pdm.scripts]
+test = "pdm run pytest tests/"
+interactive_test = "pdm run ptpython tests/interactive_test.py --interactive"
 
 [build-system]
 requires = ["pdm-pep517"]

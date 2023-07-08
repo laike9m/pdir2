@@ -67,3 +67,4 @@ src/
 # pdm
 .pdm.toml
 __pypackages__/
+.pdm-python

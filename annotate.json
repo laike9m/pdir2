@@ -11,9 +11,9 @@
             "(type, str) -> int",
             "(type, str) -> getset_descriptor",
             "(type, str) -> function",
-            "(type, str) -> member_descriptor"
+            "(type, str) -> member_descriptor",
         ],
-        "samples": 116
+        "samples": 116,
     },
     {
         "path": "pdir/_internal_utils.py",
@@ -27,45 +27,37 @@
             "(module, str) -> bool",
             "(test_pdir_format.T, str) -> bool",
             "(test_buggy_attrs.ClassWithUserDefinedDir, str) -> bool",
-            "(test_buggy_attrs.T, str) -> bool"
+            "(test_buggy_attrs.T, str) -> bool",
         ],
-        "samples": 136
+        "samples": 136,
     },
     {
         "path": "pdir/_internal_utils.py",
         "line": 32,
         "func_name": "_get_repl_type",
-        "type_comments": [
-            "() -> pdir.constants.ReplType"
-        ],
-        "samples": 44
+        "type_comments": ["() -> pdir.constants.ReplType"],
+        "samples": 44,
     },
     {
         "path": "pdir/_internal_utils.py",
         "line": 44,
         "func_name": "is_bpython",
-        "type_comments": [
-            "() -> bool"
-        ],
-        "samples": 44
+        "type_comments": ["() -> bool"],
+        "samples": 44,
     },
     {
         "path": "pdir/_internal_utils.py",
         "line": 48,
         "func_name": "is_ptpython",
-        "type_comments": [
-            "() -> bool"
-        ],
-        "samples": 15
+        "type_comments": ["() -> bool"],
+        "samples": 15,
     },
     {
         "path": "pdir/api.py",
         "line": 28,
         "func_name": "PrettyDir",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 4
+        "type_comments": ["() -> None"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
@@ -79,27 +71,23 @@
             "(object, List[pdir.api.PrettyAttribute]) -> None",
             "(None, None) -> None",
             "(test_filters.DerivedClass, None) -> None",
-            "(test_filters.DerivedClass, List[pdir.api.PrettyAttribute]) -> None"
+            "(test_filters.DerivedClass, List[pdir.api.PrettyAttribute]) -> None",
         ],
-        "samples": 53
+        "samples": 53,
     },
     {
         "path": "pdir/api.py",
         "line": 58,
         "func_name": "PrettyDir.__repr__",
-        "type_comments": [
-            "() -> str"
-        ],
-        "samples": 15
+        "type_comments": ["() -> str"],
+        "samples": 15,
     },
     {
         "path": "pdir/api.py",
         "line": 65,
         "func_name": "PrettyDir.__len__",
-        "type_comments": [
-            "() -> int"
-        ],
-        "samples": 4
+        "type_comments": ["() -> int"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
@@ -107,63 +95,51 @@
         "func_name": "PrettyDir.__getitem__",
         "type_comments": [
             "(int) -> pyannotate_runtime.collect_types.NoReturnType",
-            "(int) -> str"
+            "(int) -> str",
         ],
-        "samples": 14
+        "samples": 14,
     },
     {
         "path": "pdir/api.py",
         "line": 74,
         "func_name": "PrettyDir.search",
-        "type_comments": [
-            "(str, bool) -> pdir.api.PrettyDir"
-        ],
-        "samples": 8
+        "type_comments": ["(str, bool) -> pdir.api.PrettyDir"],
+        "samples": 8,
     },
     {
         "path": "pdir/api.py",
         "line": 103,
         "func_name": "properties",
-        "type_comments": [
-            "() -> pdir.api.PrettyDir"
-        ],
-        "samples": 4
+        "type_comments": ["() -> pdir.api.PrettyDir"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
         "line": 118,
         "func_name": "methods",
-        "type_comments": [
-            "() -> pdir.api.PrettyDir"
-        ],
-        "samples": 1
+        "type_comments": ["() -> pdir.api.PrettyDir"],
+        "samples": 1,
     },
     {
         "path": "pdir/api.py",
         "line": 133,
         "func_name": "public",
-        "type_comments": [
-            "() -> pdir.api.PrettyDir"
-        ],
-        "samples": 4
+        "type_comments": ["() -> pdir.api.PrettyDir"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
         "line": 140,
         "func_name": "own",
-        "type_comments": [
-            "() -> pdir.api.PrettyDir"
-        ],
-        "samples": 4
+        "type_comments": ["() -> pdir.api.PrettyDir"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
         "line": 162,
         "func_name": "PrettyAttribute",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 4
+        "type_comments": ["() -> None"],
+        "samples": 4,
     },
     {
         "path": "pdir/api.py",
@@ -177,27 +153,23 @@
             "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], function) -> None",
             "(str, Tuple[pdir.attr_category.AttrCategory], function) -> None",
             "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], getset_descriptor) -> None",
-            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], member_descriptor) -> None"
+            "(str, Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], member_descriptor) -> None",
         ],
-        "samples": 136
+        "samples": 136,
     },
     {
         "path": "pdir/api.py",
         "line": 183,
         "func_name": "PrettyAttribute.get_oneline_doc",
-        "type_comments": [
-            "() -> str"
-        ],
-        "samples": 136
+        "type_comments": ["() -> str"],
+        "samples": 136,
     },
     {
         "path": "pdir/attr_category.py",
         "line": 46,
         "func_name": "AttrCategory.__str__",
-        "type_comments": [
-            "() -> str"
-        ],
-        "samples": 30
+        "type_comments": ["() -> str"],
+        "samples": 30,
     },
     {
         "path": "pdir/attr_category.py",
@@ -206,9 +178,9 @@
         "type_comments": [
             "(Tuple[pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
             "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
-            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool"
+            "(Tuple[pdir.attr_category.AttrCategory, pdir.attr_category.AttrCategory], pdir.attr_category.AttrCategory) -> bool",
         ],
-        "samples": 41
+        "samples": 41,
     },
     {
         "path": "pdir/attr_category.py",
@@ -222,9 +194,9 @@
             "(str, Dict[str, int], type) -> Tuple[pdir.attr_category.AttrCategory]",
             "(str, int, type) -> Tuple[pdir.attr_category.AttrCategory]",
             "(str, Dict[int, str], type) -> Tuple[pdir.attr_category.AttrCategory]",
-            "(str, function, type) -> Tuple[pdir.attr_category.AttrCategory]"
+            "(str, function, type) -> Tuple[pdir.attr_category.AttrCategory]",
         ],
-        "samples": 136
+        "samples": 136,
     },
     {
         "path": "pdir/attr_category.py",
@@ -238,9 +210,9 @@
             "(str, Dict[str, int], type) -> pdir.attr_category.AttrCategory",
             "(str, int, type) -> pdir.attr_category.AttrCategory",
             "(str, Dict[int, str], type) -> pdir.attr_category.AttrCategory",
-            "(str, function, type) -> pdir.attr_category.AttrCategory"
+            "(str, function, type) -> pdir.attr_category.AttrCategory",
         ],
-        "samples": 136
+        "samples": 136,
     },
     {
         "path": "pdir/attr_category.py",
@@ -254,54 +226,44 @@
             "(test_buggy_attrs.RevealAccess) -> bool",
             "(str) -> bool",
             "(Dict[int, str]) -> bool",
-            "(Dict[str, int]) -> bool"
+            "(Dict[str, int]) -> bool",
         ],
-        "samples": 77
+        "samples": 77,
     },
     {
         "path": "pdir/color.py",
         "line": 4,
         "func_name": "_Color",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 7
+        "type_comments": ["() -> None"],
+        "samples": 7,
     },
     {
         "path": "pdir/color.py",
         "line": 5,
         "func_name": "_Color.__init__",
-        "type_comments": [
-            "(int, bool) -> None"
-        ],
-        "samples": 35
+        "type_comments": ["(int, bool) -> None"],
+        "samples": 35,
     },
     {
         "path": "pdir/color.py",
         "line": 9,
         "func_name": "_Color.wrap_text",
-        "type_comments": [
-            "(str) -> str"
-        ],
-        "samples": 44
+        "type_comments": ["(str) -> str"],
+        "samples": 44,
     },
     {
         "path": "pdir/color.py",
         "line": 19,
         "func_name": "_Color.__eq__",
-        "type_comments": [
-            "(pdir.color._Color) -> bool"
-        ],
-        "samples": 12
+        "type_comments": ["(pdir.color._Color) -> bool"],
+        "samples": 12,
     },
     {
         "path": "pdir/configuration.py",
         "line": 26,
         "func_name": "Configuration",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 7
+        "type_comments": ["() -> None"],
+        "samples": 7,
     },
     {
         "path": "pdir/configuration.py",
@@ -309,19 +271,16 @@
         "func_name": "Configuration.__init__",
         "type_comments": [
             "() -> pyannotate_runtime.collect_types.NoReturnType",
-            "() -> None"
+            "() -> None",
         ],
-        "samples": 7
+        "samples": 7,
     },
     {
         "path": "pdir/configuration.py",
         "line": 39,
         "func_name": "uniform_color",
-        "type_comments": [
-            "() -> pdir.color._Color",
-            "() -> None"
-        ],
-        "samples": 7
+        "type_comments": ["() -> pdir.color._Color", "() -> None"],
+        "samples": 7,
     },
     {
         "path": "pdir/configuration.py",
@@ -330,9 +289,9 @@
         "type_comments": [
             "() -> pdir.color._Color",
             "() -> pdir.color._Color",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
         ],
-        "samples": 3
+        "samples": 3,
     },
     {
         "path": "pdir/configuration.py",
@@ -341,9 +300,9 @@
         "type_comments": [
             "() -> pdir.color._Color",
             "() -> pdir.color._Color",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
         ],
-        "samples": 3
+        "samples": 3,
     },
     {
         "path": "pdir/configuration.py",
@@ -352,9 +311,9 @@
         "type_comments": [
             "() -> pdir.color._Color",
             "() -> pdir.color._Color",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
         ],
-        "samples": 3
+        "samples": 3,
     },
     {
         "path": "pdir/configuration.py",
@@ -363,9 +322,9 @@
         "type_comments": [
             "() -> pdir.color._Color",
             "() -> pdir.color._Color",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
         ],
-        "samples": 3
+        "samples": 3,
     },
     {
         "path": "pdir/configuration.py",
@@ -374,9 +333,9 @@
         "type_comments": [
             "() -> pdir.color._Color",
             "() -> pdir.color._Color",
-            "() -> pdir.color._Color"
+            "() -> pdir.color._Color",
         ],
-        "samples": 3
+        "samples": 3,
     },
     {
         "path": "pdir/configuration.py",
@@ -384,37 +343,30 @@
         "func_name": "Configuration._load",
         "type_comments": [
             "() -> pyannotate_runtime.collect_types.NoReturnType",
-            "() -> None"
+            "() -> None",
         ],
-        "samples": 7
+        "samples": 7,
     },
     {
         "path": "pdir/constants.py",
         "line": 7,
         "func_name": "ReplType",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 7
+        "type_comments": ["() -> None"],
+        "samples": 7,
     },
     {
         "path": "pdir/constants.py",
         "line": 20,
         "func_name": "_ClassWithSlot",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 7
+        "type_comments": ["() -> None"],
+        "samples": 7,
     },
     {
         "path": "pdir/format.py",
         "line": 14,
         "func_name": "format_pattrs",
-        "type_comments": [
-            "(List) -> str",
-            "(List[pdir.api.PrettyAttribute]) -> str"
-        ],
-        "samples": 15
+        "type_comments": ["(List) -> str", "(List[pdir.api.PrettyAttribute]) -> str"],
+        "samples": 15,
     },
     {
         "path": "pdir/format.py",
@@ -423,7 +375,7 @@
         "type_comments": [
             "(pdir.attr_category.AttrCategory, itertools._grouper) -> str"
         ],
-        "samples": 28
+        "samples": 28,
     },
     {
         "path": "pdir/format.py",
@@ -432,7 +384,7 @@
         "type_comments": [
             "(pdir.attr_category.AttrCategory, itertools._grouper) -> str"
         ],
-        "samples": 8
+        "samples": 8,
     },
     {
         "path": "pdir/format.py",
@@ -441,420 +393,328 @@
         "type_comments": [
             "(pdir.attr_category.AttrCategory, itertools._grouper) -> str"
         ],
-        "samples": 1
+        "samples": 1,
     },
     {
         "path": "tests/m.py",
         "line": 5,
         "func_name": "OOO",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 9,
         "func_name": "test_dataframe",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 18,
         "func_name": "test_type",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 26,
         "func_name": "test_list",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 37,
         "func_name": "D.__init__",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 53,
         "func_name": "RevealAccess.__init__",
-        "type_comments": [
-            "(int, str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(int, str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 57,
         "func_name": "RevealAccess.__get__",
-        "type_comments": [
-            "(None, type) -> int"
-        ],
-        "samples": 1
+        "type_comments": ["(None, type) -> int"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 69,
         "func_name": "test_descriptor",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 70,
         "func_name": "T",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 73,
         "func_name": "T.__init__",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 105,
         "func_name": "test_override_dir",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 108,
         "func_name": "ClassWithUserDefinedDir",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_buggy_attrs.py",
         "line": 109,
         "func_name": "ClassWithUserDefinedDir.__dir__",
-        "type_comments": [
-            "() -> List[str]"
-        ],
-        "samples": 4
+        "type_comments": ["() -> List[str]"],
+        "samples": 4,
     },
     {
         "path": "tests/test_container.py",
         "line": 4,
         "func_name": "test_acting_like_a_list",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_container.py",
         "line": 17,
         "func_name": "test_acting_like_a_list_when_search",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_container.py",
         "line": 28,
         "func_name": "test_attr_order",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 12,
         "func_name": "items_equal",
-        "type_comments": [
-            "(List[str], List[str]) -> bool"
-        ],
-        "samples": 7
+        "type_comments": ["(List[str], List[str]) -> bool"],
+        "samples": 7,
     },
     {
         "path": "tests/test_filters.py",
         "line": 45,
         "func_name": "test_properties",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 62,
         "func_name": "test_methods",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 115,
         "func_name": "test_public",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 129,
         "func_name": "test_own",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 144,
         "func_name": "test_chained_filters",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 155,
         "func_name": "test_order_of_chained_filters",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_filters.py",
         "line": 174,
         "func_name": "test_filters_with_search",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 7,
         "func_name": "test_pdir_module",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 73,
         "func_name": "test_pdir_object",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 74,
         "func_name": "T",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 83,
         "func_name": "test_pdir_class",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 90,
         "func_name": "T",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 182,
         "func_name": "test_dir_without_argument",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 203,
         "func_name": "test_slots",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_pdir_format.py",
         "line": 204,
         "func_name": "A",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_search.py",
         "line": 4,
         "func_name": "test_search_without_argument",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_search.py",
         "line": 23,
         "func_name": "test_search_with_argument",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_search.py",
         "line": 24,
         "func_name": "T",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_slots.py",
         "line": 59,
         "func_name": "test_not_set",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_slots.py",
         "line": 80,
         "func_name": "test_set_derive",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_slots.py",
         "line": 95,
         "func_name": "test_set_base",
-        "type_comments": [
-            "() -> None"
-        ],
-        "samples": 1
+        "type_comments": ["() -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 38,
         "func_name": "test_default_env_without_config",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 44,
         "func_name": "test_set_env_without_config",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 52,
         "func_name": "test_read_config",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 63,
         "func_name": "test_read_config_from_custom_location",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 74,
         "func_name": "test_uniform_color",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 84,
         "func_name": "test_empty_config",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 94,
         "func_name": "test_invalid_config_1",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
     },
     {
         "path": "tests/test_user_config.py",
         "line": 102,
         "func_name": "test_invalid_config_2",
-        "type_comments": [
-            "(str) -> None"
-        ],
-        "samples": 1
-    }
+        "type_comments": ["(str) -> None"],
+        "samples": 1,
+    },
 ]

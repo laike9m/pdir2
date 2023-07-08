@@ -26,7 +26,6 @@ VALID_CONFIG_KEYS = frozenset(
 
 
 class Configuration:
-
     _uniform_color = None
     _enable_colorful_output = None
     _category_color = COLORS['yellow']
