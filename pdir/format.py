@@ -92,4 +92,5 @@ _FORMATTER = {
     AttrCategory.ABSTRACT_CLASS: _single_line,
     AttrCategory.PATTERN_MATCHING: _single_line,
     AttrCategory.TYPING: _single_line,
+    AttrCategory.DECORATOR: _single_line,
 }

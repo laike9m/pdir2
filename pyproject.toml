@@ -41,15 +41,12 @@ dev = [
     "bpython>=0.24",
     "ipython==7.16.*",
     "flake8==3.9.*",
-    "pytest-mypy==0.8.*",
+    "pytest-mypy==0.10.*",
     "pandas==2.*",
     "hypothesis==6.21.*",
     "tox-gh-actions==2.8.*",
+    "mypy>=1.4"
 ]
-
-[tool.pdm.scripts]
-test = "pdm run pytest tests/"
-interactive_test = "pdm run ptpython tests/interactive_test.py --interactive"
 
 [build-system]
 requires = ["pdm-pep517"]

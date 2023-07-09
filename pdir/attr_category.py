@@ -44,6 +44,7 @@ class AttrCategory(IntEnum):
     PICKLE = auto()
     PATTERN_MATCHING = auto()
     TYPING = auto()
+    DECORATOR = auto()
 
     def __str__(self) -> str:
         """
@@ -218,6 +219,8 @@ ATTR_MAP = {
     '__args__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
     '__parameters__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
     '__class_getitem__': (AttrCategory.TYPING, AttrCategory.FUNCTION),
+    '__final__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__wrapped__': (AttrCategory.DECORATOR, AttrCategory.PROPERTY),
 }
 
 
