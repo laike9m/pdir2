@@ -6,7 +6,7 @@ authors = [
 ]
 dependencies = [
     'colorama;platform_system=="Windows"',
-    'typing-extensions==4.2.*',
+    'typing-extensions==4.*',
 ]
 requires-python = ">=3.8"
 license = {text = "MIT"}
@@ -34,8 +34,8 @@ repository = "https://github.com/laike9m/pdir2"
 
 [tool.pdm.dev-dependencies]
 dev = [
-    "pytest==6.2.*",
-    "tox==3.24.*",
+    "pytest==7.*",
+    "tox==4.*",
     "tox-pdm==0.5.*",
     "ptpython==3.0.*",
     "bpython>=0.24",
@@ -44,7 +44,7 @@ dev = [
     "pytest-mypy==0.10.*",
     "pandas==2.*",
     "hypothesis==6.21.*",
-    "tox-gh-actions==2.8.*",
+    "tox-gh-actions==3.*",
     "mypy>=1.4"
 ]
 
