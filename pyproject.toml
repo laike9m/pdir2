@@ -1,6 +1,6 @@
 [project]
 name = "pdir2"
-version = "0.3.6"
+version = "1.0.0"
 authors = [
     {name = "laike9m", email = "laike9m@gmail.com"},
 ]
@@ -45,7 +45,8 @@ dev = [
     "pandas==2.*",
     "hypothesis==6.21.*",
     "tox-gh-actions==3.*",
-    "mypy>=1.4"
+    "mypy>=1.4",
+    "twine>=4.0.2",
 ]
 
 [build-system]
