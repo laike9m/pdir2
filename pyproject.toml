@@ -8,7 +8,7 @@ dependencies = [
     'colorama;platform_system=="Windows"',
     'typing-extensions==4.2.*',
 ]
-requires-python = ">=3.8,<3.12"
+requires-python = ">=3.8"
 license = {text = "MIT"}
 description="Pretty dir printing with joy"
 readme="README.md"
