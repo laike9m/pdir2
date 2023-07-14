@@ -31,7 +31,7 @@ class DerivedClass(Base):
 
     def __init__(self):
         self.derived_instance_variable = 2
-        super(DerivedClass, self).__init__()
+        super().__init__()
 
     def derived_method(self):
         pass
@@ -58,58 +58,36 @@ def test_properties():
 
 
 def test_methods():
-    if sys.version[0] == '2':
-        check_items_equality(
-            [p.name for p in pdir(inst).methods.pattrs],
-            [
-                '__subclasshook__',
-                '__delattr__',
-                '__getattribute__',
-                '__setattr__',
-                'base_method',
-                'derived_method',
-                '__format__',
-                '__hash__',
-                '__init__',
-                '__new__',
-                '__repr__',
-                '__sizeof__',
-                '__str__',
-                '__reduce__',
-                '__reduce_ex__',
-            ],
-        )
-    else:
-        extra_items = ['__getstate__'] if sys.version_info >= (3, 11) else []
-        check_items_equality(
-            [p.name for p in pdir(inst).methods.pattrs],
-            [
-                '__subclasshook__',
-                '__delattr__',
-                '__dir__',
-                '__getattribute__',
-                '__setattr__',
-                '__init_subclass__',
-                'base_method',
-                'derived_method',
-                '__format__',
-                '__hash__',
-                '__init__',
-                '__new__',
-                '__repr__',
-                '__sizeof__',
-                '__str__',
-                '__reduce__',
-                '__reduce_ex__',
-                '__eq__',
-                '__ge__',
-                '__gt__',
-                '__le__',
-                '__lt__',
-                '__ne__',
-            ]
-            + extra_items,
-        )
+    extra_items = ['__getstate__'] if sys.version_info >= (3, 11) else []
+    check_items_equality(
+        [p.name for p in pdir(inst).methods.pattrs],
+        [
+            '__subclasshook__',
+            '__delattr__',
+            '__dir__',
+            '__getattribute__',
+            '__setattr__',
+            '__init_subclass__',
+            'base_method',
+            'derived_method',
+            '__format__',
+            '__hash__',
+            '__init__',
+            '__new__',
+            '__repr__',
+            '__sizeof__',
+            '__str__',
+            '__reduce__',
+            '__reduce_ex__',
+            '__eq__',
+            '__ge__',
+            '__gt__',
+            '__le__',
+            '__lt__',
+            '__ne__',
+        ]
+        + extra_items,
+    )
 
 
 def test_public():

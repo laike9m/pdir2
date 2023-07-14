@@ -4,7 +4,6 @@ Convention:
 "pattr" means class PrettyAttribute instance.
 """
 
-from __future__ import print_function
 
 import platform
 from sys import _getframe
@@ -174,7 +173,7 @@ class PrettyAttribute:
         self.slotted = AttrCategory.SLOT in self.category
 
     def __repr__(self):
-        return '%s: %s' % (self.name, self.category)
+        return f'{self.name}: {self.category}'
 
     def get_oneline_doc(self) -> str:
         """
