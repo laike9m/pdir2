@@ -60,8 +60,6 @@ name on pypi. Mine is better, of course.
 ### Fedora
 
     dnf install python3-pdir2
-    --or--
-    dnf install python2-pdir2
 
 ## Automatic Import
 

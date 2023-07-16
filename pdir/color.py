@@ -17,9 +17,9 @@ class _Color(_Renderable):
 
     def wrap_text(self, text: str) -> str:
         if not is_bpython():
-            return '\033[%s;%sm%s\033[0m' % (self.intensity, self.color_code, text)
+            return f'\033[{self.intensity};{self.color_code}m{text}\033[0m'
 
-        colored_text = '\033[%sm%s\033[0m' % (self.color_code, text)
+        colored_text = f'\033[{self.color_code}m{text}\033[0m'
         if self.intensity == '0':
             return colored_text
         else:
@@ -34,7 +34,7 @@ class _Color(_Renderable):
         return self.color_code == other.color_code
 
     def __repr__(self):
-        return '\033[%sm%s\033[0m' % (self.color_code, 'color')
+        return f'\033[{self.color_code}m{"color"}\033[0m'
 
 
 class _ColorDisabled(_Renderable):
