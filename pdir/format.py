@@ -93,4 +93,5 @@ _FORMATTER = {
     AttrCategory.PATTERN_MATCHING: _single_line,
     AttrCategory.TYPING: _single_line,
     AttrCategory.DECORATOR: _single_line,
+    AttrCategory.BUFFER: _single_line,
 }

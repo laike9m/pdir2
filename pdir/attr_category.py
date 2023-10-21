@@ -45,6 +45,7 @@ class AttrCategory(IntEnum):
     PATTERN_MATCHING = auto()
     TYPING = auto()
     DECORATOR = auto()
+    BUFFER = auto()
 
     def __str__(self) -> str:
         """
@@ -98,6 +99,8 @@ ATTR_MAP = {
     '__slots__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__weakref__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__excepthook__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__mro__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__subclasses__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.FUNCTION),
     '__next__': (AttrCategory.ITER, AttrCategory.FUNCTION),
     '__enter__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
     '__exit__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
@@ -107,6 +110,7 @@ ATTR_MAP = {
     '__path__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__file__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__cached__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__all__': (AttrCategory.MODULE_ATTRIBUTE, AttrCategory.PROPERTY),
     '__abs__': (AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
     '__add__': (AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
     '__and__': (AttrCategory.ARITHMETIC, AttrCategory.FUNCTION),
@@ -220,7 +224,11 @@ ATTR_MAP = {
     '__parameters__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
     '__class_getitem__': (AttrCategory.TYPING, AttrCategory.FUNCTION),
     '__final__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__orig_bases__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
+    '__type_params__': (AttrCategory.TYPING, AttrCategory.PROPERTY),
     '__wrapped__': (AttrCategory.DECORATOR, AttrCategory.PROPERTY),
+    '__buffer__': (AttrCategory.BUFFER, AttrCategory.FUNCTION),
+    '__release_buffer__': (AttrCategory.BUFFER, AttrCategory.FUNCTION),
 }
 
 
