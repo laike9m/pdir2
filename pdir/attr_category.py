@@ -101,6 +101,8 @@ ATTR_MAP = {
     '__excepthook__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__mro__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__subclasses__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.FUNCTION),
+    '__static_attributes__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
+    '__firstlineno__': (AttrCategory.SPECIAL_ATTRIBUTE, AttrCategory.PROPERTY),
     '__next__': (AttrCategory.ITER, AttrCategory.FUNCTION),
     '__enter__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),
     '__exit__': (AttrCategory.CONTEXT_MANAGER, AttrCategory.FUNCTION),

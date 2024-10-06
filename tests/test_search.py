@@ -29,6 +29,10 @@ def test_search_with_argument(fake_tty):
     result3, result4 = pdir(T).s('Attr'), pdir(T).search('Attr')
     expected = '\n'.join(
         [
+            '\x1b[0;33mspecial attribute:\x1b[0m',
+            (
+                '    \x1b[0;36m__static_attributes__\x1b[0m'
+            ),
             '\x1b[0;33mattribute access:\x1b[0m',
             (
                 '    \x1b[0;36m__delattr__\x1b[0m\x1b[1;30m, '

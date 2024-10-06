@@ -53,6 +53,8 @@ def test_properties():
             '__doc__',
             '__module__',
             '__weakref__',
+            '__static_attributes__',
+            '__firstlineno__',
         ],
     )
 
@@ -115,6 +117,8 @@ def test_own():
             'derived_instance_variable',
             '__doc__',
             '__module__',
+            '__static_attributes__',
+            '__firstlineno__',
         ],
     )
 
