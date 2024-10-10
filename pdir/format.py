@@ -11,7 +11,7 @@ from .attr_category import AttrCategory
 from .configuration import attribute_color, category_color, comma, doc_color, slot_tag
 
 
-def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
+def format_pattrs(pattrs: List["api.PrettyAttribute"]) -> str:
     """Generates repr string given a list of pattrs."""
     pattrs.sort(
         key=lambda x: (
@@ -25,29 +25,29 @@ def format_pattrs(pattrs: List['api.PrettyAttribute']) -> str:
         for display_group, grouped_pattrs in groupby(pattrs, lambda x: x.display_group)
     ]
 
-    return '\n'.join(output)
+    return "\n".join(output)
 
 
 def _format_single_line(category: AttrCategory, pattrs: Iterable) -> str:
-    category_line = category_color.wrap_text(str(category) + ':')
+    category_line = category_color.wrap_text(str(category) + ":")
     output_text = []
     for pattr in pattrs:
         single_attr = attribute_color.wrap_text(pattr.name)
         output_text.append(single_attr + slot_tag if pattr.slotted else single_attr)
-    return f'{category_line}\n    {comma.join(output_text)}'
+    return f"{category_line}\n    {comma.join(output_text)}"
 
 
 def _format_multiline_with_doc(category: AttrCategory, pattrs: Iterable) -> str:
-    category_line = category_color.wrap_text(str(category) + ':') + '\n'
+    category_line = category_color.wrap_text(str(category) + ":") + "\n"
     output_text = []
     for pattr in pattrs:
         name = attribute_color.wrap_text(pattr.name)
         if pattr.slotted:
             name += slot_tag
-        name += attribute_color.wrap_text(': ')
+        name += attribute_color.wrap_text(": ")
         doc = doc_color.wrap_text(pattr.doc)
-        output_text.append(f'    {name}{doc}')
-    return category_line + '\n'.join(output_text)
+        output_text.append(f"    {name}{doc}")
+    return category_line + "\n".join(output_text)
 
 
 def _format_descriptor(category: AttrCategory, attrs: Iterable) -> str:
@@ -55,7 +55,7 @@ def _format_descriptor(category: AttrCategory, attrs: Iterable) -> str:
 
 
 _AttributeGroupFormatter = namedtuple(
-    '_AttributeGroupFormatter', ['display_index', 'formatter']
+    "_AttributeGroupFormatter", ["display_index", "formatter"]
 )
 
 _single_line = _AttributeGroupFormatter(display_index=0, formatter=_format_single_line)
