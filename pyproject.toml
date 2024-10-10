@@ -40,7 +40,6 @@ dev = [
   "ptpython==3.0.*",
   "bpython>=0.24",
   "ipython==7.16.*",
-  "flake8==3.9.*",
   "pytest-mypy==0.10.*",
   "hypothesis==6.21.*",
   "tox-gh-actions==3.*",
