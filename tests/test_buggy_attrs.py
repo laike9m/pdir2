@@ -79,7 +79,7 @@ def test_descriptor():
             return 1
 
         @p.setter
-        def p(self):
+        def p(self, value):
             pass
 
         @p.deleter
