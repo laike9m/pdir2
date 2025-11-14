@@ -22,14 +22,14 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Set up PDM
         uses: pdm-project/setup-pdm@main
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache pypackages
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: __pypackages__
           key: pypackages-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
