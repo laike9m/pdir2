@@ -2,7 +2,11 @@
 name = "pdir2"
 version = "1.1.1"
 authors = [{ name = "laike9m", email = "laike9m@gmail.com" }]
-dependencies = ['colorama;platform_system=="Windows"', 'typing-extensions==4.*']
+dependencies = [
+    'colorama;platform_system=="Windows"',
+    'typing-extensions==4.*',
+    "greenlet @ git+https://github.com/python-greenlet/greenlet.git@3d9110025c157cc9de417cd6ca6dea87a47b8181",
+]
 requires-python = ">=3.8"
 license = { text = "MIT" }
 description = "Pretty dir printing with joy"
