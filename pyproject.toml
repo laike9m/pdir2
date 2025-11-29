@@ -3,7 +3,7 @@ name = "pdir2"
 version = "1.1.1"
 authors = [{ name = "laike9m", email = "laike9m@gmail.com" }]
 dependencies = ['colorama;platform_system=="Windows"', 'typing-extensions==4.*']
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 description = "Pretty dir printing with joy"
 readme = "README.md"
@@ -15,8 +15,6 @@ classifiers = [
   'Operating System :: POSIX',
   'Programming Language :: Python',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.8',
-  'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
