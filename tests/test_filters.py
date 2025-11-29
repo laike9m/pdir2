@@ -41,6 +41,7 @@ inst = DerivedClass()
 
 
 def test_properties():
+    extra_items = ['__firstlineno__', '__static_attributes__'] if sys.version_info >= (3, 13) else []
     check_items_equality(
         [p.name for p in pdir(inst).properties.pattrs],
         [
@@ -53,7 +54,8 @@ def test_properties():
             '__doc__',
             '__module__',
             '__weakref__',
-        ],
+        ]
+        + extra_items,
     )
 
 
@@ -105,6 +107,7 @@ def test_public():
 
 
 def test_own():
+    extra_items = ['__firstlineno__', '__static_attributes__'] if sys.version_info >= (3, 13) else []
     check_items_equality(
         [p.name for p in pdir(inst).own.pattrs],
         [
@@ -115,7 +118,8 @@ def test_own():
             'derived_instance_variable',
             '__doc__',
             '__module__',
-        ],
+        ]
+        + extra_items,
     )
 
 

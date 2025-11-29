@@ -103,15 +103,23 @@ def test_slots(fake_tty):
     a = A()
     result = pdir(a)
 
+    special_attrs = (
+        '    \x1b[0;36m__class__\x1b[0m\x1b[1;30m, '
+        '\x1b[0m\x1b[0;36m__doc__\x1b[0m\x1b[1;30m, '
+    )
+    if sys.version_info >= (3, 13):
+        special_attrs += '\x1b[0m\x1b[0;36m__firstlineno__\x1b[0m\x1b[1;30m, '
+    special_attrs += (
+        '\x1b[0m\x1b[0;36m__module__\x1b[0m\x1b[1;30m, '
+        '\x1b[0m\x1b[0;36m__slots__\x1b[0m'
+    )
+    if sys.version_info >= (3, 13):
+        special_attrs += '\x1b[1;30m, \x1b[0m\x1b[0;36m__static_attributes__\x1b[0m'
+
     expected = '\n'.join(
         [
             '\x1b[0;33mspecial attribute:\x1b[0m',
-            (
-                '    \x1b[0;36m__class__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__doc__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__module__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__slots__\x1b[0m'
-            ),
+            special_attrs,
             '\x1b[0;33mabstract class:\x1b[0m',
             '    \x1b[0;36m__subclasshook__\x1b[0m',
             '\x1b[0;33marithmetic:\x1b[0m',

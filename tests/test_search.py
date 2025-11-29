@@ -21,22 +21,38 @@ def test_search_without_argument(fake_tty):
 
 def test_search_with_argument(fake_tty):
     import pdir
+    import sys
 
     class T:
         pass
 
     result, result2 = pdir(T).s('attr'), pdir(T).search('attr')
     result3, result4 = pdir(T).s('Attr'), pdir(T).search('Attr')
-    expected = '\n'.join(
-        [
-            '\x1b[0;33mattribute access:\x1b[0m',
-            (
-                '    \x1b[0;36m__delattr__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__getattribute__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__setattr__\x1b[0m'
-            ),
-        ]
-    )
+
+    if sys.version_info >= (3, 13):
+        expected = '\n'.join(
+            [
+                '\x1b[0;33mspecial attribute:\x1b[0m',
+                '    \x1b[0;36m__static_attributes__\x1b[0m',
+                '\x1b[0;33mattribute access:\x1b[0m',
+                (
+                    '    \x1b[0;36m__delattr__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__getattribute__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__setattr__\x1b[0m'
+                ),
+            ]
+        )
+    else:
+        expected = '\n'.join(
+            [
+                '\x1b[0;33mattribute access:\x1b[0m',
+                (
+                    '    \x1b[0;36m__delattr__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__getattribute__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__setattr__\x1b[0m'
+                ),
+            ]
+        )
     assert repr(result) == expected
     assert repr(result2) == expected
     assert repr(result3) == expected
