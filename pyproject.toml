@@ -1,6 +1,6 @@
 [project]
 name = "pdir2"
-version = "1.1.1"
+version = "1.1.2"
 authors = [{ name = "laike9m", email = "laike9m@gmail.com" }]
 dependencies = ['colorama;platform_system=="Windows"', 'typing-extensions==4.*']
 requires-python = ">=3.10"
