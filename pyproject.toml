@@ -31,21 +31,6 @@ Funding = "https://github.com/sponsors/laike9m"
 homepage = "https://github.com/laike9m/pdir2"
 repository = "https://github.com/laike9m/pdir2"
 
-[tool.pdm.dev-dependencies]
-dev = [
-  "pytest==7.*",
-  "tox==4.*",
-  "tox-pdm==0.5.*",
-  "ptpython==3.0.*",
-  "bpython>=0.24",
-  "ipython==7.16.*",
-  "pytest-mypy==0.10.*",
-  "hypothesis==6.21.*",
-  "tox-gh-actions==3.*",
-  "mypy>=1.4",
-  "twine>=4.0.2",
-]
-
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
@@ -56,3 +41,16 @@ skip-string-normalization = true
 [[tool.mypy.overrides]]
 module = ["pytest"]
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "pytest==7.*",
+    "tox==4.*",
+    "tox-pdm==0.5.*",
+    "ptpython==3.0.*",
+    "bpython>=0.24",
+    "ipython==7.16.*",
+    "pytest-mypy==0.10.*",
+    "tox-gh-actions==3.*",
+    "twine>=4.0.2",
+]
