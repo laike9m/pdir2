@@ -59,16 +59,22 @@ def test_pdir_object(fake_tty):
 
     result = pdir(T())
 
+    special_attrs = (
+        '    \x1b[0;36m__class__\x1b[0m\x1b[1;30m, '
+        '\x1b[0m\x1b[0;36m__dict__\x1b[0m\x1b[1;30m, '
+        '\x1b[0m\x1b[0;36m__doc__\x1b[0m\x1b[1;30m, '
+    )
+    if sys.version_info >= (3, 13):
+        special_attrs += '\x1b[0m\x1b[0;36m__firstlineno__\x1b[0m\x1b[1;30m, '
+    special_attrs += '\x1b[0m\x1b[0;36m__module__\x1b[0m'
+    if sys.version_info >= (3, 13):
+        special_attrs += '\x1b[1;30m, \x1b[0m\x1b[0;36m__static_attributes__\x1b[0m'
+    special_attrs += '\x1b[1;30m, \x1b[0m\x1b[0;36m__weakref__\x1b[0m'
+
     expected = '\n'.join(
         [
             '\x1b[0;33mspecial attribute:\x1b[0m',
-            (
-                '    \x1b[0;36m__class__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__dict__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__doc__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__module__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__weakref__\x1b[0m'
-            ),
+            special_attrs,
             '\x1b[0;33mabstract class:\x1b[0m',
             '    \x1b[0;36m__subclasshook__\x1b[0m',
             '\x1b[0;33mobject customization:\x1b[0m',
