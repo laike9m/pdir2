@@ -182,7 +182,7 @@ class PrettyAttribute:
         """
         attr = self.attr_obj
         doc = get_first_sentence_of_docstring(attr)
-        if self.display_group == AttrCategory.DESCRIPTOR:
+        if self.display_group == AttrCategory.USER_DEFINED_DESCRIPTOR:
             if isinstance(attr, property):
                 doc_list = ['@property with getter']
                 if attr.fset:

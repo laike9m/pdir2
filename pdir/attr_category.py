@@ -32,9 +32,7 @@ class AttrCategory(IntEnum):
     OBJECT_CUSTOMIZATION = auto()
     RICH_COMPARISON = auto()
     ATTRIBUTE_ACCESS = auto()
-    # TODO: We should probably call it "user-defined descriptor", cause pretty much
-    # everything inside a class is a "descriptor".
-    DESCRIPTOR = auto()
+    USER_DEFINED_DESCRIPTOR = auto()
     DESCRIPTOR_CLASS = auto()
     STATIC_METHOD = auto()
     CLASS_CUSTOMIZATION = auto()
@@ -287,13 +285,13 @@ def get_attr_category(
         return AttrCategory.FUNCTION
     elif isinstance(attr, staticmethod):
         return (
-            AttrCategory.DESCRIPTOR,
+            AttrCategory.USER_DEFINED_DESCRIPTOR,
             AttrCategory.STATIC_METHOD,
             AttrCategory.FUNCTION,
         )
     elif is_descriptor(attr):
         # Maybe add getsetdescriptor memberdescriptor in the future.
-        return AttrCategory.DESCRIPTOR, AttrCategory.PROPERTY
+        return AttrCategory.USER_DEFINED_DESCRIPTOR, AttrCategory.PROPERTY
     else:
         # attr that is neither function nor class is a normal variable,
         # and it's classified to property.

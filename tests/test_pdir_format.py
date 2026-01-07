@@ -234,7 +234,7 @@ def test_slots(fake_tty):
                     '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
                 )
             ),
-            '\x1b[0;33mdescriptor:\x1b[0m',
+            '\x1b[0;33muser defined descriptor:\x1b[0m',
             (
                 '    \x1b[0;36ma\x1b[0m'
                 '\x1b[0;35m(slotted)\x1b[0m\x1b[0;36m: '

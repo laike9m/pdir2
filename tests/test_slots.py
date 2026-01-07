@@ -71,7 +71,7 @@ def test_not_set():
         for attr in pdir(c_type()).pattrs:
             if attr.name in [BASE, DERIVE]:
                 attr_count += 1
-                assert category_match(attr.category, AttrCategory.DESCRIPTOR)
+                assert category_match(attr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
                 assert category_match(attr.category, AttrCategory.SLOT)
         assert attr_count == attr_num
 
@@ -83,7 +83,7 @@ def test_set_derive():
         instance.derive = 'foo'
         for attr in pdir(instance).pattrs:
             if attr.name == DERIVE:
-                assert category_match(attr.category, AttrCategory.DESCRIPTOR)
+                assert category_match(attr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
                 assert category_match(attr.category, AttrCategory.SLOT)
                 break
         else:
@@ -98,7 +98,7 @@ def test_set_base():
         instance.base = 'foo'
         for attr in pdir(instance).pattrs:
             if attr.name == BASE:
-                assert category_match(attr.category, AttrCategory.DESCRIPTOR)
+                assert category_match(attr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
                 assert category_match(attr.category, AttrCategory.SLOT)
                 break
         else:
