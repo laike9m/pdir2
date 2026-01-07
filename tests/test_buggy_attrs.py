@@ -90,15 +90,15 @@ def test_descriptor():
     pattrs = pdir(t).pattrs
     for pattr in pattrs:
         if pattr.name == 'd':
-            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
+            assert category_match(pattr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
             assert pattr.doc == ('class D with getter, setter, deleter, ' 'this is D')
         if pattr.name == 'r':
-            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
+            assert category_match(pattr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
             assert pattr.doc == (
                 'class RevealAccess with getter, setter, ' 'deleter, this is R'
             )
         if pattr.name == 'p':
-            assert category_match(pattr.category, AttrCategory.DESCRIPTOR)
+            assert category_match(pattr.category, AttrCategory.USER_DEFINED_DESCRIPTOR)
             assert pattr.doc == ('@property with getter, setter, ' 'deleter, this is p')
 
 

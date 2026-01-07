@@ -50,7 +50,7 @@ def _format_multiline_with_doc(category: AttrCategory, pattrs: Iterable) -> str:
     return category_line + "\n".join(output_text)
 
 
-def _format_descriptor(category: AttrCategory, attrs: Iterable) -> str:
+def _format_user_defined_descriptor(category: AttrCategory, attrs: Iterable) -> str:
     return _format_multiline_with_doc(category, attrs)
 
 
@@ -59,7 +59,7 @@ _AttributeGroupFormatter = namedtuple(
 )
 
 _single_line = _AttributeGroupFormatter(display_index=0, formatter=_format_single_line)
-_descriptor = _AttributeGroupFormatter(display_index=1, formatter=_format_descriptor)
+_user_defined_descriptor = _AttributeGroupFormatter(display_index=1, formatter=_format_user_defined_descriptor)
 _multiline_with_doc = _AttributeGroupFormatter(
     display_index=2, formatter=_format_multiline_with_doc
 )
@@ -81,9 +81,9 @@ _FORMATTER = {
     AttrCategory.OBJECT_CUSTOMIZATION: _single_line,
     AttrCategory.RICH_COMPARISON: _single_line,
     AttrCategory.ATTRIBUTE_ACCESS: _single_line,
-    AttrCategory.DESCRIPTOR: _descriptor,
+    AttrCategory.USER_DEFINED_DESCRIPTOR: _user_defined_descriptor,
     AttrCategory.DESCRIPTOR_CLASS: _single_line,
-    AttrCategory.STATIC_METHOD: _descriptor,
+    AttrCategory.STATIC_METHOD: _user_defined_descriptor,
     AttrCategory.CLASS_CUSTOMIZATION: _single_line,
     AttrCategory.CONTAINER: _single_line,
     AttrCategory.COROUTINE: _single_line,
