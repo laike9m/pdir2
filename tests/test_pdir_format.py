@@ -25,12 +25,22 @@ def test_pdir_module(fake_tty):
             ),
             '\x1b[0;33mmodule attribute:\x1b[0m',
             (
-                '    \x1b[0;36m__cached__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__file__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__loader__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__name__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__package__\x1b[0m\x1b[1;30m, '
-                '\x1b[0m\x1b[0;36m__spec__\x1b[0m'
+                (
+                    '    \x1b[0;36m__cached__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__file__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__loader__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__name__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__package__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__spec__\x1b[0m'
+                )
+                if sys.version_info < (3, 15)
+                else (
+                    '    \x1b[0;36m__file__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__loader__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__name__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__package__\x1b[0m\x1b[1;30m, '
+                    '\x1b[0m\x1b[0;36m__spec__\x1b[0m'
+                )
             ),
             '\x1b[0;33mspecial attribute:\x1b[0m',
             '    \x1b[0;36m__doc__\x1b[0m',
@@ -107,16 +117,9 @@ def test_pdir_object(fake_tty):
             '    \x1b[0;36m__init_subclass__\x1b[0m',
             '\x1b[0;33mpickle:\x1b[0m',
             (
-                (
-                    '    \x1b[0;36m__getstate__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
-                )
-                if sys.version_info >= (3, 11)
-                else (
-                    '    \x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
-                )
+                '    \x1b[0;36m__getstate__\x1b[0m\x1b[1;30m, '
+                '\x1b[0m\x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
+                '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
             ),
             '\x1b[0;33mfunction:\x1b[0m',
             (
@@ -223,16 +226,9 @@ def test_slots(fake_tty):
             '    \x1b[0;36m__init_subclass__\x1b[0m',
             '\x1b[0;33mpickle:\x1b[0m',
             (
-                (
-                    '    \x1b[0;36m__getstate__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
-                )
-                if sys.version_info >= (3, 11)
-                else (
-                    '    \x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
-                    '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
-                )
+                '    \x1b[0;36m__getstate__\x1b[0m\x1b[1;30m, '
+                '\x1b[0m\x1b[0;36m__reduce__\x1b[0m\x1b[1;30m, '
+                '\x1b[0m\x1b[0;36m__reduce_ex__\x1b[0m'
             ),
             '\x1b[0;33muser defined descriptor:\x1b[0m',
             (

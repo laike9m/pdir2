@@ -3,7 +3,7 @@ name = "pdir2"
 version = "1.1.2"
 authors = [{ name = "laike9m", email = "laike9m@gmail.com" }]
 dependencies = ['colorama;platform_system=="Windows"', 'typing-extensions==4.*']
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 description = "Pretty dir printing with joy"
 readme = "README.md"
@@ -15,11 +15,11 @@ classifiers = [
   'Operating System :: POSIX',
   'Programming Language :: Python',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
   'Programming Language :: Python :: 3.14',
+  'Programming Language :: Python :: 3.15',
   'Topic :: Software Development :: Libraries :: Python Modules',
   'Programming Language :: Python :: Implementation :: PyPy',
   'Programming Language :: Python :: Implementation :: CPython',
@@ -44,13 +44,13 @@ ignore_missing_imports = true
 
 [dependency-groups]
 dev = [
-    "pytest==7.*",
+    "pytest==9.*",
     "tox==4.*",
-    "tox-pdm==0.5.*",
+    "tox-pdm==0.7.*",
     "ptpython==3.0.*",
     "bpython>=0.24",
-    "ipython==7.16.*",
-    "pytest-mypy==0.10.*",
+    "ipython==9.*",
+    "pytest-mypy==1.*",
     "tox-gh-actions==3.*",
     "twine>=4.0.2",
 ]

@@ -60,7 +60,6 @@ def test_properties():
 
 
 def test_methods():
-    extra_items = ['__getstate__'] if sys.version_info >= (3, 11) else []
     check_items_equality(
         [p.name for p in pdir(inst).methods.pattrs],
         [
@@ -79,6 +78,7 @@ def test_methods():
             '__repr__',
             '__sizeof__',
             '__str__',
+            '__getstate__',
             '__reduce__',
             '__reduce_ex__',
             '__eq__',
@@ -87,8 +87,7 @@ def test_methods():
             '__le__',
             '__lt__',
             '__ne__',
-        ]
-        + extra_items,
+        ],
     )
 
 
