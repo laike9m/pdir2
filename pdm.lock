@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = []
 lock_version = "4.5.1"
-content_hash = "sha256:408c25a41ba2017314c0365f28244ded773598fb5923ad72850d04a568a96f13"
+content_hash = "sha256:cc9cf47cad413a5f1b46fe74c7ee460752e6aa795d0c750f038eee43552766b2"
 
 [[metadata.targets]]
 requires_python = ">=3.11"
@@ -1549,20 +1549,6 @@ dependencies = [
 files = [
     {file = "tox_gh_actions-3.5.1-py3-none-any.whl", hash = "sha256:c8183a4ec490d59770e10b68e6062bcf5421b7c9159f66842591da0aa21c8bf7"},
     {file = "tox_gh_actions-3.5.1.tar.gz", hash = "sha256:64110badbcfa0443a4a35102dbc4b9141926f9e5114f62f97e66a234e177b7a5"},
-]
-
-[[package]]
-name = "tox-pdm"
-version = "0.7.2"
-requires_python = ">=3.7"
-summary = "A plugin for tox that utilizes PDM as the package manager and installer"
-dependencies = [
-    "tomli; python_version < \"3.11\"",
-    "tox>=4.0",
-]
-files = [
-    {file = "tox_pdm-0.7.2-py3-none-any.whl", hash = "sha256:12f6215416b7acd00a80a9e7128f3dc3e3c89308d60707f5d0a24abdf83ac104"},
-    {file = "tox_pdm-0.7.2.tar.gz", hash = "sha256:a841a7e1e942a71805624703b9a6d286663bd6af79bba6130ba756975c315308"},
 ]
 
 [[package]]

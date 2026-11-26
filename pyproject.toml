@@ -46,7 +46,6 @@ ignore_missing_imports = true
 dev = [
     "pytest==9.*",
     "tox==4.*",
-    "tox-pdm==0.7.*",
     "ptpython==3.0.*",
     "bpython>=0.24",
     "ipython==9.*",
